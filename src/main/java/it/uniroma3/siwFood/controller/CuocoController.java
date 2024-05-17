@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import it.uniroma3.siwFood.model.Credenziali;
 import it.uniroma3.siwFood.model.Cuoco;
@@ -14,6 +15,7 @@ import it.uniroma3.siwFood.service.CuocoService;
 import it.uniroma3.siwFood.service.RicettaService;
 
 @Controller
+@RequestMapping("/cook")
 public class CuocoController {
 	
 	@Autowired
@@ -25,7 +27,7 @@ public class CuocoController {
 	@Autowired
 	private RicettaService ricettaService;
 	
-	@GetMapping("/cook/dashboard")
+	@GetMapping("/dashboard")
 	public String getDashboardCook(Model model) {
     	UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Credenziali credenziali = this.credenzialiService.findCredenzialiByUsername(userDetails.getUsername());
@@ -35,7 +37,7 @@ public class CuocoController {
 		return "cooks/dashboard.html";
 	}
 	
-	@GetMapping("/cook/recipes")
+	@GetMapping("/recipes")
 	public String getRecipesCook(Model model){
     	UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Credenziali credenziali = this.credenzialiService.findCredenzialiByUsername(userDetails.getUsername());
