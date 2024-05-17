@@ -1,5 +1,7 @@
 package it.uniroma3.siwFood.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +13,11 @@ public class CuocoService {
 	
 	@Autowired
 	private CuocoRepository cuocoRepository;
+	
+	public List<Cuoco> findAllCooks(){
+		
+		return (List<Cuoco>) this.cuocoRepository.findAll();
+	}
 	
 	public Cuoco findCookByCredenziali(Long idCredenziali) {
 		

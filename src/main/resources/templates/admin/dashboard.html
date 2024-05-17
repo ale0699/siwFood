@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .sidebar {
+            height: 100%;
+            width: 250px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #343a40;
+            padding-top: 20px;
+        }
+        .sidebar a {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 18px;
+            color: white;
+            display: block;
+        }
+        .sidebar a:hover {
+            background-color: #575d63;
+        }
+        .content {
+            margin-left: 260px;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <a href="/admin/dashboard">Dashboard</a>
+        <a href="/admin/recipes">Manage Recipes</a>
+        <a href="/admin/chefs">Manage Chefs</a>
+        <a href="/logout">Logout</a>
+    </div>
+
+    <div class="content">
+        <h2>Admin Dashboard</h2>
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="card text-white bg-primary mb-3">
+                    <div class="card-header">Total Recipes</div>
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${totalRecipes}">0</h5>
+                        <p class="card-text">Number of recipes available on the platform.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card text-white bg-success mb-3">
+                    <div class="card-header">Total Chefs</div>
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${totalChefs}">0</h5>
+                        <p class="card-text">Number of chefs registered on the platform.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-4">
+                <a href="/admin/recipes" class="btn btn-primary">Manage Recipes</a>
+            </div>
+            <div class="col-lg-4">
+                <a href="/admin/chefs" class="btn btn-success">Manage Chefs</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
