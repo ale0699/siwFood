@@ -8,6 +8,9 @@
 </head>
 
 <body>
+    <a th:href="@{/}">
+        <img src="/images/logo.png">
+    </a>
     <div th:if="${recipes != null && !recipes.isEmpty()}">
         <div>
             Ricette:

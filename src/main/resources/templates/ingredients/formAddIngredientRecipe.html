@@ -1,43 +1,56 @@
-<div>
-    <h2 th:text="${recipe.nome}"></h2>
-    <p th:text="${recipe.descrizione}"></p>
-    <div th:if="${recipe.immaginiRicetta != null && !recipe.immaginiRicetta.isEmpty()}">
-        <div th:each="immagine : ${recipe.immaginiRicetta}">
-            <img th:src="${immagine}">
-        </div>
-    </div>
-    <div th:unless="${recipe.immaginiRicetta != null && !recipe.immaginiRicetta.isEmpty()}">
-        Non ci sono immagini della ricetta
-    </div>
-</div>
-<div class="ingredients">
-    <div th:if="${ingredients!=null && !ingredients.isEmpty()}">
-        <ul>
-            <div th:each="ingredient : ${ingredients}">
-                <li><a th:href="@{'/recipesWithIngredient/' + ${ingredient.idIngrediente}}"><span th:text="${ingredient.nome} + ' ' + ${ingredient.quantita}"></a></li>
-            </div>
-        </ul>
-    </div>
-    <div th:unless="${ingredients!=null && !ingredients.isEmpty()}">
-        Non ci sono ingredienti nella ricetta
-    </div>
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aggiungi Ingrediente a <th th:text="${recipe.nome}"></title>
+</head>
+<body>
+    <a th:href="@{/}">
+        <img src="/images/logo.png">
+    </a>
     <div>
-        <form th:action="@{'/addIngredient/' + ${recipe.idRicetta}}" method="post" th:object="${ingrediente}">
-
-            <div>
-                <label>Nome</label>
-                <input type="text" th:field="${ingrediente.nome}">
+        <h2 th:text="${recipe.nome}"></h2>
+        <p th:text="${recipe.descrizione}"></p>
+        <div th:if="${recipe.immaginiRicetta != null && !recipe.immaginiRicetta.isEmpty()}">
+            <div th:each="immagine : ${recipe.immaginiRicetta}">
+                <img th:src="${immagine}">
             </div>
-            <div>
-                <label>Quantita</label>
-                <input type="text" th:field="${ingrediente.quantita}">
-            </div>
-            <div>
-                <button type="submit">Aggiungi</button>
-            </div>
-        </form>
-        <div>
-            <a th:href="@{'/recipeDetails/' + ${recipe.idRicetta}}"><button>Termina Inserimento</button></a>
+        </div>
+        <div th:unless="${recipe.immaginiRicetta != null && !recipe.immaginiRicetta.isEmpty()}">
+            Non ci sono immagini della ricetta
         </div>
     </div>
-</div>
+    <div class="ingredients">
+        <div th:if="${ingredients!=null && !ingredients.isEmpty()}">
+            <ul>
+                <div th:each="ingredient : ${ingredients}">
+                    <li><a th:href="@{'/recipesWithIngredient/' + ${ingredient.idIngrediente}}"><span th:text="${ingredient.nome} + ' ' + ${ingredient.quantita}"></a></li>
+                </div>
+            </ul>
+        </div>
+        <div th:unless="${ingredients!=null && !ingredients.isEmpty()}">
+            Non ci sono ingredienti nella ricetta
+        </div>
+        <div>
+            <form th:action="@{'/addIngredient/' + ${recipe.idRicetta}}" method="post" th:object="${ingrediente}">
+    
+                <div>
+                    <label>Nome</label>
+                    <input type="text" th:field="${ingrediente.nome}">
+                </div>
+                <div>
+                    <label>Quantita</label>
+                    <input type="text" th:field="${ingrediente.quantita}">
+                </div>
+                <div>
+                    <button type="submit">Aggiungi</button>
+                </div>
+            </form>
+            <div>
+                <a th:href="@{'/recipeDetails/' + ${recipe.idRicetta}}"><button>Termina Inserimento</button></a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

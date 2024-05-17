@@ -8,6 +8,9 @@
 </head>
 
 <body>
+    <a th:href="@{/}">
+        <img src="/images/logo.png">
+    </a>
     <div>
         <h2 th:text="${recipe.nome}"></h2>
         <p th:text="${recipe.descrizione}"></p>
