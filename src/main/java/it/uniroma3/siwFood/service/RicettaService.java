@@ -15,12 +15,14 @@ public class RicettaService {
 	private RicettaRepository ricettaRepository;
 	
 	public List<Ricetta> findAllRecipes(){
-		
 		return (List<Ricetta>) this.ricettaRepository.findAll();
 	}
 	
 	public Ricetta findRecipeById(Long idRicetta){
-		
 		return this.ricettaRepository.findById(idRicetta).get();
+	}
+	
+	public void saveRecipe(Ricetta ricetta) {
+		this.ricettaRepository.save(ricetta);
 	}
 }

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ricette</title>
+</head>
+<body>
+    <form th:action="@{/addRecipe}" method="post" th:object="${ricetta}">
+        <div class="name">
+            <label>Nome</label>
+            <input type="text" th:field="${ricetta.nome}">
+        </div>
+        <div class="description">
+            <label>Descrizione</label>
+            <input type="text" th:field="${ricetta.descrizione}">
+        </div>
+        <div class="button">
+            <button type="submit">Aggiungi</button>
+        </div>
+    </form>
+</body>
+</html>
