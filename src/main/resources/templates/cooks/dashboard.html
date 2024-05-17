@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Cuoco</title>
+    <title>Cook Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -11,9 +12,27 @@
             padding: 0;
             background-color: #f2f2f2;
         }
+        .sidebar {
+            height: 100%;
+            width: 250px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #343a40;
+            padding-top: 20px;
+        }
+        .sidebar a {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 18px;
+            color: white;
+            display: block;
+        }
+        .sidebar a:hover {
+            background-color: #575d63;
+        }
         .container {
-            max-width: 800px;
-            margin: 0 auto;
+            margin-left: 260px;
             padding: 20px;
             background-color: #fff;
             border-radius: 8px;
@@ -36,7 +55,7 @@
         }
         .btn {
             padding: 10px 20px;
-            background-color: #4CAF50;
+            background-color: #007bff;
             color: #fff;
             text-decoration: none;
             border: none;
@@ -45,30 +64,32 @@
             transition: background-color 0.3s ease;
         }
         .btn:hover {
-            background-color: #45a049;
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
+    <div class="sidebar">
+		<a href="/">Home</a>
+        <a href="/cook/dashboard">Dashboard</a>
+        <a href="/formAddRecipe">Add Recipe</a>
+        <a href="/cook/recipes">Edit Recipes</a>
+        <a href="/logout">Logout</a>
+    </div>
+
     <div class="container">
-        <h1>Benvenuto nella tua dashboard, <span th:text="${cook.nome}"></span>!</h1>
+        <h1>Welcome to your dashboard, <span th:text="${cook.nome}"></span>!</h1>
         
-        <!-- Dettagli del cuoco -->
+        <!-- Cook details -->
         <div class="details">
-            <p>Nome: <span th:text="${cook.nome}"></span></p>
-            <p>Cognome: <span th:text="${cook.cognome}"></span></p>
-            <!-- Aggiungi altri dettagli se necessario -->
+            <p>Name: <span th:text="${cook.nome}"></span></p>
+            <p>Surname: <span th:text="${cook.cognome}"></span></p>
+            <!-- Add more details if needed -->
         </div>
         
-        <!-- Bottoni per aggiungere, modificare ed eliminare ricette -->
-        <div class="btn-container">
-            <a class="btn" th:href="@{/formAddRecipe}">Aggiungi Ricetta</a>
-            <a class="btn" th:href="@{/cook/recipes}">Modifica Ricette</a>
-        </div>
-        
-        <!-- Link per effettuare il logout -->
+        <!-- Logout link -->
         <div style="text-align: center; margin-top: 20px;">
-            <a th:href="@{/logout}" style="color: #4CAF50; text-decoration: none;">Effettua Logout</a>
+            <a th:href="@{/logout}" class="btn btn-secondary">Logout</a>
         </div>
     </div>
 </body>
