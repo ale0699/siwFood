@@ -13,6 +13,12 @@
 	</div>
 	<div th:if="${userDetails!=null}">
         <span th:text="${userDetails.username}"></span>
+        	<div th:if="${userDetails.username == 'admin'}">
+				<a th:href="@{/admin/dashboard}">Vai a dashboard admin</a>
+			</div>
+        	<div th:unless="${userDetails.username == 'admin'}">
+				<a th:href="@{/cooks/dashboard}">Vai a dashboard cuoco</a>
+			</div>
         <a th:href="@{/logout}">Effettua Logout</a>
     </div>
     <div th:unless="${userDetails!=null}">
