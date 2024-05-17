@@ -28,4 +28,9 @@ public class IngredienteService {
 		
 		this.ingredienteRepository.save(ingrediente);
 	}
+	
+	public void deleteIngredient(Ingrediente ingrediente) {
+		
+		this.ingredienteRepository.delete(ingrediente);
+	}
 }

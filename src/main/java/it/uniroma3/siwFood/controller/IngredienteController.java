@@ -37,4 +37,12 @@ public class IngredienteController {
 		this.ingredienteService.saveIngredient(ingrediente);
 		return "redirect:/formAddIngredientRecipe/"+idRicetta;
 	}
+	
+	@GetMapping(value = "/removeIngredient/{idIngrediente}/{idRicetta}")
+	public String getRemoveIngredient(@PathVariable("idIngrediente")Long idIngrediente, @PathVariable("idRicetta")Long idRicetta, Model model) {
+		Ingrediente ingrediente = this.ingredienteService.findIngredientById(idIngrediente);
+		this.ingredienteService.deleteIngredient(ingrediente);
+		model.addAttribute("recipe", this.ricettaService.findRecipeById(idRicetta));
+		return "redirect:/recipeDetails/"+idRicetta;
+	}
 }

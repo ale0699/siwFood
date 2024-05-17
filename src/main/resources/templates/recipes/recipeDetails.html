@@ -8,11 +8,11 @@
 </head>
 
 <body>
-	<div>	
-	    <a th:href="@{/}">
-	        <img src="/images/logo.png" width="20%">
-	    </a>
-	</div>
+    <div>
+        <a th:href="@{/}">
+            <img src="/images/logo.png" width="20%">
+        </a>
+    </div>
     <div>
         <h2 th:text="${recipe.nome}"></h2>
         <p th:text="${recipe.descrizione}"></p>
@@ -29,7 +29,12 @@
         <div th:if="${ingredients!=null && !ingredients.isEmpty()}">
             <ul>
                 <div th:each="ingredient : ${ingredients}">
-                    <li><a th:href="@{'/recipesWithIngredient/' + ${ingredient.idIngrediente}}"><span th:text="${ingredient.nome} + ' ' + ${ingredient.quantita}"></span></a></li>
+                    <li>
+                        <a th:href="@{'/recipesWithIngredient/' + ${ingredient.idIngrediente}}">
+                            <span th:text="${ingredient.nome} + ' ' + ${ingredient.quantita}"></span>
+                        </a>
+                        <a th:href="@{'/removeIngredient/' + ${ingredient.idIngrediente} + '/' + ${recipe.idRicetta}}"><button>Rimuovi</button></a>
+                    </li>
                 </div>
             </ul>
         </div>
@@ -43,4 +48,5 @@
         </div>
     </div>
 </body>
+
 </html>
