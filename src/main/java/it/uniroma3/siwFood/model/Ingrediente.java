@@ -7,6 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Ingrediente {
@@ -18,6 +19,9 @@ public class Ingrediente {
 	private String nome;
 	@Column(nullable = false)
 	private String quantita;
+	
+	@ManyToOne
+	private Ricetta ricetta;
 	
 	public Ingrediente() {
 		
@@ -41,6 +45,12 @@ public class Ingrediente {
 		this.quantita = quantita;
 	}
 	
+	public Ricetta getRicetta() {
+		return ricetta;
+	}
+	public void setRicetta(Ricetta ricetta) {
+		this.ricetta = ricetta;
+	}
 	@Override
 	public String toString() {
 		return "Ingrediente [idIngrediente=" + idIngrediente + ", nome=" + nome + ", quantita=" + quantita + "]";
