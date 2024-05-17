@@ -11,7 +11,13 @@
 	        <img src="/images/logo.png" width="20%">
 	    </a>
 	</div>
-    <a href="/login">Effettua Login</a><br>
+	<div th:if="${userDetails!=null}">
+        <span th:text="${userDetails.username}"></span>
+        <a th:href="@{/logout}">Effettua Logout</a>
+    </div>
+    <div th:unless="${userDetails!=null}">
+        <a href="/login">Effettua Login</a><br>
+    </div>
     <a href="/recipes">Vedi tutte ricette</a><br>
     <a href="/formAddRecipe">Aggiungi Ricetta</a><br>
     <a href="/cooks">Vedi tutti cuochi</a><br>
