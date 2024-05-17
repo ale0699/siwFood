@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ricette</title>
+</head>
+<body>
+    <div th:if="${recipes != null && !recipes.isEmpty()}">
+        <div th:each="recipe: ${recipes}">
+            <ul>
+                <li th:text="${recipe.idRicetta}"></li>
+                <li th:text="${recipe.nome}"></li>
+                <li th:text="${recipe.descrizione}"></li>
+                <li th:text="${recipe.immaginiRicetta}"></li>
+            </ul>
+        </div>
+    </div>
+    <div th:unless="${recipes != null && !recipes.isEmpty()}">
+        <span>Non ci sono ricette nel sistema</span>
+    </div>
+</body>
+</html>
