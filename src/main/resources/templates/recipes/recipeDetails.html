@@ -24,14 +24,18 @@
         <div th:if="${ingredients!=null && !ingredients.isEmpty()}">
             <ul>
                 <div th:each="ingredient : ${ingredients}">
-                    <li><a th:href="@{'/recipesWithIngredient/' + ${ingredient.idIngrediente}}"><span th:text="${ingredient.nome} + ' ' + ${ingredient.quantita}"></li>
+                    <li><a th:href="@{'/recipesWithIngredient/' + ${ingredient.idIngrediente}}"><span th:text="${ingredient.nome} + ' ' + ${ingredient.quantita}"></span></a></li>
                 </div>
             </ul>
         </div>
         <div th:unless="${ingredients!=null && !ingredients.isEmpty()}">
             Non ci sono ingredienti nella ricetta
         </div>
-
+        <div>
+            <a th:href="@{'/formAddIngredientRecipe/' + ${recipe.idRicetta}}">
+                <button>Aggiungi ingredienti</button>
+            </a>
+        </div>
     </div>
 </body>
 </html>

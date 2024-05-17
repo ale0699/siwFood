@@ -23,4 +23,9 @@ public class IngredienteService {
 		
 		return this.ingredienteRepository.findById(idIngrediente).get();
 	}
+	
+	public void saveIngredient(Ingrediente ingrediente) {
+		
+		this.ingredienteRepository.save(ingrediente);
+	}
 }

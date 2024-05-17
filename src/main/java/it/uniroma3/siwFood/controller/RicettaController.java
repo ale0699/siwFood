@@ -25,20 +25,20 @@ public class RicettaController {
 	@GetMapping(value = "/recipes")
 	public String getRecipes(Model model) {
 		model.addAttribute("recipes", this.ricettaService.findAllRecipes());
-		return "ricette/recipes.html";
+		return "recipes/recipes.html";
 	}
 	
 	@GetMapping(value = "/recipeDetails/{idRicetta}")
 	public String getRecipeDetails(@PathVariable("idRicetta")Long idRicetta, Model model) {
 		model.addAttribute("ingredients", this.ingredienteService.findIngredientsByRicettaId(idRicetta));
 		model.addAttribute("recipe", this.ricettaService.findRecipeById(idRicetta));
-		return "ricette/recipeDetails.html";
+		return "recipes/recipeDetails.html";
 	}
 	
 	@GetMapping(value = "/formAddRecipe")
 	public String getFormAddRecipe(Model model) {
 		model.addAttribute(new Ricetta());
-		return "ricette/formAddRecipe.html";
+		return "recipes/formAddRecipe.html";
 	}
 	
 	@PostMapping(value = "/addRecipe")
@@ -52,6 +52,6 @@ public class RicettaController {
 		Ingrediente ingrediente = this.ingredienteService.findIngredientById(idIngrediente);
 		model.addAttribute("ingredient", ingrediente);
 		model.addAttribute("recipes", this.ricettaService.findRecipesByIngredienteNome(ingrediente.getNome()));
-		return "ricette/recipesWithIngredient.html";
+		return "recipes/recipesWithIngredient.html";
 	}
 }
