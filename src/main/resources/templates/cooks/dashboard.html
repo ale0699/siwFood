@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Cuoco</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .details {
+            margin-bottom: 20px;
+        }
+        .details p {
+            margin: 5px 0;
+        }
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .btn {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #fff;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Benvenuto nella tua dashboard, <span th:text="${cook.nome}"></span>!</h1>
+        
+        <!-- Dettagli del cuoco -->
+        <div class="details">
+            <p>Nome: <span th:text="${cook.nome}"></span></p>
+            <p>Cognome: <span th:text="${cook.cognome}"></span></p>
+            <!-- Aggiungi altri dettagli se necessario -->
+        </div>
+        
+        <!-- Bottoni per aggiungere, modificare ed eliminare ricette -->
+        <div class="btn-container">
+            <a class="btn" th:href="@{/formAddRecipe}">Aggiungi Ricetta</a>
+            <a class="btn" th:href="@{/cook/recipes}">Modifica Ricette</a>
+        </div>
+        
+        <!-- Link per effettuare il logout -->
+        <div style="text-align: center; margin-top: 20px;">
+            <a th:href="@{/logout}" style="color: #4CAF50; text-decoration: none;">Effettua Logout</a>
+        </div>
+    </div>
+</body>
+</html>

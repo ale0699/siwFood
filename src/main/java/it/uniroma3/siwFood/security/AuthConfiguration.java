@@ -33,11 +33,12 @@ public class AuthConfiguration {
 	protected SecurityFilterChain configure(HttpSecurity http) throws Exception {
 		
 		http
+		.csrf().and().cors().disable()
 		.authorizeHttpRequests()
 		.requestMatchers(HttpMethod.GET, "/", "/login/**", "/register/**", "/recipes", "/recipeDetails/**", "/searchRecipes/**", "/searchRecipesByIngredient/**", "/recipesWithIngredient/**", "/css/**", "/images/**").permitAll()
 		.requestMatchers(HttpMethod.POST, "/register").permitAll()
-		.requestMatchers(HttpMethod.GET, "/admin/**").hasAnyRole("ADMIN")
-		.requestMatchers(HttpMethod.GET, "/cooks/**").hasAnyRole("DEFAULT")
+		.requestMatchers(HttpMethod.GET, "/admin/**").hasAnyAuthority("ADMIN")
+		.requestMatchers(HttpMethod.GET, "/cook/**").hasAnyAuthority("DEFAULT", "ADMIN")
 		.anyRequest().authenticated()
 		.and().formLogin()
 		.loginPage("/login").failureUrl("/login/error").defaultSuccessUrl("/")

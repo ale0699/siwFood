@@ -11,4 +11,6 @@ public interface RicettaRepository extends CrudRepository<Ricetta, Long> {
 	public List<Ricetta> findAllByIngredientiNomeContainsAllIgnoreCase(String nomeIngrediente);
 	
 	public List<Ricetta> findAllByNomeContainsAllIgnoreCase(String nomeRicetta);
+	
+	public List<Ricetta> findAllByCuocoIdCuoco(Long idCuoco);
 }

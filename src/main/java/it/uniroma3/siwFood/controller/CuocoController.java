@@ -1,38 +1,50 @@
 package it.uniroma3.siwFood.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import it.uniroma3.siwFood.model.Credenziali;
 import it.uniroma3.siwFood.model.Cuoco;
+import it.uniroma3.siwFood.service.CredenzialiService;
 import it.uniroma3.siwFood.service.CuocoService;
+import it.uniroma3.siwFood.service.RicettaService;
 
 @Controller
+@RequestMapping(value = "/cook")
 public class CuocoController {
 	
 	@Autowired
-	private PasswordEncoder passwordEncoder;
+	private CredenzialiService credenzialiService;
 	
 	@Autowired
 	private CuocoService cuocoService;
 	
-	@GetMapping(value = "/register")
-	public String getRegisterCook(Model model){
-		model.addAttribute(new Cuoco());
-		return "register.html";
+	@Autowired
+	private RicettaService ricettaService;
+	
+	@GetMapping("/dashboard")
+	public String getDashboardCook(Model model) {
+    	UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Credenziali credenziali = this.credenzialiService.findCredenzialiByUsername(userDetails.getUsername());
+		Cuoco cuoco = this.cuocoService.findCookByCredenziali(credenziali.getIdCredenziali());
+		model.addAttribute("cook", cuoco);
+		model.addAttribute("recipes", this.ricettaService.findRecipesByCuocoId(cuoco.getIdCuoco()));
+		return "cooks/dashboard.html";
 	}
 	
-	@PostMapping(value = "/register")
-	public String postRegisterCook(@ModelAttribute Cuoco cuoco){
-		Credenziali credenziali = cuoco.getCredenziali();
-		credenziali.setPassword(this.passwordEncoder.encode(credenziali.getPassword()));
-		credenziali.setRuolo("DEFAULT");
-		this.cuocoService.saveCook(cuoco);
-		return "redirect:/login";
+	@GetMapping("/recipes")
+	public String getRecipesCook(Model model){
+    	UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Credenziali credenziali = this.credenzialiService.findCredenzialiByUsername(userDetails.getUsername());
+		Cuoco cuoco = this.cuocoService.findCookByCredenziali(credenziali.getIdCredenziali());
+		model.addAttribute("recipes", this.ricettaService.findRecipesByCuocoId(cuoco.getIdCuoco()));
+		return "recipes/recipes.html";
 	}
+	
+
 }

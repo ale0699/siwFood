@@ -12,6 +12,11 @@ public class CuocoService {
 	@Autowired
 	private CuocoRepository cuocoRepository;
 	
+	public Cuoco findCookByCredenziali(Long idCredenziali) {
+		
+		return this.cuocoRepository.findByCredenzialiIdCredenziali(idCredenziali);
+	}
+	
 	public void saveCook(Cuoco cuoco) {
 		
 		this.cuocoRepository.save(cuoco);

@@ -1,6 +1,8 @@
 package it.uniroma3.siwFood.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,8 +11,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import it.uniroma3.siwFood.model.Credenziali;
+import it.uniroma3.siwFood.model.Cuoco;
 import it.uniroma3.siwFood.model.Ingrediente;
 import it.uniroma3.siwFood.model.Ricetta;
+import it.uniroma3.siwFood.service.CredenzialiService;
+import it.uniroma3.siwFood.service.CuocoService;
 import it.uniroma3.siwFood.service.IngredienteService;
 import it.uniroma3.siwFood.service.RicettaService;
 
@@ -18,10 +24,16 @@ import it.uniroma3.siwFood.service.RicettaService;
 public class RicettaController {
 	
 	@Autowired
+	private CredenzialiService credenzialiService;
+	
+	@Autowired
 	private RicettaService ricettaService;
 	
 	@Autowired
 	private IngredienteService ingredienteService;
+	
+	@Autowired
+	private CuocoService cuocoService;
 	
 	@GetMapping(value = "/recipes")
 	public String getRecipes(Model model) {
@@ -44,6 +56,10 @@ public class RicettaController {
 	
 	@PostMapping(value = "/addRecipe")
 	public String postAddRecipe(@ModelAttribute Ricetta ricetta) {
+    	UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Credenziali credenziali = this.credenzialiService.findCredenzialiByUsername(userDetails.getUsername());
+		Cuoco cuoco = this.cuocoService.findCookByCredenziali(credenziali.getIdCredenziali());
+		ricetta.setCuoco(cuoco);
 		this.ricettaService.saveRecipe(ricetta);
 		return "redirect:/recipeDetails/"+ricetta.getIdRicetta();
 	}

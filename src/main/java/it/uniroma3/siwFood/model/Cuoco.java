@@ -36,7 +36,6 @@ public class Cuoco {
 	private Credenziali credenziali;
 	
 	public Cuoco() {
-		
 		this.ricette = new ArrayList<>();
 	}
 

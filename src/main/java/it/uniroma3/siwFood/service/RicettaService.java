@@ -22,16 +22,20 @@ public class RicettaService {
 		return this.ricettaRepository.findById(idRicetta).get();
 	}
 	
-	public void saveRecipe(Ricetta ricetta) {
-		this.ricettaRepository.save(ricetta);
-	}
-	
 	public List<Ricetta> findRecipesByIngredienteNome(String nomeIngrediente){
 		return this.ricettaRepository.findAllByIngredientiNomeContainsAllIgnoreCase(nomeIngrediente);
 	}
 	
 	public List<Ricetta> findRecipesByNome(String nome){
 		return this.ricettaRepository.findAllByNomeContainsAllIgnoreCase(nome);
+	}
+	
+	public List<Ricetta> findRecipesByCuocoId(Long idCuoco){
+		return this.ricettaRepository.findAllByCuocoIdCuoco(idCuoco);
+	}
+	
+	public void saveRecipe(Ricetta ricetta) {
+		this.ricettaRepository.save(ricetta);
 	}
 	
 	public void deleteRecipe(Ricetta ricetta) {

@@ -17,7 +17,7 @@
 				<a th:href="@{/admin/dashboard}">Vai a dashboard admin</a>
 			</div>
         	<div th:unless="${userDetails.username == 'admin'}">
-				<a th:href="@{/cooks/dashboard}">Vai a dashboard cuoco</a>
+				<a th:href="@{/cook/dashboard}">Vai a dashboard cuoco</a>
 			</div>
         <a th:href="@{/logout}">Effettua Logout</a>
     </div>
@@ -25,7 +25,6 @@
         <a href="/login">Effettua Login</a><br>
     </div>
     <a href="/recipes">Vedi tutte ricette</a><br>
-    <a href="/formAddRecipe">Aggiungi Ricetta</a><br>
     <a href="/cooks">Vedi tutti cuochi</a><br>
     <div class="search_recipes">
         <span>Ricerca Ricetta</span>
