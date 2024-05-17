@@ -2,6 +2,7 @@ package it.uniroma3.siwFood.model;
 
 import java.util.Objects;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,6 +14,7 @@ public class Credenziali {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long idCredenziali;
+	@Column(unique = true, nullable = false)
 	private String username;
 	private String password;
 	private String ruolo;
