@@ -17,7 +17,7 @@ public class AuthConfiguration {
 		
 		http
 		.authorizeHttpRequests()
-		.requestMatchers(HttpMethod.GET, "/admin").hasRole("ADMIN")
+		.requestMatchers(HttpMethod.GET, "/admin/**").hasRole("ADMIN")
 		.anyRequest().permitAll()
 		.and().formLogin()
 		.loginPage("/login").failureUrl("/login/error").defaultSuccessUrl("/")
