@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,7 +24,7 @@ public class Ricetta {
 	@Column(nullable = false)
 	private String descrizione;
 	
-	@OneToMany(mappedBy = "ricetta")
+	@OneToMany(mappedBy = "ricetta", cascade = CascadeType.REMOVE)
 	private List<Ingrediente> ingredienti;
 	
 	public Ricetta() {
