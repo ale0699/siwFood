@@ -14,7 +14,10 @@
 	    </a>
 	</div>
     <div th:if="${recipes != null && !recipes.isEmpty()}">
-        <div>
+        <div th:if="${ingredientSearched != null}">
+            <span th:text="'Ricette con ' + ${ingredientSearched}">
+        </div>
+        <div th:unless="${ingredientSearched != null}">
             Ricette:
         </div>
         <ul>

@@ -72,6 +72,7 @@ public class RicettaController {
 	
 	@GetMapping(value = "/searchRecipesByIngredient")
 	public String getSearchRecipesByIngredient(@RequestParam("nameIngredient")String nameIngredient, Model model) {
+		model.addAttribute("ingredientSearched", nameIngredient);
 		model.addAttribute("recipes", this.ricettaService.findRecipesByIngredienteNome(nameIngredient));
 		return "recipes/recipes.html";
 	}
