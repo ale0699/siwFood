@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import it.uniroma3.siwFood.model.Ricetta;
+import it.uniroma3.siwFood.service.IngredienteService;
 import it.uniroma3.siwFood.service.RicettaService;
 
 @Controller
@@ -16,6 +17,9 @@ public class RicettaController {
 	
 	@Autowired
 	private RicettaService ricettaService;
+	
+	@Autowired
+	private IngredienteService ingredienteService;
 	
 	@GetMapping(value = "/recipes")
 	public String getRecipes(Model model) {
@@ -25,6 +29,7 @@ public class RicettaController {
 	
 	@GetMapping(value = "/recipeDetails/{idRicetta}")
 	public String getRecipeDetails(@PathVariable("idRicetta")Long idRicetta, Model model) {
+		model.addAttribute("ingredients", this.ingredienteService.findAllIngredientsByRicettaId(idRicetta));
 		model.addAttribute("recipe", this.ricettaService.findRecipeById(idRicetta));
 		return "ricette/recipeDetails.html";
 	}
