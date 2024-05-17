@@ -4,13 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ricette</title>
+    <title th:text="${recipe.nome}"></title>
 </head>
 
 <body>
-    <a th:href="@{/}">
-        <img src="/images/logo.png">
-    </a>
+	<div>	
+	    <a th:href="@{/}">
+	        <img src="/images/logo.png" width="20%">
+	    </a>
+	</div>
     <div>
         <h2 th:text="${recipe.nome}"></h2>
         <p th:text="${recipe.descrizione}"></p>
