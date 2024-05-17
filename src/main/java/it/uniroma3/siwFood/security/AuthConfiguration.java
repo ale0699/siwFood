@@ -17,8 +17,11 @@ public class AuthConfiguration {
 		
 		http
 		.authorizeHttpRequests()
-		.requestMatchers(HttpMethod.GET, "/admin/**").hasRole("ADMIN")
-		.anyRequest().permitAll()
+		.requestMatchers(HttpMethod.GET, "/", "/login/**", "/recipes", "/recipeDetails/**", "/searchRecipes/**", "/searchRecipesByIngredient/**", "/recipesWithIngredient/**", "/css/**", "/images/**").permitAll()
+		.requestMatchers(HttpMethod.POST, "/register").permitAll()
+		.requestMatchers(HttpMethod.GET, "/admin/**").hasAnyRole("ADMIN")
+		.requestMatchers(HttpMethod.GET, "/cooks/**").hasAnyRole("DEFAULT")
+		.anyRequest().authenticated()
 		.and().formLogin()
 		.loginPage("/login").failureUrl("/login/error").defaultSuccessUrl("/")
 		.and().logout()
