@@ -48,6 +48,14 @@ public class RicettaController {
 		return "redirect:/recipeDetails/"+ricetta.getIdRicetta();
 	}
 	
+	@GetMapping(value = "/removeRecipe/{idRicetta}")
+	public String getRemoveIngredient(@PathVariable("idRicetta")Long idRicetta, Model model) {
+		Ricetta ricetta = this.ricettaService.findRecipeById(idRicetta);
+		this.ricettaService.deleteRecipe(ricetta);
+		model.addAttribute("recipes", this.ricettaService.findAllRecipes());
+		return "redirect:/recipes";
+	}
+	
 	@GetMapping(value = "/recipesWithIngredient/{idIngrediente}")
 	public String getRecipesWithIngredient(@PathVariable("idIngrediente")Long idIngrediente, Model model) {
 		Ingrediente ingrediente = this.ingredienteService.findIngredientById(idIngrediente);

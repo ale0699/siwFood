@@ -15,6 +15,7 @@
     </div>
     <div>
         <h2 th:text="${recipe.nome}"></h2>
+        <a th:href="@{'/removeRecipe/' + ${recipe.idRicetta}}"><button>Elimina ricetta</button></a>
         <p th:text="${recipe.descrizione}"></p>
         <div th:if="${recipe.immaginiRicetta != null && !recipe.immaginiRicetta.isEmpty()}">
             <div th:each="immagine : ${recipe.immaginiRicetta}">

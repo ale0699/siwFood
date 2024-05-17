@@ -24,7 +24,8 @@ public class Ricetta {
 	@Column(nullable = false)
 	private String descrizione;
 	
-	@OneToMany(mappedBy = "ricetta", cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "ricetta", cascade = CascadeType.REMOVE) //cascade remove, quando elimino una ricetta elimino i suoi ingredienti
+	//definisci fetch
 	private List<Ingrediente> ingredienti;
 	
 	public Ricetta() {

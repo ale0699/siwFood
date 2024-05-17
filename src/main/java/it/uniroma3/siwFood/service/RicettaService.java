@@ -35,4 +35,9 @@ public class RicettaService {
 		
 		return this.ricettaRepository.findAllByNomeContainsAllIgnoreCase(nome);
 	}
+	
+	public void deleteRecipe(Ricetta ricetta) {
+		
+		this.ricettaRepository.delete(ricetta);
+	}
 }
