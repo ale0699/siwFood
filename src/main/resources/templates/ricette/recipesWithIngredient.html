@@ -4,13 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ricette</title>
+    <title>Ricette con <th th:text="${ingredient.nome}"></title>
 </head>
 
 <body>
     <div th:if="${recipes != null && !recipes.isEmpty()}">
         <div>
-            Ricette:
+            Ricette con <span th:text="${ingredient.nome}"></span> :
         </div>
         <ul>
             <div th:each="recipe: ${recipes}">
@@ -21,7 +21,7 @@
         </ul>
     </div>
     <div th:unless="${recipes != null && !recipes.isEmpty()}">
-        <span>Non ci sono ricette nel sistema</span>
+        <span>Non ci sono ricette nel sistema con <th th:text="${ingredient.nome}"></span>
     </div>
 </body>
 

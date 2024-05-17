@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import it.uniroma3.siwFood.model.Ingrediente;
 import it.uniroma3.siwFood.model.Ricetta;
 import it.uniroma3.siwFood.service.IngredienteService;
 import it.uniroma3.siwFood.service.RicettaService;
@@ -29,7 +30,7 @@ public class RicettaController {
 	
 	@GetMapping(value = "/recipeDetails/{idRicetta}")
 	public String getRecipeDetails(@PathVariable("idRicetta")Long idRicetta, Model model) {
-		model.addAttribute("ingredients", this.ingredienteService.findAllIngredientsByRicettaId(idRicetta));
+		model.addAttribute("ingredients", this.ingredienteService.findIngredientsByRicettaId(idRicetta));
 		model.addAttribute("recipe", this.ricettaService.findRecipeById(idRicetta));
 		return "ricette/recipeDetails.html";
 	}
@@ -44,5 +45,13 @@ public class RicettaController {
 	public String postAddRecipe(@ModelAttribute Ricetta ricetta) {
 		this.ricettaService.saveRecipe(ricetta);
 		return "redirect:/recipeDetails/"+ricetta.getIdRicetta();
+	}
+	
+	@GetMapping(value = "/recipesWithIngredient/{idIngrediente}")
+	public String getRecipesWithIngredient(@PathVariable("idIngrediente")Long idIngrediente, Model model) {
+		Ingrediente ingrediente = this.ingredienteService.findIngredientById(idIngrediente);
+		model.addAttribute("ingredient", ingrediente);
+		model.addAttribute("recipes", this.ricettaService.findRecipesByIngredienteNome(ingrediente.getNome()));
+		return "ricette/recipesWithIngredient.html";
 	}
 }

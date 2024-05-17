@@ -14,8 +14,13 @@ public class IngredienteService {
 	@Autowired
 	private IngredienteRepository ingredienteRepository;
 	
-	public List<Ingrediente> findAllIngredientsByRicettaId(Long idRicetta){
+	public List<Ingrediente> findIngredientsByRicettaId(Long idRicetta){
 		
 		return this.ingredienteRepository.findAllByRicettaIdRicetta(idRicetta);
+	}
+	
+	public Ingrediente findIngredientById(Long idIngrediente) {
+		
+		return this.ingredienteRepository.findById(idIngrediente).get();
 	}
 }

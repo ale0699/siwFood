@@ -25,4 +25,9 @@ public class RicettaService {
 	public void saveRecipe(Ricetta ricetta) {
 		this.ricettaRepository.save(ricetta);
 	}
+	
+	public List<Ricetta> findRecipesByIngredienteNome(String nomeIngrediente){
+		
+		return this.ricettaRepository.findAllByIngredientiNomeAllIgnoreCase(nomeIngrediente);
+	}
 }
