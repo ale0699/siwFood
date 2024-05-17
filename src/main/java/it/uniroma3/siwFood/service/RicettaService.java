@@ -27,17 +27,15 @@ public class RicettaService {
 	}
 	
 	public List<Ricetta> findRecipesByIngredienteNome(String nomeIngrediente){
-		
 		return this.ricettaRepository.findAllByIngredientiNomeContainsAllIgnoreCase(nomeIngrediente);
 	}
 	
 	public List<Ricetta> findRecipesByNome(String nome){
-		
 		return this.ricettaRepository.findAllByNomeContainsAllIgnoreCase(nome);
 	}
 	
 	public void deleteRecipe(Ricetta ricetta) {
-		
 		this.ricettaRepository.delete(ricetta);
 	}
+
 }

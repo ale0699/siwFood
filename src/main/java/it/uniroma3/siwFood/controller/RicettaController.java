@@ -56,6 +56,26 @@ public class RicettaController {
 		return "redirect:/recipes";
 	}
 	
+    @GetMapping(value = "/formEditRecipe/{idRicetta}")
+    public String getFormEditRecipe(@PathVariable("idRicetta") Long idRicetta, Model model) {
+        Ricetta ricetta = this.ricettaService.findRecipeById(idRicetta);
+    	System.out.println(ricetta.getIdRicetta());
+        model.addAttribute("recipe", ricetta);
+        return "recipes/formEditRecipe.html";
+    }
+
+    @PostMapping(value = "/updateRecipe")
+    public String postUpdateRecipe(@ModelAttribute Ricetta ricetta) {
+    	
+    	//va gestita meglio con existBy
+		Ricetta ricettaDaAggiornare = this.ricettaService.findRecipeById(ricetta.getIdRicetta());
+		ricettaDaAggiornare.setNome(ricetta.getNome());
+		ricettaDaAggiornare.setDescrizione(ricetta.getDescrizione());    		
+        this.ricettaService.saveRecipe(ricetta);
+    	
+        return "redirect:/recipeDetails/" + ricetta.getIdRicetta();
+    }
+	
 	@GetMapping(value = "/recipesWithIngredient/{idIngrediente}")
 	public String getRecipesWithIngredient(@PathVariable("idIngrediente")Long idIngrediente, Model model) {
 		Ingrediente ingrediente = this.ingredienteService.findIngredientById(idIngrediente);

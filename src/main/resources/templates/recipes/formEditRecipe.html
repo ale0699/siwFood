@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifica Ricetta</title>
+</head>
+
+<body>
+    <div>
+        <a th:href="@{/}">
+            <img src="/images/logo.png" width="20%">
+        </a>
+    </div>
+    <div>
+        <h2>Modifica Ricetta</h2>
+        <form th:action="@{/updateRecipe}" th:object="${recipe}" method="post">
+            <div>
+                <input type="hidden" th:field="${recipe.idRicetta}" />
+            </div>
+            <div>
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" th:field="${recipe.nome}" />
+            </div>
+            <div>
+                <label for="descrizione">Descrizione:</label>
+                <textarea id="descrizione" th:field="${recipe.descrizione}"></textarea>
+            </div>
+            <div>
+                <button type="submit">Salva modifiche</button>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>
