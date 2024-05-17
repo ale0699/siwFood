@@ -16,6 +16,6 @@ public class IngredienteService {
 	
 	public List<Ingrediente> findAllIngredientsByRicettaId(Long idRicetta){
 		
-		return this.ingredienteRepository.findAllByRicettaId(idRicetta);
+		return this.ingredienteRepository.findAllByRicettaIdRicetta(idRicetta);
 	}
 }
