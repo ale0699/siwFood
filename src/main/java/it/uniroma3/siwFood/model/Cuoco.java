@@ -5,12 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Cuoco {
@@ -26,8 +29,11 @@ public class Cuoco {
 	private LocalDate dataNascita;
 	private String fotografia;
 	
-	@OneToMany(mappedBy = "cuoco")
+	@OneToMany(mappedBy = "cuoco", cascade = CascadeType.REMOVE)
 	private List<Ricetta> ricette;
+	
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private Credenziali credenziali;
 	
 	public Cuoco() {
 		
@@ -82,9 +88,17 @@ public class Cuoco {
 		this.ricette = ricette;
 	}
 
+	public Credenziali getCredenziali() {
+		return credenziali;
+	}
+
+	public void setCredenziali(Credenziali credenziali) {
+		this.credenziali = credenziali;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(cognome, dataNascita, fotografia, idCuoco, nome, ricette);
+		return Objects.hash(cognome, credenziali, dataNascita, fotografia, idCuoco, nome, ricette);
 	}
 
 	@Override
@@ -96,14 +110,17 @@ public class Cuoco {
 		if (getClass() != obj.getClass())
 			return false;
 		Cuoco other = (Cuoco) obj;
-		return Objects.equals(cognome, other.cognome) && Objects.equals(dataNascita, other.dataNascita)
-				&& Objects.equals(fotografia, other.fotografia) && Objects.equals(idCuoco, other.idCuoco)
-				&& Objects.equals(nome, other.nome) && Objects.equals(ricette, other.ricette);
+		return Objects.equals(cognome, other.cognome) && Objects.equals(credenziali, other.credenziali)
+				&& Objects.equals(dataNascita, other.dataNascita) && Objects.equals(fotografia, other.fotografia)
+				&& Objects.equals(idCuoco, other.idCuoco) && Objects.equals(nome, other.nome)
+				&& Objects.equals(ricette, other.ricette);
 	}
 
 	@Override
 	public String toString() {
 		return "Cuoco [idCuoco=" + idCuoco + ", nome=" + nome + ", cognome=" + cognome + ", dataNascita=" + dataNascita
-				+ ", fotografia=" + fotografia + ", ricette=" + ricette + "]";
+				+ ", fotografia=" + fotografia + ", ricette=" + ricette + ", credenziali=" + credenziali + "]";
 	}
+
+
 }

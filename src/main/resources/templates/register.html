@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrazione Cuoco</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <h1>Registrazione Cuoco</h1>
+    <form th:action="@{/register}" th:object="${cuoco}" method="post">
+        <div>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" th:field="${cuoco.credenziali.username}" required>
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" th:field="${cuoco.credenziali.password}" required>
+        </div>
+        <div>
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" name="nome" th:field="${cuoco.nome}" required>
+        </div>
+        <div>
+            <label for="cognome">Cognome:</label>
+            <input type="text" id="cognome" name="cognome" th:field="${cuoco.cognome}" required>
+        </div>
+        <div>
+            <label for="dataNascita">Data di nascita:</label>
+            <input type="date" id="dataNascita" name="dataNascita" th:field="${cuoco.dataNascita}" required>
+        </div>
+        <div>
+            <button type="submit">Registrati</button>
+        </div>
+    </form>
+</body>
+</html>

@@ -2,13 +2,10 @@ package it.uniroma3.siwFood.model;
 
 import java.util.Objects;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
 
 @Entity
 public class Credenziali {
@@ -19,9 +16,6 @@ public class Credenziali {
 	private String username;
 	private String password;
 	private String ruolo;
-	
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private Cuoco cuoco;
 	
 	public Credenziali() {
 		
@@ -59,17 +53,9 @@ public class Credenziali {
 		this.ruolo = ruolo;
 	}
 
-	public Cuoco getCuoco() {
-		return cuoco;
-	}
-
-	public void setCuoco(Cuoco cuoco) {
-		this.cuoco = cuoco;
-	}
-
 	@Override
 	public int hashCode() {
-		return Objects.hash(cuoco, idCredenziali, password, ruolo, username);
+		return Objects.hash(idCredenziali, password, ruolo, username);
 	}
 
 	@Override
@@ -81,14 +67,15 @@ public class Credenziali {
 		if (getClass() != obj.getClass())
 			return false;
 		Credenziali other = (Credenziali) obj;
-		return Objects.equals(cuoco, other.cuoco) && Objects.equals(idCredenziali, other.idCredenziali)
-				&& Objects.equals(password, other.password) && Objects.equals(ruolo, other.ruolo)
-				&& Objects.equals(username, other.username);
+		return Objects.equals(idCredenziali, other.idCredenziali) && Objects.equals(password, other.password)
+				&& Objects.equals(ruolo, other.ruolo) && Objects.equals(username, other.username);
 	}
 
 	@Override
 	public String toString() {
 		return "Credenziali [idCredenziali=" + idCredenziali + ", username=" + username + ", password=" + password
-				+ ", ruolo=" + ruolo + ", cuoco=" + cuoco + "]";
+				+ ", ruolo=" + ruolo + "]";
 	}
+
+
 }

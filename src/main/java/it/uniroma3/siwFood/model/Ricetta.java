@@ -10,6 +10,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
 @Entity
@@ -27,6 +28,9 @@ public class Ricetta {
 	@OneToMany(mappedBy = "ricetta", cascade = CascadeType.REMOVE) //cascade remove, quando elimino una ricetta elimino i suoi ingredienti
 	//definisci fetch
 	private List<Ingrediente> ingredienti;
+	
+	@ManyToOne
+	private Cuoco cuoco;
 	
 	public Ricetta() {
 		
@@ -64,6 +68,14 @@ public class Ricetta {
 
 	public void setIngredienti(List<Ingrediente> ingredienti) {
 		this.ingredienti = ingredienti;
+	}
+
+	public Cuoco getCuoco() {
+		return cuoco;
+	}
+
+	public void setCuoco(Cuoco cuoco) {
+		this.cuoco = cuoco;
 	}
 
 	@Override
