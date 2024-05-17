@@ -8,11 +8,12 @@
 <body>
     <div th:if="${recipes != null && !recipes.isEmpty()}">
         <div th:each="recipe: ${recipes}">
+			<div>
+				Ricette:
+			</div>
             <ul>
-                <li th:text="${recipe.idRicetta}"></li>
-                <li th:text="${recipe.nome}"></li>
-                <li th:text="${recipe.descrizione}"></li>
-                <li th:text="${recipe.immaginiRicetta}"></li>
+                <a th:href="@{'/recipeDetails/' + ${recipe.idRicetta} }"><li th:text="${recipe.nome}"></li></a>
+                
             </ul>
         </div>
     </div>

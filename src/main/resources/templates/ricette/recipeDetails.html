@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ricette</title>
+</head>
+<body>
+    <div>
+        <h2 th:text="${recipe.nome}"></h2>
+        <p th:text="${recipe.descrizione}"></p>
+        <div th:if="${recipe.immaginiRicetta != null && !recipe.immaginiRicetta.isEmpty()}">
+            <div th:each="immagine : ${recipe.immaginiRicetta}">
+                <img th:src="${immagine}">
+            </div>
+        </div>
+        <div th:unless="${recipe.immaginiRicetta != null && !recipe.immaginiRicetta.isEmpty()}">
+            Non ci sono immagini della ricetta
+        </div>
+    </div>
+</body>
+</html>

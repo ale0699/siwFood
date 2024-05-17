@@ -14,8 +14,13 @@ public class RicettaService {
 	@Autowired
 	private RicettaRepository ricettaRepository;
 	
-	public List<Ricetta> findAllRicepes(){
+	public List<Ricetta> findAllRecipes(){
 		
 		return (List<Ricetta>) this.ricettaRepository.findAll();
+	}
+	
+	public Ricetta findRecipeById(Long idRicetta){
+		
+		return this.ricettaRepository.findById(idRicetta).get();
 	}
 }
