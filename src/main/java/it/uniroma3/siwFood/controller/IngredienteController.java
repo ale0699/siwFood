@@ -34,7 +34,6 @@ public class IngredienteController {
 	public String postAddIngredientRecipe(@ModelAttribute Ingrediente ingrediente, @PathVariable("idRicetta")Long idRicetta) {
 		Ricetta ricetta = this.ricettaService.findRecipeById(idRicetta);
 		ingrediente.setRicetta(ricetta);
-		System.out.println(ricetta.getIngredienti());
 		this.ingredienteService.saveIngredient(ingrediente);
 		return "redirect:/formAddIngredientRecipe/"+idRicetta;
 	}
