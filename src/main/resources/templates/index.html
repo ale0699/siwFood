@@ -10,5 +10,29 @@
     <a href="/recipes">Vedi tutte ricette</a><br>
     <a href="/formAddRecipe">Aggiungi Ricetta</a><br>
     <a href="/cooks">Vedi tutti cuochi</a><br>
+    <div class="search_recipes">
+        <span>Ricerca Ricetta</span>
+        <form th:action="@{/searchRecipes}" method="get">
+            <div>
+                <label>Ricetta</label>
+                <input type="text" name="nameRecipe">
+            </div>
+            <div>
+                <button type="submit">Cerca</button>
+            </div>
+        </form>
+    </div>
+    <div class="search_recipes">
+        <span>Ricerca Ricetta per ingrediente</span>
+        <form th:action="@{/searchRecipesByIngredient}" method="get">
+            <div>
+                <label>Ingrediente</label>
+                <input type="text" name="nameIngredient">
+            </div>
+            <div>
+                <button type="submit">Cerca</button>
+            </div>
+        </form>
+    </div>
 </body>
 </html>

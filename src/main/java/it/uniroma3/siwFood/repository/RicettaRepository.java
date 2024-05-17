@@ -8,5 +8,7 @@ import it.uniroma3.siwFood.model.Ricetta;
 
 public interface RicettaRepository extends CrudRepository<Ricetta, Long> {
 	
-	public List<Ricetta> findAllByIngredientiNomeAllIgnoreCase(String nomeIngrediente);
+	public List<Ricetta> findAllByIngredientiNomeContainsAllIgnoreCase(String nomeIngrediente);
+	
+	public List<Ricetta> findAllByNomeContainsAllIgnoreCase(String nomeRicetta);
 }

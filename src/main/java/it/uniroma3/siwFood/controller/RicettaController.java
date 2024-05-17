@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import it.uniroma3.siwFood.model.Ingrediente;
 import it.uniroma3.siwFood.model.Ricetta;
@@ -53,5 +54,17 @@ public class RicettaController {
 		model.addAttribute("ingredient", ingrediente);
 		model.addAttribute("recipes", this.ricettaService.findRecipesByIngredienteNome(ingrediente.getNome()));
 		return "recipes/recipesWithIngredient.html";
+	}
+	
+	@GetMapping(value = "/searchRecipes")
+	public String getSearchRecipes(@RequestParam("nameRecipe")String nameRecipe, Model model) {
+		model.addAttribute("recipes", this.ricettaService.findRecipesByNome(nameRecipe));
+		return "recipes/recipes.html";
+	}
+	
+	@GetMapping(value = "/searchRecipesByIngredient")
+	public String getSearchRecipesByIngredient(@RequestParam("nameIngredient")String nameIngredient, Model model) {
+		model.addAttribute("recipes", this.ricettaService.findRecipesByIngredienteNome(nameIngredient));
+		return "recipes/recipes.html";
 	}
 }
