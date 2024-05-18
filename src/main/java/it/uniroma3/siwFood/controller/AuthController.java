@@ -37,10 +37,15 @@ public class AuthController {
 	public String postRegisterCook(@ModelAttribute Cuoco cuoco){
 		Credenziali credenziali = cuoco.getCredenziali();
 		credenziali.setPassword(this.passwordEncoder.encode(credenziali.getPassword()));
-		credenziali.setRuolo("DEFAULT");
+		credenziali.setRuolo("CUOCO");
 		this.cuocoService.saveCook(cuoco);
 		return "redirect:/login";
 	}
 	
+	@GetMapping(value = "/login/error")
+	public String getLoginErrorPage(Model model) {
+		model.addAttribute("loginError", true);
+		return "login.html";
+	}
 
 }

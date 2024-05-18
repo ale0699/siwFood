@@ -38,7 +38,7 @@ public class AuthConfiguration {
 		.requestMatchers(HttpMethod.GET, "/", "/login/**", "/register/**", "/recipes", "/recipeDetails/**", "/searchRecipes/**", "/searchRecipesByIngredient/**", "/recipesWithIngredient/**", "/css/**", "/images/**").permitAll()
 		.requestMatchers(HttpMethod.POST, "/register").permitAll()
 		.requestMatchers(HttpMethod.GET, "/admin/**").hasAnyAuthority("ADMIN")
-		.requestMatchers(HttpMethod.GET, "/cook/**").hasAnyAuthority("DEFAULT", "ADMIN")
+		.requestMatchers(HttpMethod.GET, "/cook/**").hasAnyAuthority("CUOCO", "ADMIN")
 		.anyRequest().authenticated()
 		.and().formLogin()
 		.loginPage("/login").failureUrl("/login/error").defaultSuccessUrl("/")
