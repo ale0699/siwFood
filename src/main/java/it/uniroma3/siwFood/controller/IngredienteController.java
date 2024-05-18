@@ -8,41 +8,41 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import it.uniroma3.siwFood.model.Ingrediente;
-import it.uniroma3.siwFood.model.Ricetta;
-import it.uniroma3.siwFood.service.IngredienteService;
-import it.uniroma3.siwFood.service.RicettaService;
+import it.uniroma3.siwFood.model.Ingredient;
+import it.uniroma3.siwFood.model.Recipe;
+import it.uniroma3.siwFood.service.IngredientService;
+import it.uniroma3.siwFood.service.RecipeService;
 
 @Controller
 public class IngredienteController {
 	
 	@Autowired
-	private IngredienteService ingredienteService;
+	private IngredientService ingredientService;
 	
 	@Autowired
-	private RicettaService ricettaService;
+	private RecipeService recipeService;
 	
-	@GetMapping(value = "/formAddIngredientRecipe/{idRicetta}")
-	public String getformAddIngredientRecipe(@PathVariable("idRicetta")Long idRicetta, Model model) {
-		model.addAttribute(new Ingrediente());
-		model.addAttribute("recipe", this.ricettaService.findRecipeById(idRicetta));
-		model.addAttribute("ingredients", this.ingredienteService.findIngredientsByRicettaId(idRicetta));
+	@GetMapping(value = "/formAddIngredientRecipe/{idRecipe}")
+	public String getformAddIngredientRecipe(@PathVariable("idRecipe")Long idRecipe, Model model) {
+		model.addAttribute("ingredient", new Ingredient());
+		model.addAttribute("recipe", this.recipeService.findRecipeById(idRecipe));
+		model.addAttribute("ingredients", this.ingredientService.findIngredientsByRecipeId(idRecipe));
 		return "ingredients/formAddIngredientRecipe.html";
 	}
 	
-	@PostMapping(value = "/addIngredient/{idRicetta}")
-	public String postAddIngredientRecipe(@ModelAttribute Ingrediente ingrediente, @PathVariable("idRicetta")Long idRicetta) {
-		Ricetta ricetta = this.ricettaService.findRecipeById(idRicetta);
-		ingrediente.setRicetta(ricetta);
-		this.ingredienteService.saveIngredient(ingrediente);
-		return "redirect:/formAddIngredientRecipe/"+idRicetta;
+	@PostMapping(value = "/addIngredient/{idRecipe}")
+	public String postAddIngredientRecipe(@ModelAttribute Ingredient ingrediente, @PathVariable("idRecipe")Long idRecipe) {
+		Recipe recipe = this.recipeService.findRecipeById(idRecipe);
+		ingrediente.setRecipe(recipe);
+		this.ingredientService.saveIngredient(ingrediente);
+		return "redirect:/formAddIngredientRecipe/"+idRecipe;
 	}
 	
-	@GetMapping(value = "/removeIngredient/{idIngrediente}/{idRicetta}")
-	public String getRemoveIngredient(@PathVariable("idIngrediente")Long idIngrediente, @PathVariable("idRicetta")Long idRicetta, Model model) {
-		Ingrediente ingrediente = this.ingredienteService.findIngredientById(idIngrediente);
-		this.ingredienteService.deleteIngredient(ingrediente);
-		model.addAttribute("recipe", this.ricettaService.findRecipeById(idRicetta));
-		return "redirect:/recipeDetails/"+idRicetta;
+	@GetMapping(value = "/removeIngredient/{idIngredient}/{idRecipe}")
+	public String getRemoveIngredient(@PathVariable("idIngredient")Long idIngredient, @PathVariable("idRecipe")Long idRecipe, Model model) {
+		Ingredient ingredient = this.ingredientService.findIngredientById(idIngredient);
+		this.ingredientService.deleteIngredient(ingredient);
+		model.addAttribute("recipe", this.recipeService.findRecipeById(idRecipe));
+		return "redirect:/recipeDetails/"+idRecipe;
 	}
 }

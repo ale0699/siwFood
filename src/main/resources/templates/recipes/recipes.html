@@ -23,7 +23,7 @@
         <ul>
             <div th:each="recipe: ${recipes}">
                 <li>
-                    <a th:href="@{'/recipeDetails/' + ${recipe.idRicetta} }"><span th:text="${recipe.nome}"></span></a>
+                    <a th:href="@{'/recipeDetails/' + ${recipe.idRecipe} }"><span th:text="${recipe.name}"></span></a>
                 </li>
             </div>
         </ul>

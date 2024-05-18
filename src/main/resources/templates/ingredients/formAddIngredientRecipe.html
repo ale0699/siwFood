@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="'Aggiungi Ingrediente a '+ ${recipe.nome}"></title>
+    <title th:text="'Aggiungi Ingrediente a '+ ${recipe.name}"></title>
 </head>
 <body>
 	<div>	
@@ -12,14 +12,14 @@
 	    </a>
 	</div>
     <div>
-        <h2 th:text="${recipe.nome}"></h2>
-        <p th:text="${recipe.descrizione}"></p>
-        <div th:if="${recipe.immaginiRicetta != null && !recipe.immaginiRicetta.isEmpty()}">
-            <div th:each="immagine : ${recipe.immaginiRicetta}">
-                <img th:src="${immagine}">
+        <h2 th:text="${recipe.name}"></h2>
+        <p th:text="${recipe.description}"></p>
+        <div th:if="${recipe.pictureRecipe != null && !recipe.pictureRecipe.isEmpty()}">
+            <div th:each="picture : ${recipe.pictureRecipe}">
+                <img th:src="${picture}">
             </div>
         </div>
-        <div th:unless="${recipe.immaginiRicetta != null && !recipe.immaginiRicetta.isEmpty()}">
+        <div th:unless="${recipe.pictureRecipe != null && !recipe.pictureRecipe.isEmpty()}">
             Non ci sono immagini della ricetta
         </div>
     </div>
@@ -27,7 +27,7 @@
         <div th:if="${ingredients!=null && !ingredients.isEmpty()}">
             <ul>
                 <div th:each="ingredient : ${ingredients}">
-                    <li><a th:href="@{'/recipesWithIngredient/' + ${ingredient.idIngrediente}}"><span th:text="${ingredient.nome} + ' ' + ${ingredient.quantita}"></a></li>
+                    <li><a th:href="@{'/recipesWithIngredient/' + ${ingredient.idIngredient}}"><span th:text="${ingredient.name} + ' ' + ${ingredient.quantity}"></a></li>
                 </div>
             </ul>
         </div>
@@ -35,22 +35,22 @@
             Non ci sono ingredienti nella ricetta
         </div>
         <div>
-            <form th:action="@{'/addIngredient/' + ${recipe.idRicetta}}" method="post" th:object="${ingrediente}">
+            <form th:action="@{'/addIngredient/' + ${recipe.idRecipe}}" method="post" th:object="${ingredient}">
     
                 <div>
                     <label>Nome</label>
-                    <input type="text" th:field="${ingrediente.nome}">
+                    <input type="text" th:field="${ingredient.name}">
                 </div>
                 <div>
                     <label>Quantita</label>
-                    <input type="text" th:field="${ingrediente.quantita}">
+                    <input type="text" th:field="${ingredient.quantity}">
                 </div>
                 <div>
                     <button type="submit">Aggiungi</button>
                 </div>
             </form>
             <div>
-                <a th:href="@{'/recipeDetails/' + ${recipe.idRicetta}}"><button>Termina Inserimento</button></a>
+                <a th:href="@{'/recipeDetails/' + ${recipe.idRecipe}}"><button>Termina Inserimento</button></a>
             </div>
         </div>
     </div>

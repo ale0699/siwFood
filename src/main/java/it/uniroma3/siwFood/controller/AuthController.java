@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import it.uniroma3.siwFood.model.Credenziali;
-import it.uniroma3.siwFood.model.Cuoco;
-import it.uniroma3.siwFood.service.CuocoService;
+import it.uniroma3.siwFood.model.Credentials;
+import it.uniroma3.siwFood.model.Cook;
+import it.uniroma3.siwFood.service.CookService;
 
 @Controller
 public class AuthController {
@@ -19,7 +19,7 @@ public class AuthController {
 	private PasswordEncoder passwordEncoder;
 	
 	@Autowired
-	private CuocoService cuocoService;
+	private CookService cookService;
 	
 	@GetMapping(value = "/login")
 	public String getLoginPage() {
@@ -29,16 +29,16 @@ public class AuthController {
 	
 	@GetMapping(value = "/register")
 	public String getRegisterCook(Model model){
-		model.addAttribute(new Cuoco());
+		model.addAttribute("cook", new Cook());
 		return "register.html";
 	}
 	
 	@PostMapping(value = "/register")
-	public String postRegisterCook(@ModelAttribute Cuoco cuoco){
-		Credenziali credenziali = cuoco.getCredenziali();
-		credenziali.setPassword(this.passwordEncoder.encode(credenziali.getPassword()));
-		credenziali.setRuolo("CUOCO");
-		this.cuocoService.saveCook(cuoco);
+	public String postRegisterCook(@ModelAttribute Cook cook){
+		Credentials credentials = cook.getCredentials();
+		credentials.setPassword(this.passwordEncoder.encode(credentials.getPassword()));
+		credentials.setRole("COOK");
+		this.cookService.saveCook(cook);
 		return "redirect:/login";
 	}
 	

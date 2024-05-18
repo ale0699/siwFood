@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${recipe.nome}"></title>
+    <title th:text="${recipe.name}"></title>
 </head>
 
 <body>
@@ -14,14 +14,14 @@
         </a>
     </div>
     <div>
-        <h2 th:text="${recipe.nome}"></h2>
-        <p th:text="${recipe.descrizione}"></p>
-        <div th:if="${recipe.immaginiRicetta != null && !recipe.immaginiRicetta.isEmpty()}">
-            <div th:each="immagine : ${recipe.immaginiRicetta}">
-                <img th:src="${immagine}">
+        <h2 th:text="${recipe.name}"></h2>
+        <p th:text="${recipe.description}"></p>
+        <div th:if="${recipe.pictureRecipe != null && !recipe.pictureRecipe.isEmpty()}">
+            <div th:each="picure : ${recipe.pictureRecipe}">
+                <img th:src="${picture}">
             </div>
         </div>
-        <div th:unless="${recipe.immaginiRicetta != null && !recipe.immaginiRicetta.isEmpty()}">
+        <div th:unless="${recipe.pictureRecipe != null && !recipe.pictureRecipe.isEmpty()}">
             Non ci sono immagini della ricetta
         </div>
     </div>
@@ -30,10 +30,10 @@
             <ul>
                 <div th:each="ingredient : ${ingredients}">
                     <li>
-                        <a th:href="@{'/recipesWithIngredient/' + ${ingredient.idIngrediente}}">
-                            <span th:text="${ingredient.nome} + ' ' + ${ingredient.quantita}"></span>
+                        <a th:href="@{'/recipesWithIngredient/' + ${ingredient.idIngredient}}">
+                            <span th:text="${ingredient.name} + ' ' + ${ingredient.quantity}"></span>
                         </a>
-                        <a th:href="@{'/removeIngredient/' + ${ingredient.idIngrediente} + '/' + ${recipe.idRicetta}}">
+                        <a th:href="@{'/removeIngredient/' + ${ingredient.idIngredient} + '/' + ${recipe.idRecipe}}">
                             <button>Rimuovi</button>
                         </a>
                     </li>
@@ -44,15 +44,15 @@
             Non ci sono ingredienti nella ricetta
         </div>
         <div>
-            <a th:href="@{'/formAddIngredientRecipe/' + ${recipe.idRicetta}}">
+            <a th:href="@{'/formAddIngredientRecipe/' + ${recipe.idRecipe}}">
                 <button>Aggiungi ingredienti</button>
             </a>
         </div>
         <div>
-            <a th:href="@{'/removeRecipe/' + ${recipe.idRicetta}}"><button>Elimina ricetta</button></a>
+            <a th:href="@{'/removeRecipe/' + ${recipe.idRecipe}}"><button>Elimina ricetta</button></a>
         </div>
                 <div>
-            <a th:href="@{'/formEditRecipe/' + ${recipe.idRicetta}}"><button>Modifica ricetta</button></a>
+            <a th:href="@{'/formEditRecipe/' + ${recipe.idRecipe}}"><button>Modifica ricetta</button></a>
         </div>
     </div>
 </body>

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ricette con <th th:text="${ingredient.nome}"></title>
+    <title>Ricette con <th th:text="${ingredient}"></title>
 </head>
 
 <body>
@@ -15,18 +15,18 @@
 	</div>
     <div th:if="${recipes != null && !recipes.isEmpty()}">
         <div>
-            Ricette con <span th:text="${ingredient.nome}"></span> :
+            Ricette con <span th:text="${ingredient}"></span> :
         </div>
         <ul>
             <div th:each="recipe: ${recipes}">
                 <li>
-                    <a th:href="@{'/recipeDetails/' + ${recipe.idRicetta} }"><span th:text="${recipe.nome}"></span></a>
+                    <a th:href="@{'/recipeDetails/' + ${recipe.idRecipe} }"><span th:text="${recipe.name}"></span></a>
                 </li>
             </div>
         </ul>
     </div>
     <div th:unless="${recipes != null && !recipes.isEmpty()}">
-        <span>Non ci sono ricette nel sistema con <th th:text="${ingredient.nome}"></span>
+        <span>Non ci sono ricette nel sistema con <th th:text="${ingredient}"></span>
     </div>
 </body>
 

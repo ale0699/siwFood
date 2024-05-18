@@ -9,26 +9,26 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-public class Credenziali {
+public class Credentials {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long idCredenziali;
+	private Long idCredentials;
 	@Column(unique = true, nullable = false)
 	private String username;
 	private String password;
-	private String ruolo;
+	private String role;
 	
-	public Credenziali() {
+	public Credentials() {
 		
 	}
 
-	public Long getIdCredenziali() {
-		return idCredenziali;
+	public Long getIdCredentials() {
+		return idCredentials;
 	}
 
-	public void setIdCredenziali(Long idCredenziali) {
-		this.idCredenziali = idCredenziali;
+	public void setIdCredentials(Long idCredentials) {
+		this.idCredentials = idCredentials;
 	}
 
 	public String getUsername() {
@@ -47,17 +47,23 @@ public class Credenziali {
 		this.password = password;
 	}
 
-	public String getRuolo() {
-		return ruolo;
+	public String getRole() {
+		return role;
 	}
 
-	public void setRuolo(String ruolo) {
-		this.ruolo = ruolo;
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	@Override
+	public String toString() {
+		return "Credenziali [idCredentials=" + idCredentials + ", username=" + username + ", password=" + password
+				+ ", role=" + role + "]";
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(idCredenziali, password, ruolo, username);
+		return Objects.hash(idCredentials, password, role, username);
 	}
 
 	@Override
@@ -68,16 +74,8 @@ public class Credenziali {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Credenziali other = (Credenziali) obj;
-		return Objects.equals(idCredenziali, other.idCredenziali) && Objects.equals(password, other.password)
-				&& Objects.equals(ruolo, other.ruolo) && Objects.equals(username, other.username);
+		Credentials other = (Credentials) obj;
+		return Objects.equals(idCredentials, other.idCredentials) && Objects.equals(password, other.password)
+				&& Objects.equals(role, other.role) && Objects.equals(username, other.username);
 	}
-
-	@Override
-	public String toString() {
-		return "Credenziali [idCredenziali=" + idCredenziali + ", username=" + username + ", password=" + password
-				+ ", ruolo=" + ruolo + "]";
-	}
-
-
 }

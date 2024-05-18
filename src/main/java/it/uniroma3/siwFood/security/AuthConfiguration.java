@@ -25,8 +25,8 @@ public class AuthConfiguration {
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		auth.jdbcAuthentication()
 		.dataSource(dataSource)
-		.authoritiesByUsernameQuery("SELECT username, ruolo from credenziali WHERE username=?")
-		.usersByUsernameQuery("SELECT username, password, 1 as enabled FROM credenziali WHERE username=?");
+		.authoritiesByUsernameQuery("SELECT username, role from credentials WHERE username=?")
+		.usersByUsernameQuery("SELECT username, password, 1 as enabled FROM credentials WHERE username=?");
 	}
 
 	@Bean
@@ -38,7 +38,7 @@ public class AuthConfiguration {
 		.requestMatchers(HttpMethod.GET, "/", "/login/**", "/register/**", "/recipes", "/recipeDetails/**", "/searchRecipes/**", "/searchRecipesByIngredient/**", "/recipesWithIngredient/**", "/css/**", "/images/**").permitAll()
 		.requestMatchers(HttpMethod.POST, "/register").permitAll()
 		.requestMatchers(HttpMethod.GET, "/admin/**").hasAnyAuthority("ADMIN")
-		.requestMatchers(HttpMethod.GET, "/cook/**").hasAnyAuthority("CUOCO", "ADMIN")
+		.requestMatchers(HttpMethod.GET, "/cook/**", "/removeIngredient/**").hasAnyAuthority("COOK", "ADMIN")
 		.anyRequest().authenticated()
 		.and().formLogin()
 		.loginPage("/login").failureUrl("/login/error").defaultSuccessUrl("/")
