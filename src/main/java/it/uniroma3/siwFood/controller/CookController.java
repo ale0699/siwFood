@@ -15,36 +15,11 @@ import it.uniroma3.siwFood.service.CookService;
 import it.uniroma3.siwFood.service.RecipeService;
 
 @Controller
-@RequestMapping("/cook")
 public class CookController {
-	
-	@Autowired
-	private CredentialsService credentialsService;
-	
+
 	@Autowired
 	private CookService cookService;
-	
-	@Autowired
-	private RecipeService recipeService;
-	
-	@GetMapping("/dashboard")
-	public String getDashboardCook(Model model) {
-    	UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		Credentials credentials = this.credentialsService.findCredenzialiByUsername(userDetails.getUsername());
-		Cook cook = this.cookService.findCookByCredentials(credentials.getIdCredentials());
-		model.addAttribute("cook", cook);
-		model.addAttribute("recipes", this.recipeService.findRecipesByCookId(cook.getIdCook()));
-		return "cooks/dashboard.html";
-	}
-	
-	@GetMapping("/recipes")
-	public String getRecipesCook(Model model){
-    	UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		Credentials credentials = this.credentialsService.findCredenzialiByUsername(userDetails.getUsername());
-		Cook cook = this.cookService.findCookByCredentials(credentials.getIdCredentials());
-		model.addAttribute("recipes", this.recipeService.findRecipesByCookId(cook.getIdCook()));
-		return "recipes/recipes.html";
-	}
-	
+
+
 
 }

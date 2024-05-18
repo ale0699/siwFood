@@ -33,9 +33,23 @@
                         <a th:href="@{'/recipesWithIngredient/' + ${ingredient.idIngredient}}">
                             <span th:text="${ingredient.name} + ' ' + ${ingredient.quantity}"></span>
                         </a>
-                        <a th:href="@{'/removeIngredient/' + ${ingredient.idIngredient} + '/' + ${recipe.idRecipe}}">
-                            <button>Rimuovi</button>
-                        </a>
+
+                        <div th:if="${userDetails!=null}">
+                            <div th:if="${userDetails.username == 'admin'}">
+
+                                <a
+                                    th:href="@{'/admin/removeIngredient/' + ${ingredient.idIngredient} + '/' + ${recipe.idRecipe}}">
+                                    <button>Rimuovi</button>
+                                </a>
+
+                            </div>
+                            <div th:if="${idCook == recipe.cook.idCook}">
+                                <a
+                                    th:href="@{'/cook/removeIngredient/' + ${ingredient.idIngredient} + '/' + ${recipe.idRecipe}}">
+                                    <button>Rimuovi</button>
+                                </a>
+                            </div>
+                        </div>
                     </li>
                 </div>
             </ul>
@@ -43,16 +57,50 @@
         <div th:unless="${ingredients!=null && !ingredients.isEmpty()}">
             Non ci sono ingredienti nella ricetta
         </div>
-        <div>
-            <a th:href="@{'/formAddIngredientRecipe/' + ${recipe.idRecipe}}">
-                <button>Aggiungi ingredienti</button>
-            </a>
+
+        <div th:if="${userDetails!=null}">
+            <div th:if="${userDetails.username == 'admin'}">
+
+                <a th:href="@{'/admin/formAddIngredientRecipe/' + ${recipe.idRecipe}}">
+                    <button>Aggiungi ingredienti</button>
+                </a>
+
+            </div>
+            <div th:if="${idCook == recipe.cook.idCook}">
+                <a th:href="@{'/cook/formAddIngredientRecipe/' + ${recipe.idRecipe}}">
+                    <button>Aggiungi ingredienti</button>
+                </a>
+            </div>
         </div>
-        <div>
-            <a th:href="@{'/removeRecipe/' + ${recipe.idRecipe}}"><button>Elimina ricetta</button></a>
+
+        <div th:if="${userDetails!=null}">
+            <div th:if="${userDetails.username == 'admin'}">
+
+                <a th:href="@{'/admin/formEditRecipe/' + ${recipe.idRecipe}}">
+                    <button>Modifica ricetta</button>
+                </a>
+
+            </div>
+            <div th:if="${idCook == recipe.cook.idCook}">
+                <a th:href="@{'/cook/formEditRecipe/' + ${recipe.idRecipe}}">
+                    <button>Modifica ricetta</button>
+                </a>
+            </div>
         </div>
-                <div>
-            <a th:href="@{'/formEditRecipe/' + ${recipe.idRecipe}}"><button>Modifica ricetta</button></a>
+
+        <div th:if="${userDetails!=null}">
+            <div th:if="${userDetails.username == 'admin'}">
+
+                <a th:href="@{'/admin/removeRecipe/' + ${recipe.idRecipe}}">
+                    <button>Elimina ricetta</button>
+                </a>
+
+            </div>
+            <div th:if="${idCook == recipe.cook.idCook}">
+                <a th:href="@{'/cook/removeRecipe/' + ${recipe.idRecipe}}">
+                    <button>Elimina ricetta</button>
+                </a>
+            </div>
         </div>
     </div>
 </body>

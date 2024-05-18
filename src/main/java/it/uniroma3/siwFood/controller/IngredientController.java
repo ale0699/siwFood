@@ -22,7 +22,7 @@ public class IngredientController {
 	@Autowired
 	private RecipeService recipeService;
 	
-	@GetMapping(value = "/formAddIngredientRecipe/{idRecipe}")
+	@GetMapping(value = {"/cook/formAddIngredientRecipe/{idRecipe}", "/admin/formAddIngredientRecipe/{idRecipe}"})
 	public String getformAddIngredientRecipe(@PathVariable("idRecipe")Long idRecipe, Model model) {
 		model.addAttribute("ingredient", new Ingredient());
 		model.addAttribute("recipe", this.recipeService.findRecipeById(idRecipe));
@@ -30,7 +30,7 @@ public class IngredientController {
 		return "ingredients/formAddIngredientRecipe.html";
 	}
 	
-	@PostMapping(value = "/addIngredient/{idRecipe}")
+	@PostMapping(value = {"/cook/addIngredient/{idRecipe}", "/admin/addIngredient/{idRecipe}"})
 	public String postAddIngredientRecipe(@ModelAttribute Ingredient ingrediente, @PathVariable("idRecipe")Long idRecipe) {
 		Recipe recipe = this.recipeService.findRecipeById(idRecipe);
 		ingrediente.setRecipe(recipe);
@@ -38,7 +38,7 @@ public class IngredientController {
 		return "redirect:/formAddIngredientRecipe/"+idRecipe;
 	}
 	
-	@GetMapping(value = "/removeIngredient/{idIngredient}/{idRecipe}")
+	@GetMapping(value = {"/cook/removeIngredient/{idIngredient}/{idRecipe}", "/admin/removeIngredient/{idIngredient}/{idRecipe}"})
 	public String getRemoveIngredient(@PathVariable("idIngredient")Long idIngredient, @PathVariable("idRecipe")Long idRecipe, Model model) {
 		Ingredient ingredient = this.ingredientService.findIngredientById(idIngredient);
 		this.ingredientService.deleteIngredient(ingredient);

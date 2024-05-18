@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import it.uniroma3.siwFood.model.Credentials;
 import it.uniroma3.siwFood.model.Cook;
+import it.uniroma3.siwFood.model.Credentials;
 import it.uniroma3.siwFood.model.Ingredient;
 import it.uniroma3.siwFood.model.Recipe;
-import it.uniroma3.siwFood.service.CredentialsService;
 import it.uniroma3.siwFood.service.CookService;
+import it.uniroma3.siwFood.service.CredentialsService;
 import it.uniroma3.siwFood.service.IngredientService;
 import it.uniroma3.siwFood.service.RecipeService;
 
@@ -35,47 +35,52 @@ public class RecipeController {
 	private IngredientService ingredientService;
 	
 	@Autowired
-	private CookService cookService;
+	private CookService cookService;    
 	
-    private boolean canEditOrDeleteRecipe(Recipe recipe, Credentials credentials) {
-        return recipe.getCook().getCredentials().getIdCredentials().equals(credentials.getIdCredentials()) ||
-               credentials.getRole().equals("ADMIN");
-    }
-	
-	@GetMapping(value = "/recipes")
+	@GetMapping(value = {"/recipes", "/admin/recipes"})
 	public String getRecipes(Model model) {
 		model.addAttribute("recipes", this.recipeService.findAllRecipes());
 		return "recipes/recipes.html";
 	}
 	
+	@GetMapping(value = "/cook/recipes")
+	public String getRecipesCook(Model model){
+    	UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Credentials credentials = this.credentialsService.findCredenzialiByUsername(userDetails.getUsername());
+		Cook cook = this.cookService.findCookByCredentials(credentials.getIdCredentials());
+		model.addAttribute("recipes", this.recipeService.findRecipesByCookId(cook.getIdCook()));
+		return "recipes/recipes.html";
+	}
+	
 	@GetMapping(value = "/recipeDetails/{idRecipe}")
 	public String getRecipeDetails(@PathVariable("idRecipe") Long idRecipe, Model model) {
-	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-	    if (!(authentication instanceof AnonymousAuthenticationToken)) {
-	        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-	        Credentials credentials = this.credentialsService.findCredenzialiByUsername(userDetails.getUsername());
-	        Recipe recipe = this.recipeService.findRecipeById(idRecipe);
-
-	        if (canEditOrDeleteRecipe(recipe, credentials)) {
-	            model.addAttribute("ingredients", this.ingredientService.findIngredientsByRecipeId(idRecipe));
-	            model.addAttribute("recipe", this.recipeService.findRecipeById(idRecipe));
-	            return "recipes/recipeDetails.html";
-	        }
-	    }
-	    // Se l'utente non è autenticato o non ha i permessi necessari, reindirizzalo
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if(!(authentication instanceof AnonymousAuthenticationToken)) {
+			
+	    	UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			Credentials credentials = this.credentialsService.findCredenzialiByUsername(userDetails.getUsername());
+			//devo fare questo controllo perchè l'admin non è un cuoco, quindi l'id del cuoco è null
+			if(!credentials.getRole().equals("ADMIN")) {
+				
+				Long idCook = this.cookService.findCookByCredentials(credentials.getIdCredentials()).getIdCook();
+				model.addAttribute("idCook", idCook);
+			}
+		}
+		
         model.addAttribute("ingredients", this.ingredientService.findIngredientsByRecipeId(idRecipe));
         model.addAttribute("recipe", this.recipeService.findRecipeById(idRecipe));
-	    return "recipes/recipeDetailsNoAuthorities.html";
+	    return "recipes/recipeDetails.html";
 	}
 
 	
-	@GetMapping(value = "/formAddRecipe")
+	@GetMapping(value = {"/cook/formAddRecipe", "/admin/formAddRecipe"})
 	public String getFormAddRecipe(Model model) {
 		model.addAttribute("recipe", new Recipe());
 		return "recipes/formAddRecipe.html";
 	}
 	
-	@PostMapping(value = "/addRecipe")
+	@PostMapping(value = {"/cook/addRecipe", "/admin/addRecipe"})
 	public String postAddRecipe(@ModelAttribute Recipe recipe) {
     	UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Credentials credentials = this.credentialsService.findCredenzialiByUsername(userDetails.getUsername());
@@ -85,7 +90,7 @@ public class RecipeController {
 		return "redirect:/recipeDetails/"+recipe.getIdRecipe();
 	}
 	
-	@GetMapping(value = "/removeRecipe/{idRecipe}")
+	@GetMapping(value = {"/cook/removeRecipe/{idRecipe}", "/admin/removeRecipe/{idRecipe}"})
 	public String getRemoveIngredient(@PathVariable("idRecipe")Long idRecipe, Model model) {
 		Recipe recipe = this.recipeService.findRecipeById(idRecipe);
 		this.recipeService.deleteRecipe(recipe);
@@ -93,34 +98,21 @@ public class RecipeController {
 		return "redirect:/recipes";
 	}
 	
-    @GetMapping(value = "/formEditRecipe/{idRecipe}")
+    @GetMapping(value = {"/cook/formEditRecipe/{idRecipe}", "/admin/formEditRecipe/{idRecipe}"})
     public String getFormEditRecipe(@PathVariable("idRecipe") Long idRecipe, Model model) {
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Credentials credentials = this.credentialsService.findCredenzialiByUsername(userDetails.getUsername());
-        Recipe recipe = this.recipeService.findRecipeById(idRecipe);
-
-        if (canEditOrDeleteRecipe(recipe, credentials)) {
-            model.addAttribute("recipe", recipe);
-            return "recipes/formEditRecipe";
-        } else {
-            return "403.html";
-        }
+		Recipe recipe = this.recipeService.findRecipeById(idRecipe);
+		model.addAttribute("recipe", recipe);
+		return "recipes/formEditRecipe.html";
     }
 
-    @PostMapping(value = "/updateRecipe")
+    @PostMapping(value = {"/cook/updateRecipe", "/admin/updateRecipe"})
     public String postUpdateRecipe(@ModelAttribute Recipe recipe) {
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Credentials credentials = this.credentialsService.findCredenzialiByUsername(userDetails.getUsername());
-        Recipe editedRecipe = this.recipeService.findRecipeById(recipe.getIdRecipe());
 
-        if (canEditOrDeleteRecipe(editedRecipe, credentials)) {
-            editedRecipe.setName(recipe.getName());
-            editedRecipe.setDescription(recipe.getDescription());
-            this.recipeService.saveRecipe(editedRecipe);
-            return "redirect:/recipeDetails/" + recipe.getIdRecipe();
-        } else {
-            return "403.html";
-        }
+        Recipe editedRecipe = this.recipeService.findRecipeById(recipe.getIdRecipe());
+        editedRecipe.setName(recipe.getName());
+        editedRecipe.setDescription(recipe.getDescription());
+        this.recipeService.saveRecipe(editedRecipe);
+        return "redirect:/recipeDetails/" + recipe.getIdRecipe();
     }
 	
 	@GetMapping(value = "/recipesWithIngredient/{idIngredient}")
