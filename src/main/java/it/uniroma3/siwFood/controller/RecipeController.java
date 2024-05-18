@@ -35,6 +35,11 @@ public class RecipeController {
 	@Autowired
 	private CookService cookService;
 	
+    private boolean canEditOrDeleteRecipe(Recipe recipe, Credentials credentials) {
+        return recipe.getCook().getCredentials().getIdCredentials().equals(credentials.getIdCredentials()) ||
+               credentials.getRole().equals("ADMIN");
+    }
+	
 	@GetMapping(value = "/recipes")
 	public String getRecipes(Model model) {
 		model.addAttribute("recipes", this.recipeService.findAllRecipes());
@@ -74,18 +79,32 @@ public class RecipeController {
 	
     @GetMapping(value = "/formEditRecipe/{idRecipe}")
     public String getFormEditRecipe(@PathVariable("idRecipe") Long idRecipe, Model model) {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Credentials credentials = this.credentialsService.findCredenzialiByUsername(userDetails.getUsername());
         Recipe recipe = this.recipeService.findRecipeById(idRecipe);
-        model.addAttribute("recipe", recipe);
-        return "recipes/formEditRecipe";
+
+        if (canEditOrDeleteRecipe(recipe, credentials)) {
+            model.addAttribute("recipe", recipe);
+            return "recipes/formEditRecipe";
+        } else {
+            return "403.html";
+        }
     }
 
     @PostMapping(value = "/updateRecipe")
     public String postUpdateRecipe(@ModelAttribute Recipe recipe) {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Credentials credentials = this.credentialsService.findCredenzialiByUsername(userDetails.getUsername());
         Recipe editedRecipe = this.recipeService.findRecipeById(recipe.getIdRecipe());
-        editedRecipe.setName(recipe.getName());
-        editedRecipe.setDescription(recipe.getDescription());
-        this.recipeService.saveRecipe(editedRecipe);
-        return "redirect:/recipeDetails/" + recipe.getIdRecipe();
+
+        if (canEditOrDeleteRecipe(editedRecipe, credentials)) {
+            editedRecipe.setName(recipe.getName());
+            editedRecipe.setDescription(recipe.getDescription());
+            this.recipeService.saveRecipe(editedRecipe);
+            return "redirect:/recipeDetails/" + recipe.getIdRecipe();
+        } else {
+            return "403.html";
+        }
     }
 	
 	@GetMapping(value = "/recipesWithIngredient/{idIngredient}")
