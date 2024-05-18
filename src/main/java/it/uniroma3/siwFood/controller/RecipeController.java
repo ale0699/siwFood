@@ -1,6 +1,8 @@
 package it.uniroma3.siwFood.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -47,11 +49,25 @@ public class RecipeController {
 	}
 	
 	@GetMapping(value = "/recipeDetails/{idRecipe}")
-	public String getRecipeDetails(@PathVariable("idRecipe")Long idRecipe, Model model) {
-		model.addAttribute("ingredients", this.ingredientService.findIngredientsByRecipeId(idRecipe));
-		model.addAttribute("recipe", this.recipeService.findRecipeById(idRecipe));
-		return "recipes/recipeDetails.html";
+	public String getRecipeDetails(@PathVariable("idRecipe") Long idRecipe, Model model) {
+	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	    if (!(authentication instanceof AnonymousAuthenticationToken)) {
+	        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+	        Credentials credentials = this.credentialsService.findCredenzialiByUsername(userDetails.getUsername());
+	        Recipe recipe = this.recipeService.findRecipeById(idRecipe);
+
+	        if (canEditOrDeleteRecipe(recipe, credentials)) {
+	            model.addAttribute("ingredients", this.ingredientService.findIngredientsByRecipeId(idRecipe));
+	            model.addAttribute("recipe", this.recipeService.findRecipeById(idRecipe));
+	            return "recipes/recipeDetails.html";
+	        }
+	    }
+	    // Se l'utente non è autenticato o non ha i permessi necessari, reindirizzalo
+        model.addAttribute("ingredients", this.ingredientService.findIngredientsByRecipeId(idRecipe));
+        model.addAttribute("recipe", this.recipeService.findRecipeById(idRecipe));
+	    return "recipes/recipeDetailsNoAuthorities.html";
 	}
+
 	
 	@GetMapping(value = "/formAddRecipe")
 	public String getFormAddRecipe(Model model) {
