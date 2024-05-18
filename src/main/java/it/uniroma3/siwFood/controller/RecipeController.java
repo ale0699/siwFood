@@ -21,7 +21,7 @@ import it.uniroma3.siwFood.service.IngredientService;
 import it.uniroma3.siwFood.service.RecipeService;
 
 @Controller
-public class RicettaController {
+public class RecipeController {
 	
 	@Autowired
 	private CredentialsService credentialsService;

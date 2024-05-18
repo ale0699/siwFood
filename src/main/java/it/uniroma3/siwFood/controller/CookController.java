@@ -16,7 +16,7 @@ import it.uniroma3.siwFood.service.RecipeService;
 
 @Controller
 @RequestMapping("/cook")
-public class CuocoController {
+public class CookController {
 	
 	@Autowired
 	private CredentialsService credentialsService;
