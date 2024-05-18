@@ -76,19 +76,15 @@ public class RecipeController {
     public String getFormEditRecipe(@PathVariable("idRecipe") Long idRecipe, Model model) {
         Recipe recipe = this.recipeService.findRecipeById(idRecipe);
         model.addAttribute("recipe", recipe);
-        return "recipes/formEditRecipe.html";
+        return "recipes/formEditRecipe";
     }
 
     @PostMapping(value = "/updateRecipe")
     public String postUpdateRecipe(@ModelAttribute Recipe recipe) {
-
-    	//va gestita meglio con existBy
-		Recipe editedRecipe = this.recipeService.findRecipeById(recipe.getIdRecipe());
-		editedRecipe.setName(recipe.getName());
-		editedRecipe.setDescription(recipe.getDescription());
-		editedRecipe.setCook(recipe.getCook());
+        Recipe editedRecipe = this.recipeService.findRecipeById(recipe.getIdRecipe());
+        editedRecipe.setName(recipe.getName());
+        editedRecipe.setDescription(recipe.getDescription());
         this.recipeService.saveRecipe(editedRecipe);
-    	
         return "redirect:/recipeDetails/" + recipe.getIdRecipe();
     }
 	
