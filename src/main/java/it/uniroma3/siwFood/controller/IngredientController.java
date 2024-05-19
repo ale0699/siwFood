@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import it.uniroma3.siwFood.model.Cook;
 import it.uniroma3.siwFood.model.Credentials;
 import it.uniroma3.siwFood.model.Ingredient;
 import it.uniroma3.siwFood.model.Recipe;
+import it.uniroma3.siwFood.service.CookService;
 import it.uniroma3.siwFood.service.CredentialsService;
 import it.uniroma3.siwFood.service.IngredientService;
 import it.uniroma3.siwFood.service.RecipeService;
@@ -29,12 +31,25 @@ public class IngredientController {
 	@Autowired
 	private CredentialsService credentialsService;
 	
+	@Autowired
+	private CookService cookService;
+	
 	@GetMapping(value = {"/cook/formAddIngredientRecipe/{idRecipe}", "/admin/formAddIngredientRecipe/{idRecipe}"})
 	public String getformAddIngredientRecipe(@PathVariable("idRecipe")Long idRecipe, Model model) {
-		model.addAttribute("ingredient", new Ingredient());
-		model.addAttribute("recipe", this.recipeService.findRecipeById(idRecipe));
-		model.addAttribute("ingredients", this.ingredientService.findIngredientsByRecipeId(idRecipe));
-		return "ingredients/formAddIngredientRecipe.html";
+		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Credentials credentials = this.credentialsService.findCredenzialiByUsername(userDetails.getUsername());
+		Cook cook = this.cookService.findCookByCredentials(credentials.getIdCredentials());
+		
+		Recipe recipe = this.recipeService.findRecipeById(idRecipe);
+		if(cook.equals(recipe.getCook())) {
+			
+			model.addAttribute("ingredient", new Ingredient());
+			model.addAttribute("recipe", recipe);
+			model.addAttribute("ingredients", this.ingredientService.findIngredientsByRecipeId(idRecipe));
+			return "ingredients/formAddIngredientRecipe.html";
+		}
+		
+		return "redirect:/recipeDetails/"+idRecipe;
 	}
 	
 	@PostMapping(value = {"/cook/addIngredient/{idRecipe}", "/admin/addIngredient/{idRecipe}"})
