@@ -11,18 +11,35 @@
 	        <img src="/images/logo.png" width="20%">
 	    </a>
 	</div>
-    <form th:action="@{/addRecipe}" method="post" th:object="${recipe}">
-        <div class="name">
-            <label>Nome</label>
-            <input type="text" th:field="${recipe.name}">
-        </div>
-        <div class="description">
-            <label>Descrizione</label>
-            <input type="text" th:field="${recipe.description}">
-        </div>
-        <div class="button">
-            <button type="submit">Aggiungi</button>
-        </div>
-    </form>
+    <div th:if="${userDetails.username == 'admin'}">
+        <form th:action="@{/admin/addRecipe}" method="post" th:object="${recipe}">
+            <div class="name">
+                <label>Nome</label>
+                <input type="text" th:field="${recipe.name}">
+            </div>
+            <div class="description">
+                <label>Descrizione</label>
+                <input type="text" th:field="${recipe.description}">
+            </div>
+            <div class="button">
+                <button type="submit">Aggiungi</button>
+            </div>
+        </form>
+    </div>
+    <div th:unless="${userDetails.username == 'admin'}">
+        <form th:action="@{/cook/addRecipe}" method="post" th:object="${recipe}">
+            <div class="name">
+                <label>Nome</label>
+                <input type="text" th:field="${recipe.name}">
+            </div>
+            <div class="description">
+                <label>Descrizione</label>
+                <input type="text" th:field="${recipe.description}">
+            </div>
+            <div class="button">
+                <button type="submit">Aggiungi</button>
+            </div>
+        </form>
+    </div>
 </body>
 </html>

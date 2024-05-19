@@ -35,24 +35,46 @@
             Non ci sono ingredienti nella ricetta
         </div>
         <div>
-            <form th:action="@{'/addIngredient/' + ${recipe.idRecipe}}" method="post" th:object="${ingredient}">
-    
-                <div>
-                    <label>Nome</label>
-                    <input type="text" th:field="${ingredient.name}">
-                </div>
-                <div>
-                    <label>Quantita</label>
-                    <input type="text" th:field="${ingredient.quantity}">
-                </div>
-                <div>
-                    <button type="submit">Aggiungi</button>
-                </div>
-            </form>
+            <div th:if="${userDetails.username == 'admin'}">
+
+                <form th:action="@{'/admin/addIngredient/' + ${recipe.idRecipe}}" method="post" th:object="${ingredient}">
+                
+                    <div>
+                        <label>Nome</label>
+                        <input type="text" th:field="${ingredient.name}">
+                    </div>
+                    <div>
+                        <label>Quantita</label>
+                        <input type="text" th:field="${ingredient.quantity}">
+                    </div>
+                    <div>
+                        <button type="submit">Aggiungi</button>
+                    </div>
+                </form>
+            
+            </div>
+            <div th:unless="${userDetails.username == 'admin'}">
+                <form th:action="@{'/cook/addIngredient/' + ${recipe.idRecipe}}" method="post" th:object="${ingredient}">
+                
+                    <div>
+                        <label>Nome</label>
+                        <input type="text" th:field="${ingredient.name}">
+                    </div>
+                    <div>
+                        <label>Quantita</label>
+                        <input type="text" th:field="${ingredient.quantity}">
+                    </div>
+                    <div>
+                        <button type="submit">Aggiungi</button>
+                    </div>
+                </form>
+            </div>
             <div>
                 <a th:href="@{'/recipeDetails/' + ${recipe.idRecipe}}"><button>Termina Inserimento</button></a>
             </div>
         </div>
     </div>
 </body>
+
+
 </html>
