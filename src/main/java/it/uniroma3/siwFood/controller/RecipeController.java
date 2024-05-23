@@ -102,6 +102,7 @@ public class RecipeController {
 	/*METODO PER POTER SALVARE ALL'INTERNO DEL DATABASE UNA NUOVA RICETTA, GRAZIE AD UNA RICHIESTA HTTP.POST*/
 	@PostMapping(value = {"/cook/addRecipe", "/admin/addRecipe"})
 	public String postAddRecipe(@ModelAttribute Recipe recipe) {
+		
     	UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Credentials credentials = this.credentialsService.findCredenzialiByUsername(userDetails.getUsername());
 		Cook cook = this.cookService.findCookByCredentials(credentials.getIdCredentials());
@@ -156,11 +157,17 @@ public class RecipeController {
 	/*METODO PER POTER MODIFICARE ALL'INTERNO DEL DATABASE UNA RICETTA, GRAZIE AD UNA RICHIESTA HTTP.POST*/
     @PostMapping(value = {"/cook/updateRecipe", "/admin/updateRecipe"})
     public String postUpdateRecipe(@ModelAttribute Recipe recipe) {
-        Recipe editedRecipe = this.recipeService.findRecipeById(recipe.getIdRecipe());
-        editedRecipe.setName(recipe.getName());
-        editedRecipe.setDescription(recipe.getDescription());
-        this.recipeService.saveRecipe(editedRecipe);
-        return "redirect:recipeDetails/" + recipe.getIdRecipe();
+    	
+    	
+    	try {
+            Recipe editedRecipe = this.recipeService.findRecipeById(recipe.getIdRecipe());
+            editedRecipe.setName(recipe.getName());
+            editedRecipe.setDescription(recipe.getDescription());
+            this.recipeService.saveRecipe(editedRecipe);
+            return "redirect:recipeDetails/" + recipe.getIdRecipe();
+		} catch (AccessDeniedException e) {
+			throw new AccessDeniedException("You do not have permission to edit this recipe");
+		}
     }
 	
 	/*VENGONO VISUALIZZATE TUTTE LE RICETTE CHE HANNO UN INGREDIENTE CHE INIZIA CON UN CERTO NOME*/

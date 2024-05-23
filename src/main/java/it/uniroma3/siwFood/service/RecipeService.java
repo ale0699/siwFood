@@ -25,6 +25,9 @@ public class RecipeService {
 	@Autowired
 	private CookService cookService;
 	
+	public boolean existsRecipeById(Long idRicetta) {
+		return this.recipeRepository.existsById(idRicetta);
+	}
 	
 	public List<Recipe> findAllRecipes(){
 		return (List<Recipe>) this.recipeRepository.findAll();
@@ -46,8 +49,31 @@ public class RecipeService {
 		return this.recipeRepository.findAllByCookIdCook(idCook);
 	}
 	
-	public void saveRecipe(Recipe recipe) {
-		this.recipeRepository.save(recipe);
+	
+	/*SE LA RICETTA GIÀ ESISTE VERIFICO CHE POSSA ESSER MODIFICATA (CUOCO O ADMIN)
+	 * SE È UNA NUOVA RICETTA LA AGGIUNGO*/
+	public void saveRecipe(Recipe recipe) throws AccessDeniedException {
+		
+		if(recipe.getIdRecipe() != null) {
+			
+			if(this.existsRecipeById(recipe.getIdRecipe())) {
+				
+			    UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+				Credentials credentials = this.credentialsService.findCredenzialiByUsername(userDetails.getUsername());
+				Cook cook = this.cookService.findCookByCredentials(credentials.getIdCredentials());
+				
+				if(recipe.getCook().equals(cook) || credentials.getRole().equals("ADMIN")) {
+					this.recipeRepository.save(recipe);
+				}
+				else {
+					throw new AccessDeniedException("You do not have permission to save this recipe");
+				}
+			}
+		}
+		else {
+			
+			this.recipeRepository.save(recipe);
+		}
 	}
 	
 	public void deleteRecipe(Recipe recipe) throws AccessDeniedException{
