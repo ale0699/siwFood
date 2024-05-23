@@ -1,6 +1,7 @@
 package it.uniroma3.siwFood.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -34,6 +35,8 @@ public class IngredientController {
 	@Autowired
 	private CookService cookService;
 	
+	/*PUÒ AGGIUNGERE UN NUOVO INGREDIENTE ALLA RICETTA SOLO IL CUOCO CHE L'HA CONDIVISA OPPURE UN ADMIN.
+	 * SENNÒ VIENE SOLLEVATA UN ECCEZIONE*/
 	@GetMapping(value = {"/cook/formAddIngredientRecipe/{idRecipe}", "/admin/formAddIngredientRecipe/{idRecipe}"})
 	public String getformAddIngredientRecipe(@PathVariable("idRecipe")Long idRecipe, Model model) {
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -41,15 +44,28 @@ public class IngredientController {
 		Cook cook = this.cookService.findCookByCredentials(credentials.getIdCredentials());
 		
 		Recipe recipe = this.recipeService.findRecipeById(idRecipe);
-		if(cook.equals(recipe.getCook())) {
+		
+		if(cook != null) {
+			
+			if(cook.equals(recipe.getCook()) ) {
+				
+				model.addAttribute("ingredient", new Ingredient());
+				model.addAttribute("recipe", recipe);
+				model.addAttribute("ingredients", this.ingredientService.findIngredientsByRecipeId(idRecipe));
+				return "ingredients/formAddIngredientRecipe.html";
+			}
+			else {
+				
+				throw new AccessDeniedException("You do not have permission to add ingredient to this recipe");
+			}
+		}
+		else {
 			
 			model.addAttribute("ingredient", new Ingredient());
 			model.addAttribute("recipe", recipe);
 			model.addAttribute("ingredients", this.ingredientService.findIngredientsByRecipeId(idRecipe));
 			return "ingredients/formAddIngredientRecipe.html";
 		}
-		
-		return "redirect:/recipeDetails/"+idRecipe;
 	}
 	
 	@PostMapping(value = {"/cook/addIngredient/{idRecipe}", "/admin/addIngredient/{idRecipe}"})
