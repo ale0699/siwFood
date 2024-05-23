@@ -19,6 +19,11 @@ public class CookService {
 		return (List<Cook>) this.cookRepository.findAll();
 	}
 	
+	public Cook findCookByIdCook(Long idCook) {
+		
+		return this.cookRepository.findById(idCook).get();
+	}
+	
 	public Cook findCookByCredentials(Long idCredentials) {
 		
 		return this.cookRepository.findByCredentialsIdCredentials(idCredentials);
@@ -27,5 +32,10 @@ public class CookService {
 	public void saveCook(Cook cook) {
 		
 		this.cookRepository.save(cook);
+	}
+	
+	public void removeCook(Cook cook) {
+		
+		this.cookRepository.delete(cook);
 	}
 }

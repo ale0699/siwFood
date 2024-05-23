@@ -1,8 +1,6 @@
 package it.uniroma3.siwFood.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -21,6 +19,7 @@ import it.uniroma3.siwFood.service.CookService;
 import it.uniroma3.siwFood.service.CredentialsService;
 import it.uniroma3.siwFood.service.IngredientService;
 import it.uniroma3.siwFood.service.RecipeService;
+import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 public class RecipeController {
@@ -35,14 +34,17 @@ public class RecipeController {
 	private IngredientService ingredientService;
 	
 	@Autowired
-	private CookService cookService;    
+	private CookService cookService;
 	
+	
+	/*TUTTE LE RICETTE PRESENTI NEL SISTEMA*/
 	@GetMapping(value = {"/recipes", "/admin/recipes"})
 	public String getRecipes(Model model) {
 		model.addAttribute("recipes", this.recipeService.findAllRecipes());
 		return "recipes/recipes.html";
 	}
 	
+	/*TUTTE LE RICETTE CONDIVISE DA UN DETERMINATO CUOCO*/
 	@GetMapping(value = "/cook/recipes")
 	public String getRecipesCook(Model model){
     	UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -52,34 +54,43 @@ public class RecipeController {
 		return "recipes/recipes.html";
 	}
 	
+	/*DETTAGLI DI UNA SINGOLA RICETTA CON UN CERTO ID, PER UTENTI NON AUTENTICATI*/
 	@GetMapping(value = "/recipeDetails/{idRecipe}")
 	public String getRecipeDetails(@PathVariable("idRecipe") Long idRecipe, Model model) {
 		
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if(!(authentication instanceof AnonymousAuthenticationToken)) {
-			
-	    	UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			Credentials credentials = this.credentialsService.findCredenzialiByUsername(userDetails.getUsername());
-			//devo fare questo controllo perchè l'admin non è un cuoco, quindi l'id del cuoco è null
-			if(!credentials.getRole().equals("ADMIN")) {
-				
-				Long idCook = this.cookService.findCookByCredentials(credentials.getIdCredentials()).getIdCook();
-				model.addAttribute("idCook", idCook);
-			}
-		}
+        model.addAttribute("ingredients", this.ingredientService.findIngredientsByRecipeId(idRecipe));
+        model.addAttribute("recipe", this.recipeService.findRecipeById(idRecipe));
+	    return "recipes/recipeDetailsUnauthenticated.html";
+	}
+	
+	/*DETTAGLI DI UNA SINGOLA RICETTA CON UN CERTO ID, PER UTENTI AUTENTICATI*/
+	@GetMapping(value = {"/cook/recipeDetails/{idRecipe}", "/admin/recipeDetails/{idRecipe}"})
+	public String getRecipeDetailsAuthenticated(@PathVariable("idRecipe") Long idRecipe, Model model) {
 		
         model.addAttribute("ingredients", this.ingredientService.findIngredientsByRecipeId(idRecipe));
         model.addAttribute("recipe", this.recipeService.findRecipeById(idRecipe));
-	    return "recipes/recipeDetails.html";
+		
+	    UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Credentials credentials = this.credentialsService.findCredenzialiByUsername(userDetails.getUsername());
+		
+		//se l'utente autenticato è un cuoco passo al modello l'id del cuoco per poter visualizzare o meno i bottoni per la modifica
+		if(!credentials.getRole().equals("ADMIN")) {
+				
+				Long idCook = this.cookService.findCookByCredentials(credentials.getIdCredentials()).getIdCook();
+				model.addAttribute("idCook", idCook);
+		}
+		
+		return "recipes/recipeDetails.html";
 	}
 
-	
+	/*FORM PER POTER AGGIUNGERE UNA RICETTA*/
 	@GetMapping(value = {"/cook/formAddRecipe", "/admin/formAddRecipe"})
 	public String getFormAddRecipe(Model model) {
 		model.addAttribute("recipe", new Recipe());
 		return "recipes/formAddRecipe.html";
 	}
 	
+	/*METODO PER POTER SALVARE ALL'INTERNO DEL DATABASE UNA NUOVA RICETTA, GRAZIE AD UNA RICHIESTA HTTP.POST*/
 	@PostMapping(value = {"/cook/addRecipe", "/admin/addRecipe"})
 	public String postAddRecipe(@ModelAttribute Recipe recipe) {
     	UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -87,34 +98,53 @@ public class RecipeController {
 		Cook cook = this.cookService.findCookByCredentials(credentials.getIdCredentials());
 		recipe.setCook(cook);
 		this.recipeService.saveRecipe(recipe);
-		return "redirect:/recipeDetails/"+recipe.getIdRecipe();
+		return "redirect:recipeDetails/"+recipe.getIdRecipe();
 	}
 	
+	/*METODO PER POTER RIMUOVERE DAL DATABASE UNA RICETTA CHE HA COME ID idRecipe*/
 	@GetMapping(value = {"/cook/removeRecipe/{idRecipe}", "/admin/removeRecipe/{idRecipe}"})
-	public String getRemoveIngredient(@PathVariable("idRecipe")Long idRecipe, Model model) {
+	public String getRemoveIngredient(@PathVariable("idRecipe")Long idRecipe, Model model, HttpServletRequest request) {
 		Recipe recipe = this.recipeService.findRecipeById(idRecipe);
 		this.recipeService.deleteRecipe(recipe);
 		model.addAttribute("recipes", this.recipeService.findAllRecipes());
-		return "redirect:/recipes";
+		
+		//mi serve per poter rindirizzare nel giusto url di post per in seguito alla rimozione della ricetta
+	    String referer = request.getRequestURI(); // Ottieni l'URI della richiesta
+	    
+	    if (referer.startsWith("/admin")) {
+	        return "redirect:/admin/recipes";
+	    }
+	    return "redirect:/cook/recipes";
 	}
 	
+	/*FORM PER POTER MODIFICARE UNA RICETTA*/
     @GetMapping(value = {"/cook/formEditRecipe/{idRecipe}", "/admin/formEditRecipe/{idRecipe}"})
-    public String getFormEditRecipe(@PathVariable("idRecipe") Long idRecipe, Model model) {
+    public String getFormEditRecipe(@PathVariable("idRecipe") Long idRecipe, Model model, HttpServletRequest request) {
 		Recipe recipe = this.recipeService.findRecipeById(idRecipe);
 		model.addAttribute("recipe", recipe);
+		
+		//mi serve nel template per poter indirizzare la form nel giusto url di post per l'aggiornamento della ricetta
+	    String referer = request.getRequestURI(); // Ottieni l'URI della richiesta
+	    if (referer.startsWith("/admin")) {
+			model.addAttribute("backUrl", "/admin");
+	    }
+	    else {
+			model.addAttribute("backUrl", "/cook");
+	    }
 		return "recipes/formEditRecipe.html";
     }
 
+	/*METODO PER POTER MODIFICARE ALL'INTERNO DEL DATABASE UNA RICETTA, GRAZIE AD UNA RICHIESTA HTTP.POST*/
     @PostMapping(value = {"/cook/updateRecipe", "/admin/updateRecipe"})
     public String postUpdateRecipe(@ModelAttribute Recipe recipe) {
-
         Recipe editedRecipe = this.recipeService.findRecipeById(recipe.getIdRecipe());
         editedRecipe.setName(recipe.getName());
         editedRecipe.setDescription(recipe.getDescription());
         this.recipeService.saveRecipe(editedRecipe);
-        return "redirect:/recipeDetails/" + recipe.getIdRecipe();
+        return "redirect:recipeDetails/" + recipe.getIdRecipe();
     }
 	
+	/*VENGONO VISUALIZZATE TUTTE LE RICETTE CHE HANNO UN INGREDIENTE CHE INIZIA CON UN CERTO NOME*/
 	@GetMapping(value = "/recipesWithIngredient/{idIngredient}")
 	public String getRecipesWithIngredient(@PathVariable("idIngredient")Long idIngredient, Model model) {
 		Ingredient ingredient = this.ingredientService.findIngredientById(idIngredient);
@@ -123,6 +153,7 @@ public class RecipeController {
 		return "recipes/recipesWithIngredient.html";
 	}
 	
+	/*VENGONO VISUALIZZATE LE RICETTE CHE INZIANO CON UN CERTO NOME*/
 	@GetMapping(value = "/searchRecipes")
 	public String getSearchRecipes(@RequestParam("nameRecipe")String nameRecipe, Model model) {
 		model.addAttribute("recipes", this.recipeService.findRecipesByName(nameRecipe));

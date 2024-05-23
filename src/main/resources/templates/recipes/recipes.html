@@ -45,10 +45,10 @@
 			<div th:if="${userDetails!=null}">
 				<div class="user-info">
 					<span th:text="${userDetails.username}"></span>
-					<div th:if="${userDetails.username == 'admin'}">
+					<div th:if="${userRole == 'admin'}">
 						<a th:href="@{/admin/dashboard}">Vai a dashboard admin</a>
 					</div>
-					<div th:unless="${userDetails.username == 'admin'}">
+					<div th:unless="${userRole == 'admin'}">
 						<a th:href="@{/cook/dashboard}">Vai a dashboard cuoco</a>
 					</div>
 					<a th:href="@{/logout}">Effettua Logout</a>
@@ -64,16 +64,11 @@
 	</nav>
     <section>
         <div th:if="${recipes != null && !recipes.isEmpty()}">
-            <div th:if="${ingredientSearched != null}">
-                <span th:text="'Ricette con ' + ${ingredientSearched}">
-            </div>
-            <div th:unless="${ingredientSearched != null}">
-                Ricette:
-            </div>
+			<span>Ricette:</span>
             <ul>
                 <div th:each="recipe: ${recipes}">
                     <li>
-                        <a th:href="@{'/recipeDetails/' + ${recipe.idRecipe} }"><span th:text="${recipe.name}"></span></a>
+                        <a th:href="@{'recipeDetails/' + ${recipe.idRecipe} }"><span th:text="${recipe.name}"></span></a>
                     </li>
                 </div>
             </ul>

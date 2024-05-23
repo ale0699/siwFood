@@ -43,16 +43,16 @@
                 </ul>
             </div>
             <div th:if="${userDetails!=null}">
-                <div class="user-info">
-                    <span th:text="${userDetails.username}"></span>
-                    <div th:if="${userDetails.username == 'admin'}">
-                        <a th:href="@{/admin/dashboard}">Vai a dashboard admin</a>
-                    </div>
-                    <div th:unless="${userDetails.username == 'admin'}">
-                        <a th:href="@{/cook/dashboard}">Vai a dashboard cuoco</a>
-                    </div>
-                    <a th:href="@{/logout}">Effettua Logout</a>
-                </div>
+				<div class="user-info">
+					<span th:text="${userDetails.username}"></span>
+					<div th:if="${userRole == 'admin'}">
+						<a th:href="@{/admin/dashboard}">Vai a dashboard admin</a>
+					</div>
+					<div th:unless="${userRole == 'admin'}">
+						<a th:href="@{/cook/dashboard}">Vai a dashboard cuoco</a>
+					</div>
+					<a th:href="@{/logout}">Effettua Logout</a>
+				</div>
             </div>
             <div th:unless="${userDetails!=null}">
                 <div class="user-info">
@@ -66,42 +66,22 @@
     <section>
         <div>
             <h2>Modifica Ricetta</h2>
-            <div th:if="${userDetails.username == 'admin'}">
-                <form th:action="@{/admin/updateRecipe}" th:object="${recipe}" method="post">
-                    <div>
-                        <input type="hidden" th:field="${recipe.idRecipe}" />
-                    </div>
-                    <div>
-                        <label for="nome">Nome:</label>
-                        <input type="text" id="nome" th:field="${recipe.name}" />
-                    </div>
-                    <div>
-                        <label for="descrizione">Descrizione:</label>
-                        <textarea id="descrizione" th:field="${recipe.description}"></textarea>
-                    </div>
-                    <div>
-                        <button type="submit">Salva modifiche</button>
-                    </div>
-                </form>
-            </div>
-            <div th:unless="${userDetails.username == 'admin'}">
-                <form th:action="@{/cook/updateRecipe}" th:object="${recipe}" method="post">
-                    <div>
-                        <input type="hidden" th:field="${recipe.idRecipe}" />
-                    </div>
-                    <div>
-                        <label for="nome">Nome:</label>
-                        <input type="text" id="nome" th:field="${recipe.name}" />
-                    </div>
-                    <div>
-                        <label for="descrizione">Descrizione:</label>
-                        <textarea id="descrizione" th:field="${recipe.description}"></textarea>
-                    </div>
-                    <div>
-                        <button type="submit">Salva modifiche</button>
-                    </div>
-                </form>
-            </div>
+            <form th:action="@{${backUrl} + '/updateRecipe'}" th:object="${recipe}" method="post">
+                <div>
+                    <input type="hidden" th:field="${recipe.idRecipe}" />
+                </div>
+                <div>
+                    <label for="nome">Nome:</label>
+                    <input type="text" id="nome" th:field="${recipe.name}" />
+                </div>
+                <div>
+                    <label for="descrizione">Descrizione:</label>
+                    <textarea id="descrizione" th:field="${recipe.description}"></textarea>
+                </div>
+                <div>
+                    <button type="submit">Salva modifiche</button>
+                </div>
+            </form>
         </div>
     </section>
 

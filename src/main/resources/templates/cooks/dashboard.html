@@ -115,10 +115,10 @@
 			<div th:if="${userDetails!=null}">
 				<div class="user-info">
 					<span th:text="${userDetails.username}"></span>
-					<div th:if="${userDetails.username == 'admin'}">
+					<div th:if="${userRole == 'admin'}">
 						<a th:href="@{/admin/dashboard}">Vai a dashboard admin</a>
 					</div>
-					<div th:unless="${userDetails.username == 'admin'}">
+					<div th:unless="${userRole == 'admin'}">
 						<a th:href="@{/cook/dashboard}">Vai a dashboard cuoco</a>
 					</div>
 					<a th:href="@{/logout}">Effettua Logout</a>
@@ -135,9 +135,9 @@
     <section>
         <div class="sidebar">
             <a href="/">Home</a>
-            <a href="/cook/dashboard">Dashboard</a>
-            <a href="/cook/formAddRecipe">Add Recipe</a>
-            <a href="/cook/recipes">Edit Recipes</a>
+            <a th:href=@{dashboard}>Dashboard</a>
+            <a th:href=@{formAddRecipe}>Add Recipe</a>
+            <a th:href=@{recipes}>Edit Recipes</a>
             <a href="/logout">Logout</a>
         </div>
     

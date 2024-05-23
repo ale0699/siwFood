@@ -42,10 +42,10 @@
 			<div th:if="${userDetails!=null}">
 				<div class="user-info">
 					<span th:text="${userDetails.username}"></span>
-					<div th:if="${userDetails.username == 'admin'}">
+					<div th:if="${userRole == 'admin'}">
 						<a th:href="@{/admin/dashboard}">Vai a dashboard admin</a>
 					</div>
-					<div th:unless="${userDetails.username == 'admin'}">
+					<div th:unless="${userRole == 'admin'}">
 						<a th:href="@{/cook/dashboard}">Vai a dashboard cuoco</a>
 					</div>
 					<a th:href="@{/logout}">Effettua Logout</a>
@@ -60,36 +60,21 @@
 		</div>
 	</nav>
     <section>
-        <div th:if="${userDetails.username == 'admin'}">
-            <form th:action="@{/admin/addRecipe}" method="post" th:object="${recipe}">
-                <div class="name">
-                    <label>Nome</label>
-                    <input type="text" th:field="${recipe.name}">
-                </div>
-                <div class="description">
-                    <label>Descrizione</label>
-                    <input type="text" th:field="${recipe.description}">
-                </div>
-                <div class="button">
-                    <button type="submit">Aggiungi</button>
-                </div>
-            </form>
-        </div>
-        <div th:unless="${userDetails.username == 'admin'}">
-            <form th:action="@{/cook/addRecipe}" method="post" th:object="${recipe}">
-                <div class="name">
-                    <label>Nome</label>
-                    <input type="text" th:field="${recipe.name}">
-                </div>
-                <div class="description">
-                    <label>Descrizione</label>
-                    <input type="text" th:field="${recipe.description}">
-                </div>
-                <div class="button">
-                    <button type="submit">Aggiungi</button>
-                </div>
-            </form>
-        </div>
+
+		<form th:action="@{addRecipe}" method="post" th:object="${recipe}">
+			<div class="name">
+				<label>Nome</label>
+				<input type="text" th:field="${recipe.name}">
+			</div>
+			<div class="description">
+				<label>Descrizione</label>
+				<input type="text" th:field="${recipe.description}">
+			</div>
+			<div class="button">
+				<button type="submit">Aggiungi</button>
+			</div>
+		</form>
+
     </section>
 	<footer class="footer-container">
 		<div class="upper-footer">

@@ -40,16 +40,16 @@
                 </ul>
             </div>
             <div th:if="${userDetails!=null}">
-                <div class="user-info">
-                    <span th:text="${userDetails.username}"></span>
-                    <div th:if="${userDetails.username == 'admin'}">
-                        <a th:href="@{/admin/dashboard}">Vai a dashboard admin</a>
-                    </div>
-                    <div th:unless="${userDetails.username == 'admin'}">
-                        <a th:href="@{/cook/dashboard}">Vai a dashboard cuoco</a>
-                    </div>
-                    <a th:href="@{/logout}">Effettua Logout</a>
-                </div>
+				<div class="user-info">
+					<span th:text="${userDetails.username}"></span>
+					<div th:if="${userRole == 'admin'}">
+						<a th:href="@{/admin/dashboard}">Vai a dashboard admin</a>
+					</div>
+					<div th:unless="${userRole == 'admin'}">
+						<a th:href="@{/cook/dashboard}">Vai a dashboard cuoco</a>
+					</div>
+					<a th:href="@{/logout}">Effettua Logout</a>
+				</div>
             </div>
             <div th:unless="${userDetails!=null}">
                 <div class="user-info">
@@ -61,7 +61,7 @@
     </nav>
     <section>
         <span>Aggiungi nuovo cuoco</span>
-        <form th:object="${cook}" th:action="@{/admin/addCook}" method="post">
+        <form th:object="${cook}" th:action="@{addCook}" method="post">
             <div>
                 <label>Nome</label>
                 <input type="text" th:field="${cook.name}" required>
