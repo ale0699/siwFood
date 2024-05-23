@@ -158,7 +158,6 @@ public class RecipeController {
     @PostMapping(value = {"/cook/updateRecipe", "/admin/updateRecipe"})
     public String postUpdateRecipe(@ModelAttribute Recipe recipe) {
     	
-    	
     	try {
             Recipe editedRecipe = this.recipeService.findRecipeById(recipe.getIdRecipe());
             editedRecipe.setName(recipe.getName());
