@@ -1,6 +1,7 @@
 package it.uniroma3.siwFood.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -63,24 +64,32 @@ public class RecipeController {
 	    return "recipes/recipeDetailsUnauthenticated.html";
 	}
 	
-	/*DETTAGLI DI UNA SINGOLA RICETTA CON UN CERTO ID, PER UTENTI AUTENTICATI*/
+	/*DETTAGLI DI UNA SINGOLA RICETTA CON UN CERTO ID, VISUALIZZABILE SOLO DAL
+	 * CUOCO CHE L'HA CONDIVISA O DA UN ADMIN. IN CASO CONTRARIO VIENE SOLLEVATA UN ECCEZIONE*/
 	@GetMapping(value = {"/cook/recipeDetails/{idRecipe}", "/admin/recipeDetails/{idRecipe}"})
-	public String getRecipeDetailsAuthenticated(@PathVariable("idRecipe") Long idRecipe, Model model) {
-		
-        model.addAttribute("ingredients", this.ingredientService.findIngredientsByRecipeId(idRecipe));
-        model.addAttribute("recipe", this.recipeService.findRecipeById(idRecipe));
+	public String getRecipeDetailsAuthenticated(@PathVariable("idRecipe") Long idRecipe, Model model, HttpServletRequest request) {
 		
 	    UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Credentials credentials = this.credentialsService.findCredenzialiByUsername(userDetails.getUsername());
+		Cook cook = this.cookService.findCookByCredentials(credentials.getIdCredentials());
 		
-		//se l'utente autenticato è un cuoco passo al modello l'id del cuoco per poter visualizzare o meno i bottoni per la modifica
-		if(!credentials.getRole().equals("ADMIN")) {
-				
-				Long idCook = this.cookService.findCookByCredentials(credentials.getIdCredentials()).getIdCook();
-				model.addAttribute("idCook", idCook);
+		Recipe recipe = this.recipeService.findRecipeById(idRecipe);
+		if(recipe.getCook().equals(cook) || credentials.getRole().equals("ADMIN")) {
+			//mi serve nel template per poter indirizzare la form nel giusto url di post per l'aggiornamento della ricetta
+		    String referer = request.getRequestURI(); // Ottieni l'URI della richiesta
+		    if (referer.startsWith("/admin")) {
+				model.addAttribute("backUrl", "/admin");
+		    }
+		    else {
+				model.addAttribute("backUrl", "/cook");
+		    }
+	        model.addAttribute("ingredients", this.ingredientService.findIngredientsByRecipeId(idRecipe));
+	        model.addAttribute("recipe", recipe);
+			return "recipes/recipeDetails.html";
 		}
 		
-		return "recipes/recipeDetails.html";
+		//solleva un eccezione --> codice 403 Forbidden
+	    throw new AccessDeniedException("You do not have permission to edit this recipe");
 	}
 
 	/*FORM PER POTER AGGIUNGERE UNA RICETTA*/
@@ -101,20 +110,30 @@ public class RecipeController {
 		return "redirect:recipeDetails/"+recipe.getIdRecipe();
 	}
 	
-	/*METODO PER POTER RIMUOVERE DAL DATABASE UNA RICETTA CHE HA COME ID idRecipe*/
+	/*METODO PER POTER RIMUOVERE DAL DATABASE UNA RICETTA CHE HA COME ID idRecipe,
+	 * SARÀ POSSIBILE RIMUOVERE SOLTANTO LE RICETTE CHE APPARTENGONO AD UN CUOCO.
+	 * GLI ADMIN POSSONO ELIMINARE TUTTE LE RICETTE*/
 	@GetMapping(value = {"/cook/removeRecipe/{idRecipe}", "/admin/removeRecipe/{idRecipe}"})
-	public String getRemoveIngredient(@PathVariable("idRecipe")Long idRecipe, Model model, HttpServletRequest request) {
-		Recipe recipe = this.recipeService.findRecipeById(idRecipe);
-		this.recipeService.deleteRecipe(recipe);
-		model.addAttribute("recipes", this.recipeService.findAllRecipes());
+	public String getRemoveIngredient(@PathVariable("idRecipe")Long idRecipe, Model model, HttpServletRequest request) throws Exception {
 		
-		//mi serve per poter rindirizzare nel giusto url di post per in seguito alla rimozione della ricetta
-	    String referer = request.getRequestURI(); // Ottieni l'URI della richiesta
-	    
-	    if (referer.startsWith("/admin")) {
-	        return "redirect:/admin/recipes";
+		Recipe recipe = this.recipeService.findRecipeById(idRecipe);
+		
+	    try {
+	        this.recipeService.deleteRecipe(recipe);
+			
+			model.addAttribute("recipes", this.recipeService.findAllRecipes());
+			
+		    // Ottieni il referer per determinare l'URL di post-rimozione
+		    String referer = request.getRequestURI(); // Ottieni l'URI della richiesta
+		    
+		    if (referer.startsWith("/admin")) {
+		        return "redirect:/admin/recipes";
+		    }
+		    return "redirect:/cook/recipes";
+		    
+	    } catch (AccessDeniedException e) {
+			throw new  AccessDeniedException("You do not have permission to remove this recipe");
 	    }
-	    return "redirect:/cook/recipes";
 	}
 	
 	/*FORM PER POTER MODIFICARE UNA RICETTA*/
