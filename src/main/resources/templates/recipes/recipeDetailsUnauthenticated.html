@@ -44,11 +44,8 @@
 			<div th:if="${userDetails!=null}">
 				<div class="user-info">
 					<span th:text="${userDetails.username}"></span>
-					<div th:if="${userRole == 'admin'}">
-						<a th:href="@{/admin/dashboard}">Vai a dashboard admin</a>
-					</div>
-					<div th:unless="${userRole == 'admin'}">
-						<a th:href="@{/cook/dashboard}">Vai a dashboard cuoco</a>
+					<div class="dashboard-link">
+						<a th:href="@{'/'+${userRole}+'/dashboard'}" th:text="'Vai a dashboard '+${userRole}"></a>
 					</div>
 					<a th:href="@{/logout}">Effettua Logout</a>
 				</div>
