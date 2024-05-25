@@ -50,7 +50,7 @@ public class RecipeService {
 	}
 	
 	/*SE LA RICETTA GIÀ ESISTE VERIFICO CHE POSSA ESSER MODIFICATA (CUOCO O ADMIN)
-	 * SE È UNA NUOVA RICETTA LA AGGIUNGO*/
+	 * SE È UNA NUOVA RICETTA (idRecipe = NULL) LA AGGIUNGO*/
 	public void saveRecipe(Recipe recipe) throws AccessDeniedException {
 		
 		if(recipe.getIdRecipe() != null) {

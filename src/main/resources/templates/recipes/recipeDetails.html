@@ -105,7 +105,7 @@
                                     <a th:href="@{'/recipesWithIngredient/' + ${ingredient.idIngredient}}">
                                         <span th:text="${ingredient.name} + ' ' + ${ingredient.quantity}"></span>
                                     </a>
-                                    <a th:href="@{'removeIngredient/' + ${ingredient.idIngredient} + '/' + ${recipe.idRecipe}}">
+                                    <a th:href="@{${backUrl} + '/removeIngredient/' + ${ingredient.idIngredient} + '/' + ${recipe.idRecipe}}">
                                         <button>Rimuovi</button>
                                     </a>
                                 </li>
