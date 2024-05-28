@@ -60,30 +60,71 @@
 		</div>
 	</nav>
 
-	<section>
-		<div class="search_recipes">
-			<span>Ricerca</span>
-			<form th:action="@{/searchRecipes}" method="get">
-				<div>
-					<label>Ricetta</label>
-					<input type="text" name="nameRecipe">
-				</div>
-				<div>
-					<button type="submit">Cerca</button>
-				</div>
-			</form>
+	<header class="bg-light text-center py-5">
+		<div class="container">
+			<h1 class="display-4">Benvenuti su Siw Food</h1>
+			<p class="lead">Le migliori ricette dai migliori cuochi</p>
 		</div>
-		<div class="search_recipes">
-			<span>Ricerca Ricetta per ingrediente</span>
-			<form th:action="@{/searchRecipesByIngredient}" method="get">
-				<div>
-					<label>Ingrediente</label>
-					<input type="text" name="nameIngredient">
+	</header>
+
+	<section class="container my-5">
+		<div class="search_recipes row">
+			<div class="col-md-6">
+				<h2>Ricerca Ricette</h2>
+				<form th:action="@{/searchRecipes}" method="get">
+					<div class="mb-3">
+						<label for="nameRecipe" class="form-label">Ricetta</label>
+						<input type="text" class="form-control" id="nameRecipe" name="nameRecipe">
+					</div>
+					<button type="submit" class="btn btn-primary">Cerca</button>
+				</form>
+			</div>
+			<div class="col-md-6">
+				<h2>Ricerca Ricetta per Ingrediente</h2>
+				<form th:action="@{/searchRecipesByIngredient}" method="get">
+					<div class="mb-3">
+						<label for="nameIngredient" class="form-label">Ingrediente</label>
+						<input type="text" class="form-control" id="nameIngredient" name="nameIngredient">
+					</div>
+					<button type="submit" class="btn btn-primary">Cerca</button>
+				</form>
+			</div>
+		</div>
+	</section>
+
+	<section class="container my-5">
+		<h2 class="mb-4">Le Nostre Ricette più Popolari</h2>
+		<div class="row">
+			<!-- Esempio di una ricetta -->
+			<div class="col-md-4">
+				<div class="card">
+					<img src="/images/recipe1.jpg" class="card-img-top" alt="Ricetta 1">
+					<div class="card-body">
+						<h5 class="card-title">Ricetta 1</h5>
+						<p class="card-text">Descrizione breve della ricetta 1.</p>
+						<a href="/recipes/1" class="btn btn-primary">Visualizza Ricetta</a>
+					</div>
 				</div>
-				<div>
-					<button type="submit">Cerca</button>
+			</div>
+			<!-- Altre ricette possono essere aggiunte qui nello stesso formato -->
+		</div>
+	</section>
+
+	<section class="container my-5">
+		<h2 class="mb-4">I Nostri Cuochi</h2>
+		<div class="row">
+			<!-- Esempio di un cuoco -->
+			<div class="col-md-4">
+				<div class="card">
+					<img src="/images/cook1.jpg" class="card-img-top" alt="Cuoco 1">
+					<div class="card-body">
+						<h5 class="card-title">Cuoco 1</h5>
+						<p class="card-text">Biografia breve del cuoco 1.</p>
+						<a href="/cooks/1" class="btn btn-primary">Visualizza Profilo</a>
+					</div>
 				</div>
-			</form>
+			</div>
+			<!-- Altri cuochi possono essere aggiunti qui nello stesso formato -->
 		</div>
 	</section>
 	<footer class="footer-container">

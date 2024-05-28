@@ -6,6 +6,10 @@ body {
     padding-top: 150px; /* Altezza della navbar */
 }
 
+.error{
+    color: red;
+}
+
 /* Navbar */
 .image-logo {
     border-radius: 50%;

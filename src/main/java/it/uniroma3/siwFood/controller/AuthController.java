@@ -4,13 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import it.uniroma3.siwFood.model.Credentials;
+import it.uniroma3.siwFood.controller.validator.CookValidator;
 import it.uniroma3.siwFood.model.Cook;
 import it.uniroma3.siwFood.service.CookService;
+import jakarta.validation.Valid;
 
 @Controller
 public class AuthController {
@@ -20,6 +23,9 @@ public class AuthController {
 	
 	@Autowired
 	private CookService cookService;
+	
+	@Autowired
+	private CookValidator cookValidator;
 	
 	@GetMapping(value = "/login")
 	public String getLoginPage() {
@@ -34,12 +40,21 @@ public class AuthController {
 	}
 	
 	@PostMapping(value = "/register")
-	public String postRegisterCook(@ModelAttribute Cook cook){
-		Credentials credentials = cook.getCredentials();
-		credentials.setPassword(this.passwordEncoder.encode(credentials.getPassword()));
-		credentials.setRole("COOK");
-		this.cookService.saveCook(cook);
-		return "redirect:/login";
+	public String postRegisterCook(@Valid @ModelAttribute Cook cook, BindingResult bindingResult){
+		
+		this.cookValidator.validate(cook, bindingResult);
+		if(!bindingResult.hasErrors()) {
+			
+			Credentials credentials = cook.getCredentials();
+			credentials.setPassword(this.passwordEncoder.encode(credentials.getPassword()));
+			credentials.setRole("COOK");
+			this.cookService.saveCook(cook);
+			return "redirect:/login";
+		}
+		else {
+			
+			return "register.html";
+		}
 	}
 	
 	@GetMapping(value = "/login/error")
