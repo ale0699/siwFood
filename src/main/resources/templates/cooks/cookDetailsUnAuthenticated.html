@@ -59,24 +59,25 @@
 			</div>
 		</div>
 	</nav>
-
-    <section>
-        <div class="container">
-            <div class="cook-details">
-                <h1 th:text="${cook.name} + ' ' + ${cook.surname}"></h1>
-                <div th:if="${cook.picture != null && !cook.picture.isEmpty()}">
+	<section>
+        <div class="container d-flex flex-column">
+            <div class="upper-container container d-flex justify-content-around align-items-center">
+                <div class="image-cook" th:if="${cook.picture != null && !cook.picture.isEmpty()}">
                     <img th:src="@{${cook.picture}}" alt="Cook Picture" class="cook-image">
                 </div>
                 <div th:unless="${cook.picture != null && !cook.picture.isEmpty()}">
                     Non c'è immagine del cuoco
                 </div>
+                <div class="cook-details">
+                    <h1 th:text="${cook.name} + ' ' + ${cook.surname}"></h1>
+                    <p th:text="'Data di Nascita: ' + ${cook.dateBirth}">Data di Nascita: 12/01/1962</p>
+                </div>
             </div>
-            
-            <div class="cook-recipes">
+            <div class="recipes">
                 <h3>Ricette Condivise</h3>
-                <div th:if="${cook.recipes != null && !cook.recipes.isEmpty()}">
+                <div th:if="${recipes != null && !recipes.isEmpty()}">
                     <ul>
-                        <div th:each="recipe : ${cook.recipes}">
+                        <div th:each="recipe : ${recipes}">
                             <li>
                                 <a th:href="@{'/recipeDetails/' + ${recipe.idRecipe}}">
                                     <span th:text="${recipe.name}"></span>
@@ -91,8 +92,6 @@
             </div>
         </div>
     </section>
-    
-
 	<footer class="footer-container">
 		<div class="upper-footer">
 			<div class="upper-left">

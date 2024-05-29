@@ -10,12 +10,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import it.uniroma3.siwFood.model.Cook;
 import it.uniroma3.siwFood.service.CookService;
+import it.uniroma3.siwFood.service.RecipeService;
 
 @Controller
 public class CookController {
 	
 	@Autowired
 	private CookService cookService;
+	
+	@Autowired
+	private RecipeService recipeService;
 	
 	@GetMapping(value = {"/cooks", "/cook/cooks", "/admin/cooks"})
 	public String getCooks(Model model) {
@@ -25,8 +29,8 @@ public class CookController {
 	
 	@GetMapping(value = {"/cookDetails/{idCook}"})
 	public String getCookDetails(@PathVariable("idCook")Long idCook, Model model) {
-		Cook cook = this.cookService.findCookByIdCook(idCook);
-		model.addAttribute("cook", cook);
+		model.addAttribute("recipes", this.recipeService.findRecipesByCookId(idCook));
+		model.addAttribute("cook", this.cookService.findCookByIdCook(idCook));
 		return "cooks/cookDetailsUnAuthenticated.html";	
 	}
 
