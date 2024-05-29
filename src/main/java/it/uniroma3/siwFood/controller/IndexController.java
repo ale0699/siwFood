@@ -37,7 +37,7 @@ public class IndexController {
         return "admin/dashboard.html";
     }
     
-	@GetMapping("/cook/dashboard")
+	@GetMapping(value = "/cook/dashboard")
 	public String getDashboardCook(Model model) {
     	UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Credentials credentials = this.credentialsService.findCredenzialiByUsername(userDetails.getUsername());
