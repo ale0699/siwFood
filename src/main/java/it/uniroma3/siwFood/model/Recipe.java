@@ -22,7 +22,7 @@ public class Recipe {
 	@Column(nullable = false)
 	private String name;
 	private List<String> pictureRecipe;
-	@Column(nullable = false)
+	@Column(nullable = false, length = 100000)
 	private String description;
 	
 	@OneToMany(mappedBy = "recipe", cascade = CascadeType.REMOVE) //cascade remove, quando elimino una ricetta elimino i suoi ingredienti

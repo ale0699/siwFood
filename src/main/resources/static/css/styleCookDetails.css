@@ -33,3 +33,9 @@
     padding: 10px;
     border-radius: 5px; /* Aggiunta di bordi arrotondati */
 }
+
+.recipes-ul li a{
+
+    text-decoration: none;
+    color: #343a40;
+}
