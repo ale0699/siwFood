@@ -42,6 +42,7 @@ public class IndexController {
     	UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Credentials credentials = this.credentialsService.findCredenzialiByUsername(userDetails.getUsername());
 		Cook cook = this.cookService.findCookByCredentials(credentials.getIdCredentials());
+        model.addAttribute("totalRecipes", this.recipeService.findAllRecipes().size());
 		model.addAttribute("cook", cook);
 		model.addAttribute("recipes", this.recipeService.findRecipesByCookId(cook.getIdCook()));
 		return "cooks/dashboard.html";

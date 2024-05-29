@@ -71,27 +71,27 @@
 						<p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p>
 					</div>
 					<div class="registration-username">
-						<input type="text" placeholder="Username" required>
+						<input type="text" placeholder="Username" th:field="${cook.credentials.username}" required>
 					</div>
 					<div class="registration-password">
-						<input type="password" placeholder="Password" required>
+						<input type="password" placeholder="Password" th:field="${cook.credentials.password}" required>
 					</div>
 					<div class="registration-name">
-						<input type="text" placeholder="Nome" required>
+						<input type="text" placeholder="Nome" th:field="*{name}" required>
 					</div>
 					<div class="registration-surname">
-						<input type="text" placeholder="Cognome" required>
+						<input type="text" placeholder="Cognome" th:field="*{surname}" required>
 					</div>
 					<div class="registration-dob">
 						<label>Data Di Nascita</label>
-						<input type="date" required>
+						<input type="date" th:field="*{dateBirth}" required>
 					</div>
 					<div class="registration-photo">
 						<label>Fotografia</label>
 						<input type="file" accept="image/*">
 					</div>
 					<div class="button">
-						<button type="button" class="btn btn-custom">Registrati</button>
+						<button type="submit" class="btn btn-custom">Registrati</button>
 					</div>
 					<div class="login-link">
 						<span>Hai già un account? <a href="/login">Accedi</a></span>
