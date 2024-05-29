@@ -13,7 +13,7 @@ import it.uniroma3.siwFood.service.CookService;
 
 @Controller
 public class CookController {
-
+	
 	@Autowired
 	private CookService cookService;
 	
@@ -31,9 +31,12 @@ public class CookController {
 	
 	@PostMapping(value = "/admin/addCook")
 	public String getAddCook(@ModelAttribute Cook cook, Model model) {
-		this.cookService.saveCook(cook);
-		return "redirect:cooks";
+	    
+	    // Salva il cook nel database
+	    this.cookService.saveCook(cook);
+	    return "redirect:cooks";
 	}
+
 	
 	@GetMapping(value = "/admin/removeCook/{idCook}")
 	public String getRemoveCook(@PathVariable("idCook")Long idCook ,Model model) {

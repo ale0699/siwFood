@@ -63,7 +63,7 @@
 	<section>
 		<div class="main-container container-fluid">
 			<div class="registration-container d-flex flex-column">
-				<form th:action="@{/register}" th:object="${cook}" method="post">
+				<form th:action="@{/register}" th:object="${cook}" method="post" enctype="multipart/form-data">
 					<div class="registration-title">
 						<h2>Registrati</h2>
 					</div>
@@ -88,7 +88,7 @@
 					</div>
 					<div class="registration-photo">
 						<label>Fotografia</label>
-						<input type="file" accept="image/*">
+						<input type="file" name="image-cook" accept="image/*">
 					</div>
 					<div class="button">
 						<button type="submit" class="btn btn-custom">Registrati</button>

@@ -1,5 +1,7 @@
 package it.uniroma3.siwFood.controller;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -8,11 +10,14 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
-import it.uniroma3.siwFood.model.Credentials;
 import it.uniroma3.siwFood.controller.validator.CookValidator;
 import it.uniroma3.siwFood.model.Cook;
+import it.uniroma3.siwFood.model.Credentials;
 import it.uniroma3.siwFood.service.CookService;
+import it.uniroma3.siwFood.service.ImageService;
 import jakarta.validation.Valid;
 
 @Controller
@@ -27,6 +32,9 @@ public class AuthController {
 	@Autowired
 	private CookValidator cookValidator;
 	
+	@Autowired 
+	private ImageService imageService;
+	
 	@GetMapping(value = "/login")
 	public String getLoginPage() {
 		
@@ -40,14 +48,25 @@ public class AuthController {
 	}
 	
 	@PostMapping(value = "/register")
-	public String postRegisterCook(@Valid @ModelAttribute Cook cook, BindingResult bindingResult){
+	public String postRegisterCook(@RequestParam("image-cook") MultipartFile pictureFile, @Valid @ModelAttribute("cook") Cook cook, BindingResult bindingResult) throws IOException{		
+
+		try {
+			String nameImage = this.imageService.saveImage(pictureFile, "src/main/resources/static/images/cooks/");
+			cook.setPicture("/images/cooks/"+nameImage);
+		}
+		catch (IOException e) {
+			
+			throw new IOException("Empty file");
+		}
+
+		Credentials credentials = cook.getCredentials();
+		credentials.setPassword(this.passwordEncoder.encode(credentials.getPassword()));
+		credentials.setRole("COOK");
 		
 		this.cookValidator.validate(cook, bindingResult);
+
 		if(!bindingResult.hasErrors()) {
 			
-			Credentials credentials = cook.getCredentials();
-			credentials.setPassword(this.passwordEncoder.encode(credentials.getPassword()));
-			credentials.setRole("COOK");
 			this.cookService.saveCook(cook);
 			return "redirect:/login";
 		}

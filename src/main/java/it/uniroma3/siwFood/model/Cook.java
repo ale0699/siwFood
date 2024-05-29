@@ -36,7 +36,8 @@ public class Cook {
 	private Credentials credentials;
 	
 	public Cook() {
-		this.recipes = new ArrayList<>();
+	    this.recipes = new ArrayList<>();
+	    this.credentials = new Credentials();
 	}
 
 	public Long getIdCook() {
