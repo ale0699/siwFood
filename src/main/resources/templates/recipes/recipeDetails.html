@@ -115,18 +115,17 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div>
-            <a th:href="@{${backUrl} + '/formAddIngredientRecipe/' + ${recipe.idRecipe}}">
-                <button>Aggiungi ingredienti</button>
-            </a>
-            <a th:href="@{${backUrl} + '/formEditRecipe/' + ${recipe.idRecipe}}">
-                <button>Modifica ricetta</button>
-            </a>
-            <a th:href="@{${backUrl} + '/removeRecipe/' + ${recipe.idRecipe}}">
-                <button>Elimina ricetta</button>
-            </a>
+            <div>
+                <a th:href="@{${backUrl} + '/formAddIngredientRecipe/' + ${recipe.idRecipe}}">
+                    <button>Aggiungi ingredienti</button>
+                </a>
+                <a th:href="@{${backUrl} + '/formEditRecipe/' + ${recipe.idRecipe}}">
+                    <button>Modifica ricetta</button>
+                </a>
+                <a th:href="@{${backUrl} + '/removeRecipe/' + ${recipe.idRecipe}}">
+                    <button>Elimina ricetta</button>
+                </a>
+            </div>
         </div>
     </section>
 
