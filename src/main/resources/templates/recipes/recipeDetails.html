@@ -73,7 +73,7 @@
                     <div id="carouselImage" class="carousel slide">
                         <div class="carousel-inner" th:each="pictureRecipe : ${recipe.pictureRecipe}">
                             <div class="carousel-item active">
-                                <img src="pictureRecipe" class="d-block w-100" alt="...">
+                                <img th:src="${pictureRecipe}" class="d-block w-100" alt="...">
                             </div>
                         </div>
                         <button class="carousel-control-prev" type="button" data-bs-target="#carouselImage"

@@ -1,5 +1,7 @@
 package it.uniroma3.siwFood.controller;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import it.uniroma3.siwFood.model.Cook;
 import it.uniroma3.siwFood.model.Credentials;
@@ -18,6 +21,7 @@ import it.uniroma3.siwFood.model.Ingredient;
 import it.uniroma3.siwFood.model.Recipe;
 import it.uniroma3.siwFood.service.CookService;
 import it.uniroma3.siwFood.service.CredentialsService;
+import it.uniroma3.siwFood.service.ImageService;
 import it.uniroma3.siwFood.service.IngredientService;
 import it.uniroma3.siwFood.service.RecipeService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,6 +40,9 @@ public class RecipeController {
 	
 	@Autowired
 	private CookService cookService;
+	
+	@Autowired
+	private ImageService imageService;
 	
 	
 	/*TUTTE LE RICETTE PRESENTI NEL SISTEMA*/
@@ -101,7 +108,17 @@ public class RecipeController {
 	
 	/*METODO PER POTER SALVARE ALL'INTERNO DEL DATABASE UNA NUOVA RICETTA, GRAZIE AD UNA RICHIESTA HTTP.POST*/
 	@PostMapping(value = {"/cook/addRecipe", "/admin/addRecipe"})
-	public String postAddRecipe(@ModelAttribute Recipe recipe) {
+	public String postAddRecipe(@RequestParam("image-recipe")MultipartFile image, @ModelAttribute Recipe recipe) throws IOException {
+		
+		try { 
+			
+			String nameImage = this.imageService.saveImage(image, "src/main/resources/static/images/recipes");
+			recipe.getPictureRecipe().add("/images/recipes/"+nameImage);
+		}
+		catch (IOException e) {
+			
+			throw new IOException("Empty file");
+		}
 		
     	UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Credentials credentials = this.credentialsService.findCredenzialiByUsername(userDetails.getUsername());
