@@ -1,0 +1,47 @@
+/* Recipe Details */
+.name-recipe-cook-details h1 {
+    font-size: 2.5em;
+    color: #2c3e50;
+}
+
+.name-recipe-cook-details {
+    text-align: center;
+    border-bottom: 2px solid #343a40; /* Cambiato il colore del bordo */
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.description-recipe p {
+    font-size: 1.2em;
+    color: #555;
+}
+
+.carousel-image-recipe img {
+    max-height: 500px; /* Limitata l'altezza massima delle immagini del carousel */
+    object-fit: cover; /* Migliorata la gestione delle immagini */
+}
+
+.ingredients h3 {
+    font-size: 2em;
+    margin-top: 20px;
+    color: #2c3e50;
+}
+
+.ingredients-ul ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.ingredients-ul li {
+    font-size: 1.2em;
+    background: #e9ecef;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px; /* Aggiunta di bordi arrotondati */
+}
+
+.ingredients-ul li a{
+
+    text-decoration: none;
+    color: #343a40;
+}
