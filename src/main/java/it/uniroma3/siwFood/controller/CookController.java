@@ -22,6 +22,13 @@ public class CookController {
 		model.addAttribute("cooks", this.cookService.findAllCooks());
 		return "cooks/cooks.html";
 	}
+	
+	@GetMapping(value = {"/cookDetails/{idCook}"})
+	public String getCookDetails(@PathVariable("idCook")Long idCook, Model model) {
+		Cook cook = this.cookService.findCookByIdCook(idCook);
+		model.addAttribute("cook", cook);
+		return "cooks/cookDetailsUnAuthenticated.html";	
+	}
 
 	@GetMapping(value = "/admin/formAddCook")
 	public String getFormAddCook(Model model) {
@@ -37,7 +44,6 @@ public class CookController {
 	    return "redirect:cooks";
 	}
 
-	
 	@GetMapping(value = "/admin/removeCook/{idCook}")
 	public String getRemoveCook(@PathVariable("idCook")Long idCook ,Model model) {
 		Cook cook = this.cookService.findCookByIdCook(idCook);

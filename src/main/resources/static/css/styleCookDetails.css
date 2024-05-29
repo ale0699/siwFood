@@ -1,0 +1,47 @@
+/* Cook Details */
+.cook-details h1 {
+    font-size: 2.5em;
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.cook-details {
+    text-align: center;
+    border-bottom: 2px solid #343a40;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.cook-image {
+    max-height: 300px; /* Limitata l'altezza massima dell'immagine del cuoco */
+    width: auto;
+    border-radius: 10px; /* Bordo arrotondato per l'immagine */
+    margin: 0 auto; /* Centra l'immagine */
+}
+
+.cook-recipes h3 {
+    font-size: 2em;
+    color: #2c3e50;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.cook-recipes ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.cook-recipes li {
+    font-size: 1.2em;
+    background: #e9ecef;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px; /* Aggiunta di bordi arrotondati */
+    text-align: center;
+}
+
+.cook-recipes li a {
+    text-decoration: none;
+    color: #343a40;
+}
