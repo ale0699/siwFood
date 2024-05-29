@@ -1,4 +1,8 @@
-/* Recipe Details */
+.container{
+
+    padding-bottom: 50px;
+}
+
 .name-recipe-cook-details h1 {
     font-size: 2.5em;
     color: #2c3e50;
@@ -44,4 +48,21 @@
 
     text-decoration: none;
     color: #343a40;
+}
+
+.button{
+
+    text-align: center;
+}
+
+.btn-custom{
+
+    color: white;
+    background-color: #212529;
+}
+
+.btn-custom:hover{
+
+    color: white;
+    background-color: #818c98;
 }

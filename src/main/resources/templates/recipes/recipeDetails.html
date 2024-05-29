@@ -104,7 +104,7 @@
                                         <span th:text="${ingredient.name} + ' ' + ${ingredient.quantity}"></span>
                                     </a>
                                     <a th:href="@{${backUrl} + '/removeIngredient/' + ${ingredient.idIngredient} + '/' + ${recipe.idRecipe}}">
-                                        <button>Rimuovi</button>
+                                        <button class="btn-custom">Rimuovi</button>
                                     </a>
                                 </li>
                             </div>
@@ -117,13 +117,13 @@
             </div>
             <div>
                 <a th:href="@{${backUrl} + '/formAddIngredientRecipe/' + ${recipe.idRecipe}}">
-                    <button>Aggiungi ingredienti</button>
+                    <button class="btn-custom">Aggiungi ingredienti</button>
                 </a>
                 <a th:href="@{${backUrl} + '/formEditRecipe/' + ${recipe.idRecipe}}">
-                    <button>Modifica ricetta</button>
+                    <button class="btn-custom">Modifica ricetta</button>
                 </a>
                 <a th:href="@{${backUrl} + '/removeRecipe/' + ${recipe.idRecipe}}">
-                    <button>Elimina ricetta</button>
+                    <button class="btn-custom">Elimina ricetta</button>
                 </a>
             </div>
         </div>
