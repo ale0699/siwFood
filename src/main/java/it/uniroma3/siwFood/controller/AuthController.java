@@ -52,7 +52,10 @@ public class AuthController {
 
 		try {
 			String nameImage = this.imageService.saveImage(pictureFile, "src/main/resources/static/images/cooks/");
-			cook.setPicture("/images/cooks/"+nameImage);
+			if(nameImage != null) {
+				
+				cook.setPicture("/images/cooks/"+nameImage);
+			}
 		}
 		catch (IOException e) {
 			
