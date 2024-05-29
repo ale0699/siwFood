@@ -124,7 +124,7 @@ public class RecipeController {
 		Credentials credentials = this.credentialsService.findCredenzialiByUsername(userDetails.getUsername());
 		Cook cook = this.cookService.findCookByCredentials(credentials.getIdCredentials());
 		recipe.setCook(cook);
-		this.recipeService.saveRecipe(recipe);
+		this.recipeService.saveRecipe(recipe); //può sollevare eccezioni
 		return "redirect:recipeDetails/"+recipe.getIdRecipe();
 	}
 	
