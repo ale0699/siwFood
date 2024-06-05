@@ -60,13 +60,9 @@
 		</div>
 	</nav>
 	<section>
-
 		<div class="container text-center">
-
 			<div class="row justify-content-center">
-
-				<div class="col " th:each=" recipe: ${recipes}">
-
+				<div class="col" th:each=" recipe: ${recipes}">
 					<div class="card" style="width: 18rem;">
 						<img th:src="@{${recipe.pictureRecipe[0]}}" class="card-img-top" alt="Immagine Ricetta">
 						<div class="card-body">
@@ -75,14 +71,9 @@
 							<a th:href="@{'recipeDetails/' + ${recipe.idRecipe} }"><button class="btn-custom">Vai a ricetta</button></a>
 						</div>
 					</div>
-
 				</div>
-
 			</div>
-
 		</div>
-
-
 	</section>
 	<footer class="footer-container">
 		<div class="upper-footer">
