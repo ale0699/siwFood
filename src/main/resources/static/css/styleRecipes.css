@@ -1,0 +1,23 @@
+.button{
+
+    text-align: center;
+}
+
+.btn-custom{
+
+    color: white;
+    background-color: #212529;
+}
+
+.btn-custom:hover{
+
+    color: white;
+    background-color: #818c98;
+}
+
+p {
+    overflow: hidden;
+    max-width: 75ch;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }

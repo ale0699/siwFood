@@ -2,12 +2,13 @@
 <html lang="it">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ricette</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Ricette</title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css?version6" rel="stylesheet"
 		integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 	<link href="/css/style.css?version7" rel="stylesheet">
+	<link href="/css/styleRecipes.css?version7" rel="stylesheet">
 </head>
 
 <body>
@@ -58,22 +59,32 @@
 			</div>
 		</div>
 	</nav>
-    <section>
-        <div th:if="${recipes != null && !recipes.isEmpty()}">
-			<span>Ricette:</span>
-            <ul>
-                <div th:each="recipe: ${recipes}">
-                    <li>
-                        <a th:href="@{'recipeDetails/' + ${recipe.idRecipe} }"><span th:text="${recipe.name}"></span></a>
-                    </li>
-                </div>
-            </ul>
-        </div>
-        <div th:unless="${recipes != null && !recipes.isEmpty()}">
-            <span>Non ci sono ricette nel sistema</span>
-        </div>
-    </section>
-    <footer class="footer-container">
+	<section>
+
+		<div class="container">
+
+			<div class="row">
+
+				<div class="col" th:each=" recipe: ${recipes}">
+
+					<div class="card" style="width: 18rem;">
+						<img th:src="@{${recipe.pictureRecipe[0]}}" class="card-img-top" alt="Immagine Ricetta">
+						<div class="card-body">
+							<h5 class="card-title" th:text="${recipe.name}"></h5>
+							<p class="card-text" th:text="${recipe.description}"></p>
+							<a th:href="@{'recipeDetails/' + ${recipe.idRecipe} }"><button class="btn-custom">Vai a ricetta</button></a>
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+
+	</section>
+	<footer class="footer-container">
 		<div class="upper-footer">
 			<div class="upper-left">
 				<img src="/images/logo.png" width="100" alt="Logo">
@@ -102,4 +113,5 @@
 		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
 		crossorigin="anonymous"></script>
 </body>
+
 </html>

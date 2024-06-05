@@ -41,6 +41,7 @@ body {
 .footer-container {
 	background-color: #212529;
 	color: white;
+    margin-top: 20px;
 	padding: 20px;
 }
 
