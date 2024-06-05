@@ -9,10 +9,15 @@
 }
 
 .name-recipe-cook-details {
+    color: #2c3e50;
     text-align: center;
     border-bottom: 2px solid #343a40; /* Cambiato il colore del bordo */
     padding-bottom: 10px;
     margin-bottom: 20px;
+}
+
+.name-recipe-cook-details a{
+    color: #2c3e50;
 }
 
 .description-recipe p {

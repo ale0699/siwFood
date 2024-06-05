@@ -63,9 +63,10 @@
 	<section>
 		<div class="container">
 			<div class="name-recipe-cook-details">
-				<h1 th:text="${recipe.name}"></h1>
-				<span th:text="'Cuoco: ' + ${recipe.cook.name} + ' ' + ${recipe.cook.surname}"></span>
-			</div>
+                <h1 th:text="${recipe.name}"></h1>
+				<span>Cuoco: </span>
+                <a th:href="@{'/cookDetails/' + ${recipe.cook.idCook}}" th:text="${recipe.cook.name} + ' ' + ${recipe.cook.surname}"></a>
+            </div>
 			<div class="description-recipe">
 				<p th:text="${recipe.description}"></p>
 			</div>
