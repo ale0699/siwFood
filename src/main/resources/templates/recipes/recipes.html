@@ -61,11 +61,11 @@
 	</nav>
 	<section>
 
-		<div class="container">
+		<div class="container text-center">
 
-			<div class="row">
+			<div class="row justify-content-center">
 
-				<div class="col" th:each=" recipe: ${recipes}">
+				<div class="col " th:each=" recipe: ${recipes}">
 
 					<div class="card" style="width: 18rem;">
 						<img th:src="@{${recipe.pictureRecipe[0]}}" class="card-img-top" alt="Immagine Ricetta">
