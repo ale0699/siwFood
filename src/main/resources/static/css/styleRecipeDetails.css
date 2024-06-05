@@ -3,6 +3,11 @@
     padding-bottom: 50px;
 }
 
+.container-description-images div{
+
+    flex: 1;
+}
+
 .name-recipe-cook-details h1 {
     font-size: 2.5em;
     color: #2c3e50;
@@ -21,7 +26,7 @@
 }
 
 .description-recipe p {
-    font-size: 1.2em;
+    font-size: 1em;
     color: #555;
 }
 

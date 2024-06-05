@@ -65,32 +65,34 @@
 				<span>Cuoco: </span>
                 <a th:href="@{'/cookDetails/' + ${recipe.cook.idCook}}" th:text="${recipe.cook.name} + ' ' + ${recipe.cook.surname}"></a>
             </div>
-            <div class="description-recipe">
-                <p th:text="${recipe.description}"></p>
-            </div>
-            <div th:if="${recipe.pictureRecipe != null && !recipe.pictureRecipe.isEmpty()}">
-                <div class="carousel-image-recipe">
-                    <div id="carouselImage" class="carousel slide">
-                        <div class="carousel-inner" th:each="pictureRecipe : ${recipe.pictureRecipe}">
-                            <div class="carousel-item active">
-                                <img th:src="${pictureRecipe}" class="d-block w-100" alt="...">
+            <div class="container container-description-images d-flex align-items-center" >
+                <div class="description-recipe">
+                    <p th:text="${recipe.description}"></p>
+                </div>
+                <div th:if="${recipe.pictureRecipe != null && !recipe.pictureRecipe.isEmpty()}">
+                    <div class="carousel-image-recipe">
+                        <div id="carouselImage" class="carousel slide">
+                            <div class="carousel-inner" th:each="pictureRecipe : ${recipe.pictureRecipe}">
+                                <div class="carousel-item active">
+                                    <img th:src="${pictureRecipe}" class="d-block w-100" alt="...">
+                                </div>
                             </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselImage"
+                                data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselImage"
+                                data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
                         </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselImage"
-                            data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#carouselImage"
-                            data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
                     </div>
                 </div>
-            </div>
-            <div th:unless="${recipe.pictureRecipe != null && !recipe.pictureRecipe.isEmpty()}">
-                Non ci sono immagini della ricetta
+                <div th:unless="${recipe.pictureRecipe != null && !recipe.pictureRecipe.isEmpty()}">
+                    Non ci sono immagini della ricetta
+                </div>
             </div>
             <div class="ingredients">
                 <h3>Ingredienti</h3>
