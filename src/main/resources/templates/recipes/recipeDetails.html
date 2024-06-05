@@ -100,9 +100,8 @@
                         <ul>
                             <div th:each="ingredient : ${ingredients}">
                                 <li>
-                                    <a th:href="@{'/recipesWithIngredient/' + ${ingredient.idIngredient}}">
-                                        <span th:text="${ingredient.name} + ' ' + ${ingredient.quantity}"></span>
-                                    </a>
+                                    <a th:href="@{'/recipesWithIngredient/' + ${ingredient.idIngredient}}" th:text="${ingredient.name}"></a>
+                                    <span th:text="${ingredient.quantity}"></span>
                                     <a th:href="@{${backUrl} + '/removeIngredient/' + ${ingredient.idIngredient} + '/' + ${recipe.idRecipe}}">
                                         <button class="btn-custom">Rimuovi</button>
                                     </a>
