@@ -61,7 +61,7 @@ public class RecipeController {
 	}
 	
 	/*FORM PER POTER AGGIUNGERE UNA RICETTA*/
-	@GetMapping(value = {"/formAddRecipe", "/admin/formAddRecipe"})
+	@GetMapping(value = {"/cook/formAddRecipe", "/admin/formAddRecipe"})
 	public String getFormAddRecipe(Model model) {
 		model.addAttribute("cooks", this.cookService.findAllCooks());
 		model.addAttribute("recipe", new Recipe());
