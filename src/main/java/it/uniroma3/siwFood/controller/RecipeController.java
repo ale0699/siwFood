@@ -69,14 +69,14 @@ public class RecipeController {
 	
 	/*METODO PER POTER SALVARE ALL'INTERNO DEL DATABASE UNA NUOVA RICETTA, GRAZIE AD UNA RICHIESTA HTTP.POST*/
 	@PostMapping(value = {"/cook/addRecipe", "/admin/addRecipe"})
-	public String postAddRecipe(@RequestParam("image-recipe")MultipartFile image, @ModelAttribute Recipe recipe) throws IOException {
+	public String postAddRecipe(@ModelAttribute Recipe recipe) throws IOException {
 		
     	UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Credentials credentials = this.credentialsService.findCredenzialiByUsername(userDetails.getUsername());
 		Cook cook = this.cookService.findCookByCredentials(credentials.getIdCredentials());
 		recipe.setCook(cook);
 		this.recipeService.saveRecipe(recipe); //può sollevare eccezioni
-		return "redirect:recipeDetails/"+recipe.getIdRecipe();
+		return "redirect:/cook/recipeManage/"+recipe.getIdRecipe();
 	}
 	
 	@PostMapping(value = {"/cook/addRecipeImage/{idRecipe}", "/admin/addRecipeImage/{idRecipe}"})
@@ -133,7 +133,7 @@ public class RecipeController {
 	    try {
 	        this.recipeService.deleteRecipe(recipe);
 			
-	        return "redirect:/cook/recipeManage/"+recipe.getIdRecipe();
+	        return "redirect:/cook/dashboard/";
 		    
 	    } catch (AccessDeniedException e) {
 			throw new  AccessDeniedException("You do not have permission to remove this recipe");
