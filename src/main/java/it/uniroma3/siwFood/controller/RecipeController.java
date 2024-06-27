@@ -71,6 +71,14 @@ public class RecipeController {
 	    return "recipes/recipeDetailsUnauthenticated.html";
 	}
 	
+	@GetMapping(value = "/recipeManage/{idRecipe}")
+	public String getRecipeManage(@PathVariable("idRecipe")Long idRecipe, Model model) {
+		model.addAttribute("recipe", this.recipeService.findRecipeById(idRecipe));
+		model.addAttribute(new Ingredient());
+		model.addAttribute("ingredients", this.ingredientService.findIngredientsByRecipeId(idRecipe));
+		return "recipes/recipeManage.html";
+	}
+	
 	/*DETTAGLI DI UNA SINGOLA RICETTA CON UN CERTO ID, VISUALIZZABILE SOLO DAL
 	 * CUOCO CHE L'HA CONDIVISA O DA UN ADMIN. IN CASO CONTRARIO VIENE SOLLEVATA UN ECCEZIONE*/
 	@GetMapping(value = {"/cook/recipeDetails/{idRecipe}", "/admin/recipeDetails/{idRecipe}"})

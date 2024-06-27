@@ -1,0 +1,31 @@
+.manage-name-description{
+
+    border-bottom: 3px solid #343a40;
+}
+
+.form-container{
+
+    background-color: #dfe0e1;
+    border: 2px transparent;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.4);
+    border-radius: 20px;
+    max-width: 600px;
+    width: 100%;
+}
+
+.images-recipe{
+
+    overflow-y: scroll;
+    max-height: 600px;
+}
+
+.ingredients ul{
+
+    list-style: none;
+}
+
+.ingredients li{
+    margin: 7px;
+    text-align: center;
+    background-color: white;
+}

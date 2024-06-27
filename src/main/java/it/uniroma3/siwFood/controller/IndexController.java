@@ -43,6 +43,7 @@ public class IndexController {
 		Credentials credentials = this.credentialsService.findCredenzialiByUsername(userDetails.getUsername());
 		Cook cook = this.cookService.findCookByCredentials(credentials.getIdCredentials());
         model.addAttribute("totalRecipes", this.recipeService.findRecipesByCookId(cook.getIdCook()).size());
+        model.addAttribute("recipesCook", this.recipeService.findRecipesByCookId(cook.getIdCook()));
 		model.addAttribute("cook", cook);
 		return "cooks/dashboard.html";
 	}

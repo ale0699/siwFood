@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${recipe.name}"></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css?version6" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="/css/style.css?version7" rel="stylesheet">
+    <link href="/css/style_recipeManage.css?version7" rel="stylesheet">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg fixed-top bg-dark border-bottom border-body" data-bs-theme="dark">
+        <div class="container-fluid">
+            <div class="image-logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="Logo">
+                </a>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/}">Homepage</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" th:href="@{/recipes}">Ricette</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/cooks}">Cuochi</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/about}">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/contacts}">Contatti</a>
+                    </li>
+                </ul>
+            </div>
+            <div th:if="${userDetails!=null}">
+                <div class="user-info">
+                    <span th:text="${userDetails.username}"></span>
+                    <div class="dashboard-link">
+                        <a th:href="@{'/'+${userRole}+'/dashboard'}" th:text="'Vai a dashboard '+${userRole}"></a>
+                    </div>
+                    <a th:href="@{/logout}">Effettua Logout</a>
+                </div>
+            </div>
+            <div th:unless="${userDetails!=null}">
+                <div class="user-info">
+                    <a href="/login">Effettua Login</a>
+                    <a href="/register">Registrati</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <section>
+        <div class="container">
+            <div class="row mb-3 p-3 border-bottom text-center">
+                <h2 class="text-center" th:text="'Ricetta: '+${recipe.name}"></h2>
+                <a href="/">
+                    <button type="button" class="btn btn-primary">Elimina Ricetta</button>
+                </a>
+            </div>
+            <div class="row mb-3 p-3 border-bottom">
+                <div class="col">
+                    <div class="container form-container p-4">
+                        <div class="row">
+                            <h2 class="text-center">Modifica nome e descrizione della ricetta</h2>
+                        </div>
+                        <div class="row text-center">
+                            <form action="/" th:object="${recipe}" method="post">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="floatingInput"
+                                        placeholder="Nome Ricetta" th:value="${recipe.name}" th:field="${recipe.name}">
+                                    <label for="floatingInput">Nome Ricetta</label>
+                                </div>
+                                <div class="form-floating">
+                                    <textarea class="form-control" placeholder="Descrizone della Ricetta"
+                                        style="height: 100px" id="floatingTextarea" th:value="${recipe.description}"
+                                        th:field="${recipe.description}"></textarea>
+                                    <label for="floatingTextarea">Descrizone della Ricetta</label>
+                                </div>
+                                <button type="submit" class="btn btn-primary mt-4">Modifica</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3 p-3 border-bottom">
+                <div class="col">
+                    <div class="row">
+                        <h2 class="text-center">Immagini della ricetta</h2>
+                    </div>
+                    <div class="row">
+                        <div class="container images-recipe d-flex justify-content-center">
+                            <div th:if="${recipe.pictureRecipe != null && !recipe.pictureRecipe.isEmpty()}">
+                                <div class="card text-center mt-2" style="width: 18rem;"
+                                    th:each="image : ${recipe.pictureRecipe}">
+                                    <img th:src="@{${image}}" class="card-img-top" alt="image">
+                                    <div class="card-body">
+                                        <a href="#" class="btn btn-primary">Elimina</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center" th:unless="${recipe.pictureRecipe != null && !recipe.pictureRecipe.isEmpty()}">
+                                Non ci sono immagini della ricetta
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col d-flex align-items-center">
+                    <div class="container form-container p-4">
+                        <div class="row">
+                            <h2 class="text-center">Aggiungi Immagine</h2>
+                        </div>
+                        <div class="row text-center">
+                            <form action="/" method="post" enctype="multipart/form-data">
+                                <div class="mb-3">
+                                    <label for="formFile" class="form-label">Inserisci un immagine</label>
+                                    <input class="form-control" type="file" id="formFile">
+                                </div>
+                                <button type="submit" class="btn btn-primary mt-4">Aggiungi</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3 p-3 border-bottom">
+                <div class="col">
+                    <div class="row">
+                        <h2 class="text-center">Ingredienti della ricetta</h2>
+                    </div>
+                    <div class="row">
+                        <div class="ingredients">
+                            <div th:if="${ingredients!=null && !ingredients.isEmpty()}">
+                                <ul>
+                                    <div th:each="ingredient : ${ingredients}">
+                                        <li>
+                                            <span th:text="${ingredient.name} + ' ' + ${ingredient.quantity}"></span>
+                                            <a th:href="@{${backUrl} + '/removeIngredient/' + ${ingredient.idIngredient} + '/' + ${recipe.idRecipe}}">
+                                                <button type="button" class="btn btn-primary">Rimuovi</button>
+                                            </a>
+                                        </li>
+                                    </div>
+                                </ul>
+                            </div>
+                            <div class="text-center" th:unless="${ingredients!=null && !ingredients.isEmpty()}">
+                                Non ci sono ingredienti nella ricetta
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="container form-container p-4">
+                        <div class="row">
+                            <h2 class="text-center">Aggiungi Ingrediente</h2>
+                        </div>
+                        <div class="row text-center">
+                            <form action="/" method="post" th:object="${ingredient}">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="floatingInput"
+                                        placeholder="Nome Ingrediente" th:field="${ingredient.name}">
+                                    <label for="floatingInput">Nome Ingrediente</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="floatingInput"
+                                        placeholder="Quantità Ingrediente" th:field="${ingredient.quantity}">
+                                    <label for="floatingInput">Quantità Ingrediente</label>
+                                </div>
+                                <button type="submit" class="btn btn-primary mt-4">Aggiungi</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>               
+            </div>
+            <div class="row mb-3 p-3 text-center">
+                <a href="/">
+                    <button type="button" class="btn btn-primary">Termina Modifiche</button>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer-container">
+        <div class="upper-footer">
+            <div class="upper-left">
+                <img src="/images/logo.png" width="100" alt="Logo">
+                <span class="site_name">Siw Food</span>
+            </div>
+            <div class="upper-right">
+                <ul class="footer-links">
+                    <li><a th:href="@{/}">Homepage</a></li>
+                    <li><a th:href="@{/recipes}">Ricette</a></li>
+                    <li><a th:href="@{/cooks}">Cuochi</a></li>
+                    <li><a th:href="@{/about}">About</a></li>
+                    <li><a th:href="@{/contacts}">Contatti</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="lower-footer">
+            <div class="copyright">© 2024 Siw Food. All rights reserved.</div>
+            <div class="social-links">
+                <a href="https://it-it.facebook.com/"><img src="/images/facebook.png" alt="Facebook"></a>
+                <a href="https://www.youtube.com/"><img src="/images/youtube.png" alt="Youtube"></a>
+                <a href="https://www.instagram.com/"><img src="/images/instagram.png" alt="Instagram"></a>
+            </div>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>

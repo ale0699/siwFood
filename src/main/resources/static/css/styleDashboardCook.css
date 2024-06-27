@@ -1,0 +1,35 @@
+.container-dashboard{
+    border: 1px hidden;
+    overflow: hidden;
+    background-color: #e3e6e8;
+}
+
+.dashboard-info{
+
+    text-align: center;
+    color: black;
+}
+
+.sidebar {
+    height: 100%;
+    background-color: #343a40;
+
+}
+
+.sidebar a {
+    padding: 50px;
+    text-decoration: none;
+    text-align: center;
+    color: white;
+}
+
+.sidebar a:hover {
+    background-color: #818c98;
+}
+
+.card-text p{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+}
