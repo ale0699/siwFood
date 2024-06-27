@@ -60,15 +60,18 @@
 		</div>
 	</nav>
 	<section>
-		<div class="container text-center">
-			<div class="row row-cols-auto justify-content-center">
-				<div class="col" th:each=" recipe: ${recipes}">
+		<div class="container">
+			<div class="row mb-5">
+				<h1 class="text-center">Tutte le ricette del sistema</h1>
+			</div>
+			<div class="row">
+				<div class="col text-center" th:each=" recipe: ${recipes}">
 					<div class="card h-100" style="width: 18rem;">
-						<img th:src="@{${recipe.pictureRecipe[0]}}" class="card-img-top" alt="Immagine Ricetta">
+						<img th:src="@{${recipe.pictureRecipe[0]}}" class="card-img-top imgclass" alt="Immagine Ricetta">
 						<div class="card-body">
 							<h5 class="card-title" th:text="${recipe.name}"></h5>
 							<p class="card-text" th:text="${recipe.description}"></p>
-							<a th:href="@{'recipeDetails/' + ${recipe.idRecipe} }"><button class="btn-custom">Vai a ricetta</button></a>
+							<a th:href="@{'recipeDetails/' + ${recipe.idRecipe} }"><button class="btn btn-primary">Vai a ricetta</button></a>
 						</div>
 					</div>
 				</div>
