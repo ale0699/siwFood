@@ -89,7 +89,7 @@
 									<img th:src="@{${recipe.pictureRecipe[0]}}" class="card-img-top" alt="imageRecipe">
 									<div class="card-body">
 										<h5 class="card-title" th:text="${recipe.name}"></h5>
-										<a th:href="@{'/recipeManage/'+${recipe.idRecipe}}" class="btn btn-primary">Gestisci Ricetta</a>
+										<a th:href="@{'/cook/recipeManage/'+${recipe.idRecipe}}" class="btn btn-primary">Gestisci Ricetta</a>
 									</div>
 								</div>
 							</div>

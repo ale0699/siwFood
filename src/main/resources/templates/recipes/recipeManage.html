@@ -63,7 +63,7 @@
         <div class="container">
             <div class="row mb-3 p-3 border-bottom text-center">
                 <h2 class="text-center" th:text="'Ricetta: '+${recipe.name}"></h2>
-                <a href="/">
+                <a th:href="@{'/cook/removeRecipe/'+${recipe.idRecipe}}">
                     <button type="button" class="btn btn-primary">Elimina Ricetta</button>
                 </a>
             </div>
@@ -74,7 +74,8 @@
                             <h2 class="text-center">Modifica nome e descrizione della ricetta</h2>
                         </div>
                         <div class="row text-center">
-                            <form action="/" th:object="${recipe}" method="post">
+                            <form th:action="@{/cook/updateRecipe}" th:object="${recipe}" method="post">
+                                <input type="hidden" th:field="${recipe.idRecipe}" th:value="${recipe.idRecipe}">
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="floatingInput"
                                         placeholder="Nome Ricetta" th:value="${recipe.name}" th:field="${recipe.name}">
@@ -143,7 +144,7 @@
                                     <div th:each="ingredient : ${ingredients}">
                                         <li>
                                             <span th:text="${ingredient.name} + ' ' + ${ingredient.quantity}"></span>
-                                            <a th:href="@{${backUrl} + '/removeIngredient/' + ${ingredient.idIngredient} + '/' + ${recipe.idRecipe}}">
+                                            <a th:href="@{'/cook/removeIngredient/' + ${ingredient.idIngredient} + '/' + ${recipe.idRecipe}}">
                                                 <button type="button" class="btn btn-primary">Rimuovi</button>
                                             </a>
                                         </li>
@@ -162,7 +163,7 @@
                             <h2 class="text-center">Aggiungi Ingrediente</h2>
                         </div>
                         <div class="row text-center">
-                            <form action="/" method="post" th:object="${ingredient}">
+                            <form th:action="@{'/cook/addIngredient/'+${recipe.idRecipe}}" method="post" th:object="${ingredient}">
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="floatingInput"
                                         placeholder="Nome Ingrediente" th:field="${ingredient.name}">
@@ -180,7 +181,7 @@
                 </div>               
             </div>
             <div class="row mb-3 p-3 text-center">
-                <a href="/">
+                <a href="/cook/dashboard">
                     <button type="button" class="btn btn-primary">Termina Modifiche</button>
                 </a>
             </div>
