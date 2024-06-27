@@ -22,4 +22,10 @@ public class ImageService {
         }
 		return null;
 	}
+	
+	public void removeImage(String directory) throws IOException {
+		
+		Path fileNameAndPath = Paths.get("src/main/resources/static", directory);
+		Files.delete(fileNameAndPath);
+	}
 }

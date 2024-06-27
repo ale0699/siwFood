@@ -57,7 +57,7 @@
 		</div>
 	</nav>
     <section>
-		<form th:action="@{addRecipe}" method="post" th:object="${recipe}" enctype="multipart/form-data">
+		<form th:action="@{addRecipe}" method="post" th:object="${recipe}">
 			<div class="name">
 				<label>Nome</label>
 				<input type="text" th:field="${recipe.name}">
@@ -65,10 +65,6 @@
 			<div class="description">
 				<label>Descrizione</label>
 				<input type="text" th:field="${recipe.description}" style="resize: both;">
-			</div>
-			<div class="registration-photo">
-				<label>Immagine</label>
-				<input type="file" name="image-recipe" accept="image/*">
 			</div>
 			<div class="button">
 				<button type="submit">Aggiungi</button>

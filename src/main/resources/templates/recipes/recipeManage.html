@@ -102,10 +102,10 @@
                         <div class="container images-recipe d-flex justify-content-center">
                             <div th:if="${recipe.pictureRecipe != null && !recipe.pictureRecipe.isEmpty()}">
                                 <div class="card text-center mt-2" style="width: 18rem;"
-                                    th:each="image : ${recipe.pictureRecipe}">
+                                    th:each="image, listIndex : ${recipe.pictureRecipe}">
                                     <img th:src="@{${image}}" class="card-img-top" alt="image">
                                     <div class="card-body">
-                                        <a href="#" class="btn btn-primary">Elimina</a>
+                                        <a th:href="@{'/cook/removeImage/'+${recipe.idRecipe}+'/'+${listIndex.index}}" class="btn btn-primary">Elimina</a>
                                     </div>
                                 </div>
                             </div>
@@ -121,10 +121,10 @@
                             <h2 class="text-center">Aggiungi Immagine</h2>
                         </div>
                         <div class="row text-center">
-                            <form action="/" method="post" enctype="multipart/form-data">
+                            <form th:action="@{'/cook/addRecipeImage/'+${recipe.idRecipe}}" method="post" enctype="multipart/form-data">
                                 <div class="mb-3">
                                     <label for="formFile" class="form-label">Inserisci un immagine</label>
-                                    <input class="form-control" type="file" id="formFile">
+                                    <input class="form-control" type="file" name="image-recipe" id="formFile">
                                 </div>
                                 <button type="submit" class="btn btn-primary mt-4">Aggiungi</button>
                             </form>

@@ -60,7 +60,6 @@ public class RecipeController {
 	    return "recipes/recipeDetails.html";
 	}
 	
-
 	/*FORM PER POTER AGGIUNGERE UNA RICETTA*/
 	@GetMapping(value = {"/cook/formAddRecipe", "/admin/formAddRecipe"})
 	public String getFormAddRecipe(Model model) {
@@ -72,22 +71,47 @@ public class RecipeController {
 	@PostMapping(value = {"/cook/addRecipe", "/admin/addRecipe"})
 	public String postAddRecipe(@RequestParam("image-recipe")MultipartFile image, @ModelAttribute Recipe recipe) throws IOException {
 		
-		try { 
-			
-			String nameImage = this.imageService.saveImage(image, "src/main/resources/static/images/recipes");
-			recipe.getPictureRecipe().add("/images/recipes/"+nameImage);
-		}
-		catch (IOException e) {
-			
-			throw new IOException("Empty file");
-		}
-		
     	UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Credentials credentials = this.credentialsService.findCredenzialiByUsername(userDetails.getUsername());
 		Cook cook = this.cookService.findCookByCredentials(credentials.getIdCredentials());
 		recipe.setCook(cook);
 		this.recipeService.saveRecipe(recipe); //può sollevare eccezioni
 		return "redirect:recipeDetails/"+recipe.getIdRecipe();
+	}
+	
+	@PostMapping(value = {"/cook/addRecipeImage/{idRecipe}", "/admin/addRecipeImage/{idRecipe}"})
+	public String postAddRecipeImage(@RequestParam("image-recipe")MultipartFile image, @PathVariable("idRecipe")Long idRecipe) throws IOException {
+		Recipe recipe = this.recipeService.findRecipeById(idRecipe);
+		try { 
+			
+			String nameImage = this.imageService.saveImage(image, "src/main/resources/static/images/recipes");
+			recipe.getPictureRecipe().add("/images/recipes/"+nameImage);
+			this.recipeService.saveRecipe(recipe); //può sollevare eccezioni
+		}
+		catch (IOException e) {
+			
+			throw new IOException("Empty file");
+		}
+		
+		return "redirect:/cook/recipeManage/"+recipe.getIdRecipe();
+	}
+	
+	@GetMapping(value = "/cook/removeImage/{idRecipe}/{index}")
+	public String postRemoveRecipeImage(@PathVariable("idRecipe")Long idRecipe, @PathVariable("index")int index) throws IOException {
+		Recipe recipe = this.recipeService.findRecipeById(idRecipe);
+		String image = recipe.getPictureRecipe().get(index);
+		try { 
+			
+			this.imageService.removeImage(image);
+			recipe.getPictureRecipe().remove(index);
+			this.recipeService.saveRecipe(recipe); //può sollevare eccezioni
+		}
+		catch (IOException e) {
+			
+			throw new IOException("Empty file");
+		}
+		
+		return "redirect:/cook/recipeManage/"+recipe.getIdRecipe();
 	}
 	
 	@GetMapping(value = "/cook/recipeManage/{idRecipe}")
