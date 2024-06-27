@@ -34,6 +34,8 @@ public class IndexController {
     public String getAdminDashboard(Model model) {
         model.addAttribute("totalRecipes", this.recipeService.findAllRecipes().size());
         model.addAttribute("totalChefs", this.cookService.findAllCooks().size());
+        model.addAttribute("recipes", this.recipeService.findAllRecipes());
+        model.addAttribute("cooks", this.cookService.findAllCooks());
         return "admin/dashboard.html";
     }
     
