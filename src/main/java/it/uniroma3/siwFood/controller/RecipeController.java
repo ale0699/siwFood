@@ -57,7 +57,7 @@ public class RecipeController {
 		
         model.addAttribute("ingredients", this.ingredientService.findIngredientsByRecipeId(idRecipe));
         model.addAttribute("recipe", this.recipeService.findRecipeById(idRecipe));
-	    return "recipes/recipeDetailsUnauthenticated.html";
+	    return "recipes/recipeDetails.html";
 	}
 	
 
