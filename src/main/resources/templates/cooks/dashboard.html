@@ -85,7 +85,9 @@
 						<div class="row row-cols-auto mt-3 mb-3">
 							<div class="col text-center" th:each="recipe : ${recipesCook}">
 								<div class="card" style="width: 18rem;">
-									<img th:src="@{${recipe.pictureRecipe[0]}}" class="card-img-top" alt="imageRecipe">
+									<div th:if="${recipe.pictureRecipe != null and !#lists.isEmpty(recipe.pictureRecipe)}">>
+										<img th:src="@{${recipe.pictureRecipe[0]}}" class="card-img-top" alt="imageRecipe">
+									</div>
 									<div class="card-body">
 										<h5 class="card-title" th:text="${recipe.name}"></h5>
 										<a th:href="@{'/cook/recipeManage/'+${recipe.idRecipe}}" class="btn btn-primary">Gestisci Ricetta</a>

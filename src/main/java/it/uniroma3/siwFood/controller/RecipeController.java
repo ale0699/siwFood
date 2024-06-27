@@ -61,19 +61,31 @@ public class RecipeController {
 	}
 	
 	/*FORM PER POTER AGGIUNGERE UNA RICETTA*/
-	@GetMapping(value = {"/cook/formAddRecipe", "/admin/formAddRecipe"})
+	@GetMapping(value = {"/formAddRecipe", "/admin/formAddRecipe"})
 	public String getFormAddRecipe(Model model) {
+		model.addAttribute("cooks", this.cookService.findAllCooks());
 		model.addAttribute("recipe", new Recipe());
 		return "recipes/formAddRecipe.html";
 	}
 	
 	/*METODO PER POTER SALVARE ALL'INTERNO DEL DATABASE UNA NUOVA RICETTA, GRAZIE AD UNA RICHIESTA HTTP.POST*/
 	@PostMapping(value = {"/cook/addRecipe", "/admin/addRecipe"})
-	public String postAddRecipe(@ModelAttribute Recipe recipe) throws IOException {
+	public String postAddRecipe(@ModelAttribute Recipe recipe, @RequestParam(value = "idCook", required = false)Long idCook) throws IOException {
 		
-    	UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		Credentials credentials = this.credentialsService.findCredenzialiByUsername(userDetails.getUsername());
-		Cook cook = this.cookService.findCookByCredentials(credentials.getIdCredentials());
+		Cook cook;
+		
+		//sta aggiungendo il cuoco l'admin dal form
+		if(idCook!=null) {
+			
+			cook = this.cookService.findCookByIdCook(idCook);
+		}
+		else {
+			
+	    	UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			Credentials credentials = this.credentialsService.findCredenzialiByUsername(userDetails.getUsername());
+			cook = this.cookService.findCookByCredentials(credentials.getIdCredentials());
+		}
+
 		recipe.setCook(cook);
 		this.recipeService.saveRecipe(recipe); //può sollevare eccezioni
 		return "redirect:/cook/recipeManage/"+recipe.getIdRecipe();
@@ -133,7 +145,7 @@ public class RecipeController {
 	    try {
 	        this.recipeService.deleteRecipe(recipe);
 			
-	        return "redirect:/cook/dashboard/";
+	        return "redirect:/cook/dashboard";
 		    
 	    } catch (AccessDeniedException e) {
 			throw new  AccessDeniedException("You do not have permission to remove this recipe");
