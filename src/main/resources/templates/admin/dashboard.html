@@ -75,47 +75,40 @@
 					</div>
 				</div>
 				<div class="col">
-					<div class="row">
-						<div class="container manage-recipes">
-							<div class="row">
-								<div class="col">
-									<h2 class="text-center" th:text="'Benvenuto ' + ${userDetails.username} + ' (' + ${userRole} + ')'"></h2>
-									<h5 class="text-center">Ecco la dashboard dove puoi gestire tutte i cuochi</h5>
-								</div>
-							</div>
-							<div class="row container-object row-cols-auto mt-3 mb-3">
-								<div class="col text-center" th:each="cook : ${cooks}">
-									<div class="card" style="width: 9rem;">
-										<div th:if="${cook.picture != null and !#lists.isEmpty(cook.picture)}">
-											<img th:src="@{${cook.picture}}" class="card-img-top imgCard" alt="imageCook">
-										</div>
-										<div class="card-body">
-											<h5 class="card-title" th:text="'Id: ' +${cook.idCook}"></h5>
-											<h5 class="card-title" th:text="${cook.name} + ' ' + ${cook.surname}"></h5>
-											<a th:href="@{'/admin/cooks/edit/'+${cook.idCook}}" class="btn btn-primary">Gestisci Cuoco</a>
-										</div>
+					<div class="row mt-5 p-4">
+						<h2 class="text-center" th:text="'Benvenuto ' + ${userDetails.username} + ' (' + ${userRole} + ')'"></h2>
+						<h5 class="text-center">Ecco la tua dashboard dove puoi gestire l'intero sistema</h5>
+					</div>
+					<div class="row p-4 mt-5 border-bottom" th:each="cook : ${cooks}">
+						<div class="row">
+							<h3 class="text-center" th:text="'Gestione del cuoco: '+ ${cook.name} + ' ' + ${cook.surname}"></h3>
+						</div>
+						<div class="row">
+							<div class="col d-flex justify-content-center">
+								<div class="card" style="width: 13rem;">
+									<div th:if="${cook.picture != null and !#lists.isEmpty(cook.picture)}">
+										<img th:src="@{${cook.picture}}" class="card-img-top imgCard" alt="imageCook">
+									</div>
+									<div class="card-body">
+										<h5 class="card-title" th:text="'Id: ' +${cook.idCook}"></h5>
+										<h5 class="card-title" th:text="${cook.name} + ' ' + ${cook.surname}"></h5>
+										<a th:href="@{'/admin/cooks/edit/'+${cook.idCook}}" class="btn btn-primary">Gestisci Cuoco</a>
 									</div>
 								</div>
 							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="container manage-recipes">
-							<div class="row">
-								<div class="col">
-									<h5 class="text-center">Ecco la dashboard dove puoi gestire tutte le ricette</h5>
-								</div>
-							</div>
-							<div class="row container-object row-cols-auto mt-3 mb-3">
-								<div class="col text-center" th:each="recipe : ${recipes}">
-									<div class="card" style="width: 9rem;">
-										<div th:if="${recipe.pictureRecipe != null and !#lists.isEmpty(recipe.pictureRecipe)}">
-											<img th:src="@{${recipe.pictureRecipe[0]}}" class="card-img-top imgCard" alt="imageRecipe">
-										</div>
-										<div class="card-body">
-											<h5 class="card-title" th:text="'Cuoco: ' + ${recipe.cook.name} + ' ' + ${recipe.cook.surname}"></h5>
-											<h5 class="card-title" th:text="${recipe.name}"></h5>
-											<a th:href="@{'/cook/recipes/edit/'+${recipe.idRecipe}}" class="btn btn-primary">Gestisci Ricetta</a>
+							<div class="col container-object">
+								<div class="row">
+									<div class="col" th:each="recipe : ${cook.recipes}">
+										<div class="card" style="width: 9rem;" >
+											<div th:if="${recipe.pictureRecipe != null and !#lists.isEmpty(recipe.pictureRecipe)}">
+												<img th:src="@{${recipe.pictureRecipe[0]}}" class="card-img-top imgCard"
+													alt="imageRecipe">
+											</div>
+											<div class="card-body">
+												<h5 class="card-title" th:text="${recipe.name}"></h5>
+												<a th:href="@{'/cook/recipes/edit/'+${recipe.idRecipe}}"
+													class="btn btn-primary">Gestisci Ricetta</a>
+											</div>
 										</div>
 									</div>
 								</div>

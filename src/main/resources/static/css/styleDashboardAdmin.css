@@ -24,6 +24,7 @@
 
 .container-object{
 
+    border-left: 2px #343a40 solid;
     overflow-y: scroll;
     max-height: 400px;
 }
