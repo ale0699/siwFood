@@ -71,7 +71,7 @@
 		<div class="search_recipes row">
 			<div class="col-md-6">
 				<h2>Ricerca Ricette</h2>
-				<form th:action="@{/searchRecipes}" method="get">
+				<form th:action="@{/recipes/name}" method="get">
 					<div class="mb-3">
 						<label for="nameRecipe" class="form-label">Ricetta</label>
 						<input type="text" class="form-control" id="nameRecipe" name="nameRecipe">
@@ -89,42 +89,6 @@
 					<button type="submit" class="btn btn-primary">Cerca</button>
 				</form>
 			</div>
-		</div>
-	</section>
-
-	<section class="container my-5">
-		<h2 class="mb-4">Le Nostre Ricette più Popolari</h2>
-		<div class="row">
-			<!-- Esempio di una ricetta -->
-			<div class="col-md-4">
-				<div class="card">
-					<img src="/images/recipe1.jpg" class="card-img-top" alt="Ricetta 1">
-					<div class="card-body">
-						<h5 class="card-title">Ricetta 1</h5>
-						<p class="card-text">Descrizione breve della ricetta 1.</p>
-						<a href="/recipes/1" class="btn btn-primary">Visualizza Ricetta</a>
-					</div>
-				</div>
-			</div>
-			<!-- Altre ricette possono essere aggiunte qui nello stesso formato -->
-		</div>
-	</section>
-
-	<section class="container my-5">
-		<h2 class="mb-4">I Nostri Cuochi</h2>
-		<div class="row">
-			<!-- Esempio di un cuoco -->
-			<div class="col-md-4">
-				<div class="card">
-					<img src="/images/cook1.jpg" class="card-img-top" alt="Cuoco 1">
-					<div class="card-body">
-						<h5 class="card-title">Cuoco 1</h5>
-						<p class="card-text">Biografia breve del cuoco 1.</p>
-						<a href="/cooks/1" class="btn btn-primary">Visualizza Profilo</a>
-					</div>
-				</div>
-			</div>
-			<!-- Altri cuochi possono essere aggiunti qui nello stesso formato -->
 		</div>
 	</section>
 	<footer class="footer-container">

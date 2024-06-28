@@ -104,7 +104,7 @@
 						<ul>
 							<div th:each="ingredient : ${ingredients}">
 								<li>
-                                    <a th:href="@{'/recipesWithIngredient/' + ${ingredient.idIngredient}}" th:text="${ingredient.name}"></a>
+                                    <a th:href="@{'/recipes/ingredients/' + ${ingredient.idIngredient}}" th:text="${ingredient.name}"></a>
                                     <span th:text="${ingredient.quantity}"></span>
 								</li>
 							</div>

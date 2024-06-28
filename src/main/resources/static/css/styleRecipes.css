@@ -1,3 +1,8 @@
+section{
+
+    height: 60vh;
+}
+
 p {
     overflow: hidden;
     max-width: 75ch;

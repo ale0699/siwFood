@@ -167,18 +167,19 @@ public class RecipeController {
 		}
     }
 	
-	/*VENGONO VISUALIZZATE TUTTE LE RICETTE CHE HANNO UN INGREDIENTE CHE INIZIA CON UN CERTO NOME*/
-	@GetMapping(value = "/recipesWithIngredient/{idIngredient}")
+	/*VENGONO VISUALIZZATE TUTTE LE RICETTE CHE HANNO UN INGREDIENTE CHE INIZIA CON UN CERTO NOME*/	
+	@GetMapping(value = "/recipes/ingredients/{idIngredient}")
 	public String getRecipesWithIngredient(@PathVariable("idIngredient")Long idIngredient, Model model) {
 		Ingredient ingredient = this.ingredientService.findIngredientById(idIngredient);
 		model.addAttribute("ingredient", ingredient.getName());
 		model.addAttribute("recipes", this.recipeService.findRecipesByIngredientName(ingredient.getName()));
-		return "recipes/recipesWithIngredient.html";
+		return "recipes/recipes.html";
 	}
 	
 	/*VENGONO VISUALIZZATE LE RICETTE CHE INZIANO CON UN CERTO NOME*/
-	@GetMapping(value = "/searchRecipes")
+	@GetMapping(value = "/recipes/name")
 	public String getSearchRecipes(@RequestParam("nameRecipe")String nameRecipe, Model model) {
+		model.addAttribute("nameRecipe", nameRecipe);
 		model.addAttribute("recipes", this.recipeService.findRecipesByName(nameRecipe));
 		return "recipes/recipes.html";
 	}
