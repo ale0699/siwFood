@@ -72,13 +72,12 @@
 								<input type="hidden" th:field="${recipe.idRecipe}" th:value="${recipe.idRecipe}">
 								<div class="form-floating mb-3">
 									<input type="text" class="form-control" id="floatingInput"
-										placeholder="Nome Ricetta" th:value="${recipe.name}" th:field="${recipe.name}">
+										placeholder="Nome Ricetta" th:field="${recipe.name}">
 									<label for="floatingInput">Nome Ricetta</label>
 								</div>
 								<div class="form-floating mb-3">
 									<textarea class="form-control" placeholder="Descrizione della Ricetta"
-										style="height: 100px" id="floatingTextarea" th:value="${recipe.description}"
-										th:field="${recipe.description}"></textarea>
+										style="height: 100px" id="floatingTextarea" th:field="${recipe.description}"></textarea>
 									<label for="floatingTextarea">Descrizione della Ricetta</label>
 								</div>
 								<div class="form-floating" th:if="${userRole == 'admin'}">

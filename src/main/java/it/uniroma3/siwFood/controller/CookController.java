@@ -1,5 +1,7 @@
 package it.uniroma3.siwFood.controller;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,9 +9,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import it.uniroma3.siwFood.model.Cook;
 import it.uniroma3.siwFood.service.CookService;
+import it.uniroma3.siwFood.service.ImageService;
 import it.uniroma3.siwFood.service.RecipeService;
 
 @Controller
@@ -20,6 +25,9 @@ public class CookController {
 	
 	@Autowired
 	private RecipeService recipeService;
+	
+	@Autowired
+	private ImageService imageService;
 	
 	@GetMapping(value = {"/cooks", "/cook/cooks", "/admin/cooks"})
 	public String getCooks(Model model) {
@@ -34,25 +42,28 @@ public class CookController {
 		return "cooks/cookDetailsUnAuthenticated.html";	
 	}
 
-	@GetMapping(value = "/admin/formAddCook")
+	@GetMapping(value = "/admin/cooks/formAdd")
 	public String getFormAddCook(Model model) {
 		model.addAttribute("cook", new Cook());
 		return "cooks/formAddCook.html";
 	}
 	
-	@PostMapping(value = "/admin/addCook")
-	public String getAddCook(@ModelAttribute Cook cook, Model model) {
+	@PostMapping(value = "/admin/cooks/add")
+	public String getAddCook(@RequestParam("image-cook")MultipartFile image, @ModelAttribute Cook cook, Model model) throws IOException {
 	    
+		String nameImage = this.imageService.saveImage(image, "src/main/resources/static/images/cooks");
+		cook.setPicture(("/images/cooks/"+nameImage));
 	    // Salva il cook nel database
 	    this.cookService.saveCook(cook);
-	    return "redirect:cooks";
+	    return "redirect:/admin/dashboard";
 	}
 
-	@GetMapping(value = "/admin/removeCook/{idCook}")
-	public String getRemoveCook(@PathVariable("idCook")Long idCook ,Model model) {
+	@GetMapping(value = "/admin/cooks/remove/{idCook}")
+	public String getRemoveCook(@PathVariable("idCook")Long idCook ,Model model) throws IOException {
 		Cook cook = this.cookService.findCookByIdCook(idCook);
+		this.imageService.removeImage(cook.getPicture());
 		this.cookService.removeCook(cook);
-		return "redirect:cooks";
+		return "redirect:/admin/dashboard";
 	}
 
 }

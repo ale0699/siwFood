@@ -70,7 +70,7 @@
 							<a th:href=@{/cook/recipes/formAdd}>Aggiungi Ricetta</a>
 						</div>
 						<div class="row">
-							<a th:href=@{formAddRecipe}>Aggiungi Cuoco</a>
+							<a th:href=@{/admin/cooks/formAdd}>Aggiungi Cuoco</a>
 						</div>
 					</div>
 				</div>
@@ -83,14 +83,15 @@
 									<h5 class="text-center">Ecco la dashboard dove puoi gestire tutte i cuochi</h5>
 								</div>
 							</div>
-							<div class="row row-cols-auto mt-3 mb-3">
+							<div class="row container-object row-cols-auto mt-3 mb-3">
 								<div class="col text-center" th:each="cook : ${cooks}">
-									<div class="card" style="width: 18rem;">
+									<div class="card" style="width: 9rem;">
 										<div th:if="${cook.picture != null and !#lists.isEmpty(cook.picture)}">
-											<img th:src="@{${cook.picture}}" class="card-img-top" alt="imageCook">
+											<img th:src="@{${cook.picture}}" class="card-img-top imgCard" alt="imageCook">
 										</div>
 										<div class="card-body">
-											<h5 class="card-title" th:text="${cook.name}"></h5>
+											<h5 class="card-title" th:text="'Id: ' +${cook.idCook}"></h5>
+											<h5 class="card-title" th:text="${cook.name} + ' ' + ${cook.surname}"></h5>
 											<a th:href="@{'/admin/cooks/edit/'+${cook.idCook}}" class="btn btn-primary">Gestisci Cuoco</a>
 										</div>
 									</div>
@@ -105,13 +106,14 @@
 									<h5 class="text-center">Ecco la dashboard dove puoi gestire tutte le ricette</h5>
 								</div>
 							</div>
-							<div class="row row-cols-auto mt-3 mb-3">
+							<div class="row container-object row-cols-auto mt-3 mb-3">
 								<div class="col text-center" th:each="recipe : ${recipes}">
-									<div class="card" style="width: 18rem;">
+									<div class="card" style="width: 9rem;">
 										<div th:if="${recipe.pictureRecipe != null and !#lists.isEmpty(recipe.pictureRecipe)}">
-											<img th:src="@{${recipe.pictureRecipe[0]}}" class="card-img-top" alt="imageRecipe">
+											<img th:src="@{${recipe.pictureRecipe[0]}}" class="card-img-top imgCard" alt="imageRecipe">
 										</div>
 										<div class="card-body">
+											<h5 class="card-title" th:text="'Cuoco: ' + ${recipe.cook.name} + ' ' + ${recipe.cook.surname}"></h5>
 											<h5 class="card-title" th:text="${recipe.name}"></h5>
 											<a th:href="@{'/cook/recipes/edit/'+${recipe.idRecipe}}" class="btn btn-primary">Gestisci Ricetta</a>
 										</div>

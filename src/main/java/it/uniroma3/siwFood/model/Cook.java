@@ -37,7 +37,6 @@ public class Cook {
 	
 	public Cook() {
 	    this.recipes = new ArrayList<>();
-	    this.credentials = new Credentials();
 	}
 
 	public Long getIdCook() {
