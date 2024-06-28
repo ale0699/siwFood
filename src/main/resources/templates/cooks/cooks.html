@@ -70,7 +70,7 @@
 						<img th:src="@{${cook.picture}}" class="card-img-top imgclass" alt="Immagine Cuoco">
 						<div class="card-body">
 							<h5 class="card-title" th:text="${cook.name} + ' ' + ${cook.surname}"></h5>
-							<a th:href="@{'cookDetails/' + ${cook.idCook} }"><button class="btn btn-primary">Vai a cuoco</button></a>
+							<a th:href="@{'/cooks/' + ${cook.idCook} }"><button class="btn btn-primary">Vai a cuoco</button></a>
 						</div>
 					</div>
 				</div>

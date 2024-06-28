@@ -29,17 +29,17 @@ public class CookController {
 	@Autowired
 	private ImageService imageService;
 	
-	@GetMapping(value = {"/cooks", "/cook/cooks", "/admin/cooks"})
+	@GetMapping(value = "/cooks")
 	public String getCooks(Model model) {
 		model.addAttribute("cooks", this.cookService.findAllCooks());
 		return "cooks/cooks.html";
 	}
 	
-	@GetMapping(value = {"/cookDetails/{idCook}"})
+	@GetMapping(value = "/cooks/{idCook}")
 	public String getCookDetails(@PathVariable("idCook")Long idCook, Model model) {
 		model.addAttribute("recipes", this.recipeService.findRecipesByCookId(idCook));
 		model.addAttribute("cook", this.cookService.findCookByIdCook(idCook));
-		return "cooks/cookDetailsUnAuthenticated.html";	
+		return "cooks/cookDetails.html";	
 	}
 
 	@GetMapping(value = "/admin/cooks/formAdd")
@@ -54,6 +54,23 @@ public class CookController {
 		String nameImage = this.imageService.saveImage(image, "src/main/resources/static/images/cooks");
 		cook.setPicture(("/images/cooks/"+nameImage));
 	    // Salva il cook nel database
+	    this.cookService.saveCook(cook);
+	    return "redirect:/admin/dashboard";
+	}
+	
+	@GetMapping(value = "/admin/cooks/edit/{idCook}")
+	public String getFormEditCook(@PathVariable("idCook")Long idCook, Model model) {
+		Cook cook = this.cookService.findCookByIdCook(idCook);
+		model.addAttribute("cook", cook);
+		return "cooks/cookManage.html";
+	}
+	
+	@PostMapping(value = "/admin/cooks/edit")
+	public String postEditCook(@ModelAttribute Cook cook, Model model) throws IOException {
+	    
+		cook.setName(cook.getName());
+		cook.setSurname(cook.getSurname());
+		cook.setDateBirth(cook.getDateBirth());
 	    this.cookService.saveCook(cook);
 	    return "redirect:/admin/dashboard";
 	}
