@@ -67,7 +67,7 @@
 							<a href="/">Dashboard</a>
 						</div>
 						<div class="row">
-							<a th:href=@{formAddRecipe}>Aggiungi Ricetta</a>
+							<a th:href=@{/cook/recipes/formAdd}>Aggiungi Ricetta</a>
 						</div>
 						<div class="row">
 							<a th:href=@{formAddRecipe}>Aggiungi Cuoco</a>
@@ -91,7 +91,7 @@
 										</div>
 										<div class="card-body">
 											<h5 class="card-title" th:text="${cook.name}"></h5>
-											<a th:href="@{'/admin/cookManage/'+${cook.idCook}}" class="btn btn-primary">Gestisci Cuoco</a>
+											<a th:href="@{'/admin/cooks/edit/'+${cook.idCook}}" class="btn btn-primary">Gestisci Cuoco</a>
 										</div>
 									</div>
 								</div>
@@ -113,7 +113,7 @@
 										</div>
 										<div class="card-body">
 											<h5 class="card-title" th:text="${recipe.name}"></h5>
-											<a th:href="@{'/cook/recipeManage/'+${recipe.idRecipe}}" class="btn btn-primary">Gestisci Ricetta</a>
+											<a th:href="@{'/cook/recipes/edit/'+${recipe.idRecipe}}" class="btn btn-primary">Gestisci Ricetta</a>
 										</div>
 									</div>
 								</div>

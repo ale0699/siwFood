@@ -27,14 +27,14 @@ public class IngredientController {
 	/*VIENE AGGIUNTO AL DATABASE UN NUOVO INGREDIENTE ASSOCIATO AD UNA RICETTA. SE CHI AGGIUNGE IL NUOVO
 	 * INGREDIENTE, NON È AUTORIZZATO(OSSIA NON È IL PROPRIETARIO DELLA RICETTA OPPURE NON È UN ADMIN), 
 	 * VIENE SOLLEVATA UN ECCEZIONE DI ERROR 403 FORBIDDEN */
-	@PostMapping(value = {"/cook/addIngredient/{idRecipe}", "/admin/addIngredient/{idRecipe}"})
+	@PostMapping(value = "/cook/ingredients/add/recipes/{idRecipe}")
 	public String postAddIngredientRecipe(@ModelAttribute Ingredient ingrediente, @PathVariable("idRecipe")Long idRecipe, HttpServletRequest request) {
 		
 		Recipe recipe = this.recipeService.findRecipeById(idRecipe);
 		ingrediente.setRecipe(recipe);
 		try {
 			this.ingredientService.saveIngredient(ingrediente);
-			return "redirect:/cook/recipeManage/"+recipe.getIdRecipe();
+			return "redirect:/cook/recipes/edit/"+recipe.getIdRecipe();
 
 		} catch (AccessDeniedException e) {
 			throw new AccessDeniedException("You do not have permission to add ingredients");
@@ -44,13 +44,13 @@ public class IngredientController {
 	/*VIENE RIMOSSO DAL DATABASE UN INGREDIENTE ASSOCIATO AD UNA RICETTA. SE CHI RIMUOVE IL NUOVO
 	 * INGREDIENTE, NON È AUTORIZZATO(OSSIA NON È IL PROPRIETARIO DELLA RICETTA OPPURE NON È UN ADMIN), 
 	 * VIENE SOLLEVATA UN ECCEZIONE DI ERROR 403 FORBIDDEN */
-	@GetMapping(value = {"/cook/removeIngredient/{idIngredient}/{idRecipe}", "/admin/removeIngredient/{idIngredient}/{idRecipe}"})
+	@GetMapping(value = "/cook/ingredients/remove/{idIngredient}/recipes/{idRecipe}")
 	public String getRemoveIngredient(@PathVariable("idIngredient")Long idIngredient, @PathVariable("idRecipe")Long idRecipe, Model model, HttpServletRequest request) {
 		Ingredient ingredient = this.ingredientService.findIngredientById(idIngredient);
 		
 		try {
 			this.ingredientService.deleteIngredient(ingredient);
-			return "redirect:/cook/recipeManage/"+ingredient.getRecipe().getIdRecipe();
+			return "redirect:/cook/recipes/edit/"+ingredient.getRecipe().getIdRecipe();
 			
 		} catch (AccessDeniedException e) {
 			throw new AccessDeniedException("You do not have permission to remove ingredients");

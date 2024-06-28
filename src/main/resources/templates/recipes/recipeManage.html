@@ -63,7 +63,7 @@
         <div class="container">
             <div class="row mb-3 p-3 border-bottom text-center">
                 <h2 class="text-center" th:text="'Ricetta: '+${recipe.name}"></h2>
-                <a th:href="@{'/cook/removeRecipe/'+${recipe.idRecipe}}">
+                <a th:href="@{'/cook/recipes/remove/'+${recipe.idRecipe}}">
                     <button type="button" class="btn btn-primary">Elimina Ricetta</button>
                 </a>
             </div>
@@ -74,7 +74,7 @@
                             <h2 class="text-center">Modifica nome e descrizione della ricetta</h2>
                         </div>
                         <div class="row text-center">
-                            <form th:action="@{/cook/updateRecipe}" th:object="${recipe}" method="post">
+                            <form th:action="@{/cook/recipes/update}" th:object="${recipe}" method="post">
                                 <input type="hidden" th:field="${recipe.idRecipe}" th:value="${recipe.idRecipe}">
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="floatingInput"
@@ -105,7 +105,7 @@
                                     th:each="image, listIndex : ${recipe.pictureRecipe}">
                                     <img th:src="@{${image}}" class="card-img-top" alt="image">
                                     <div class="card-body">
-                                        <a th:href="@{'/cook/removeImage/'+${recipe.idRecipe}+'/'+${listIndex.index}}" class="btn btn-primary">Elimina</a>
+                                        <a th:href="@{'/cook/recipes/removeImage/'+${recipe.idRecipe}+'/'+${listIndex.index}}" class="btn btn-primary">Elimina</a>
                                     </div>
                                 </div>
                             </div>
@@ -121,7 +121,7 @@
                             <h2 class="text-center">Aggiungi Immagine</h2>
                         </div>
                         <div class="row text-center">
-                            <form th:action="@{'/cook/addRecipeImage/'+${recipe.idRecipe}}" method="post" enctype="multipart/form-data">
+                            <form th:action="@{'/cook/recipes/addImage/'+${recipe.idRecipe}}" method="post" enctype="multipart/form-data">
                                 <div class="mb-3">
                                     <label for="formFile" class="form-label">Inserisci un immagine</label>
                                     <input class="form-control" type="file" name="image-recipe" id="formFile">
@@ -144,7 +144,7 @@
                                     <div th:each="ingredient : ${ingredients}">
                                         <li>
                                             <span th:text="${ingredient.name} + ' ' + ${ingredient.quantity}"></span>
-                                            <a th:href="@{'/cook/removeIngredient/' + ${ingredient.idIngredient} + '/' + ${recipe.idRecipe}}">
+                                            <a th:href="@{'/cook/ingredients/remove/' + ${ingredient.idIngredient} + '/recipes/' + ${recipe.idRecipe}}">
                                                 <button type="button" class="btn btn-primary">Rimuovi</button>
                                             </a>
                                         </li>
@@ -163,7 +163,7 @@
                             <h2 class="text-center">Aggiungi Ingrediente</h2>
                         </div>
                         <div class="row text-center">
-                            <form th:action="@{'/cook/addIngredient/'+${recipe.idRecipe}}" method="post" th:object="${ingredient}">
+                            <form th:action="@{'/cook/ingredients/add/recipes/'+${recipe.idRecipe}}" method="post" th:object="${ingredient}">
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="floatingInput"
                                         placeholder="Nome Ingrediente" th:field="${ingredient.name}">

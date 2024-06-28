@@ -35,11 +35,10 @@ public class AuthConfiguration {
 		http
 		.csrf().and().cors().disable()
 		.authorizeHttpRequests()
-		.requestMatchers(HttpMethod.GET, "/", "/login/**", "/register/**", "/recipes", "/recipeDetails/**", "/searchRecipes/**", "/searchRecipesByIngredient/**", "/recipesWithIngredient/**", "/css/**", "/images/**").permitAll()
-		.requestMatchers(HttpMethod.POST, "/register").permitAll()
 		.requestMatchers(HttpMethod.GET, "/admin/**").hasAnyAuthority("ADMIN")
+		.requestMatchers(HttpMethod.POST, "/admin/**").hasAnyAuthority("ADMIN")
 		.requestMatchers(HttpMethod.GET, "/cook/**").hasAnyAuthority("COOK", "ADMIN")
-        .requestMatchers(HttpMethod.POST, "/cook/**", "/admin/**").hasAnyAuthority("COOK", "ADMIN")
+        .requestMatchers(HttpMethod.POST, "/cook/**").hasAnyAuthority("COOK", "ADMIN")
 		.anyRequest().permitAll()
 		.and().formLogin()
 		.loginPage("/login").failureUrl("/login/error").defaultSuccessUrl("/")

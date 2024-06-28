@@ -52,7 +52,7 @@ public class RecipeController {
 	}
 	
 	/*DETTAGLI DI UNA SINGOLA RICETTA CON UN CERTO ID, PER UTENTI NON AUTENTICATI*/
-	@GetMapping(value = "/recipeDetails/{idRecipe}")
+	@GetMapping(value = "/recipes/{idRecipe}")
 	public String getRecipeDetails(@PathVariable("idRecipe") Long idRecipe, Model model) {
 		
         model.addAttribute("ingredients", this.ingredientService.findIngredientsByRecipeId(idRecipe));
@@ -61,7 +61,7 @@ public class RecipeController {
 	}
 	
 	/*FORM PER POTER AGGIUNGERE UNA RICETTA*/
-	@GetMapping(value = {"/cook/formAddRecipe", "/admin/formAddRecipe"})
+	@GetMapping(value = "/cook/recipes/formAdd")
 	public String getFormAddRecipe(Model model) {
 		model.addAttribute("cooks", this.cookService.findAllCooks());
 		model.addAttribute("recipe", new Recipe());
@@ -69,7 +69,7 @@ public class RecipeController {
 	}
 	
 	/*METODO PER POTER SALVARE ALL'INTERNO DEL DATABASE UNA NUOVA RICETTA, GRAZIE AD UNA RICHIESTA HTTP.POST*/
-	@PostMapping(value = {"/cook/addRecipe", "/admin/addRecipe"})
+	@PostMapping(value = "/cook/recipes/add")
 	public String postAddRecipe(@ModelAttribute Recipe recipe, @RequestParam(value = "idCook", required = false)Long idCook) throws IOException {
 		
 		Cook cook;
@@ -88,10 +88,10 @@ public class RecipeController {
 
 		recipe.setCook(cook);
 		this.recipeService.saveRecipe(recipe); //può sollevare eccezioni
-		return "redirect:/cook/recipeManage/"+recipe.getIdRecipe();
+		return "redirect:/cook/recipes/edit/"+recipe.getIdRecipe();
 	}
 	
-	@PostMapping(value = {"/cook/addRecipeImage/{idRecipe}", "/admin/addRecipeImage/{idRecipe}"})
+	@PostMapping(value = "/cook/recipes/addImage/{idRecipe}")
 	public String postAddRecipeImage(@RequestParam("image-recipe")MultipartFile image, @PathVariable("idRecipe")Long idRecipe) throws IOException {
 		Recipe recipe = this.recipeService.findRecipeById(idRecipe);
 		try { 
@@ -105,10 +105,10 @@ public class RecipeController {
 			throw new IOException("Empty file");
 		}
 		
-		return "redirect:/cook/recipeManage/"+recipe.getIdRecipe();
+		return "redirect:/cook/recipes/edit/"+recipe.getIdRecipe();
 	}
 	
-	@GetMapping(value = "/cook/removeImage/{idRecipe}/{index}")
+	@GetMapping(value = "/cook/recipes/removeImage/{idRecipe}/{index}")
 	public String postRemoveRecipeImage(@PathVariable("idRecipe")Long idRecipe, @PathVariable("index")int index) throws IOException {
 		Recipe recipe = this.recipeService.findRecipeById(idRecipe);
 		String image = recipe.getPictureRecipe().get(index);
@@ -123,10 +123,10 @@ public class RecipeController {
 			throw new IOException("Empty file");
 		}
 		
-		return "redirect:/cook/recipeManage/"+recipe.getIdRecipe();
+		return "redirect:/cook/recipes/edit/"+recipe.getIdRecipe();
 	}
 	
-	@GetMapping(value = "/cook/recipeManage/{idRecipe}")
+	@GetMapping(value = "/cook/recipes/edit/{idRecipe}")
 	public String getRecipeManage(@PathVariable("idRecipe")Long idRecipe, Model model) {
 		model.addAttribute("recipe", this.recipeService.findRecipeById(idRecipe));
 		model.addAttribute(new Ingredient());
@@ -137,7 +137,7 @@ public class RecipeController {
 	/*METODO PER POTER RIMUOVERE DAL DATABASE UNA RICETTA CHE HA COME ID idRecipe,
 	 * SARÀ POSSIBILE RIMUOVERE SOLTANTO LE RICETTE CHE APPARTENGONO AD UN CUOCO.
 	 * GLI ADMIN POSSONO ELIMINARE TUTTE LE RICETTE*/
-	@GetMapping(value = {"/cook/removeRecipe/{idRecipe}", "/admin/removeRecipe/{idRecipe}"})
+	@GetMapping(value = "/cook/recipes/remove/{idRecipe}")
 	public String getRemoveIngredient(@PathVariable("idRecipe")Long idRecipe, Model model, HttpServletRequest request) throws Exception {
 		
 		Recipe recipe = this.recipeService.findRecipeById(idRecipe);
@@ -153,7 +153,7 @@ public class RecipeController {
 	}
 
 	/*METODO PER POTER MODIFICARE ALL'INTERNO DEL DATABASE UNA RICETTA, GRAZIE AD UNA RICHIESTA HTTP.POST*/
-    @PostMapping(value = {"/cook/updateRecipe", "/admin/updateRecipe"})
+    @PostMapping(value = "/cook/recipes/update")
     public String postUpdateRecipe(@ModelAttribute Recipe recipe) {
 
     	try {
@@ -161,7 +161,7 @@ public class RecipeController {
             editedRecipe.setName(recipe.getName());
             editedRecipe.setDescription(recipe.getDescription());
             this.recipeService.saveRecipe(editedRecipe);
-	        return "redirect:/cook/recipeManage/"+recipe.getIdRecipe();
+	        return "redirect:/cook/recipes/edit/"+recipe.getIdRecipe();
 		} catch (AccessDeniedException e) {
 			throw new AccessDeniedException("You do not have permission to edit this recipe");
 		}
