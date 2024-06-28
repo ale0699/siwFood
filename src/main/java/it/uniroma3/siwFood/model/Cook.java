@@ -25,7 +25,6 @@ public class Cook {
 	private String name;
 	@Column(nullable = false)
 	private String surname;
-	@Column(nullable = false)
 	private LocalDate dateBirth;
 	private String picture;
 	

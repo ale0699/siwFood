@@ -65,14 +65,15 @@ public class CookController {
 		return "cooks/cookManage.html";
 	}
 	
-	@PostMapping(value = "/admin/cooks/edit")
-	public String postEditCook(@ModelAttribute Cook cook, Model model) throws IOException {
-	    
-		cook.setName(cook.getName());
-		cook.setSurname(cook.getSurname());
-		cook.setDateBirth(cook.getDateBirth());
+	@PostMapping(value = "/admin/cooks/update")
+	public String postEditCook(@ModelAttribute Cook cookEdited, Model model) throws IOException {
+	    Cook cook = this.cookService.findCookByIdCook(cookEdited.getIdCook());
+		cook.setName(cookEdited.getName());
+		cook.setSurname(cookEdited.getSurname());
+		cook.setPicture(cookEdited.getPicture());
+		cook.setDateBirth(cookEdited.getDateBirth());
 	    this.cookService.saveCook(cook);
-	    return "redirect:/admin/dashboard";
+	    return "redirect:/admin/cooks/edit/"+cook.getIdCook();
 	}
 
 	@GetMapping(value = "/admin/cooks/remove/{idCook}")
