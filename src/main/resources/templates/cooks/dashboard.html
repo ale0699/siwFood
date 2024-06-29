@@ -82,15 +82,19 @@
 								<h5 class="text-center">Ecco la tua dashboard dove puoi gestire le tue ricette</h5>
 							</div>
 						</div>
-						<div class="row row-cols-auto mt-3 mb-3">
-							<div class="col text-center" th:each="recipe : ${recipesCook}">
-								<div class="card" style="width: 18rem;">
-									<div th:if="${recipe.pictureRecipe != null and !#lists.isEmpty(recipe.pictureRecipe)}">
-										<img th:src="@{${recipe.pictureRecipe[0]}}" class="card-img-top" alt="imageRecipe">
-									</div>
-									<div class="card-body">
-										<h5 class="card-title" th:text="${recipe.name}"></h5>
-										<a th:href="@{'/cook/recipes/edit/'+${recipe.idRecipe}}" class="btn btn-secondary">Gestisci Ricetta</a>
+						<div class="col container d-flex justify-content-around row-cols-auto">
+							<div class="row">
+								<div class="col mt-2" th:each="recipe : ${cook.recipes}">
+									<div class="card h-100 text-center" style="width: 9rem;" >
+										<div th:if="${recipe.pictureRecipe != null and !#lists.isEmpty(recipe.pictureRecipe)}">
+											<img th:src="@{${recipe.pictureRecipe[0]}}" class="card-img-top imgCard"
+												alt="imageRecipe">
+										</div>
+										<div class="card-body">
+											<h5 class="card-title" th:text="${recipe.name}"></h5>
+											<a th:href="@{'/cook/recipes/edit/'+${recipe.idRecipe}}"
+												class="btn btn-secondary">Gestisci Ricetta</a>
+										</div>
 									</div>
 								</div>
 							</div>

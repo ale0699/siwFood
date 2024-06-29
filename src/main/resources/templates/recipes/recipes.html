@@ -72,9 +72,9 @@
 					th:text="'Tutte le ricette del sistema con ingrediente ' + ${ingredient} + ' e nome ' + ${nameRecipe}">
 				</h1>
 			</div>
-			<div class="row">
-				<div class="col container d-flex justify-content-around">
-					<div class="card h-100 text-center" style="width: 15rem;" th:each=" recipe: ${recipes}">
+			<div class="row container d-flex justify-content-around row-cols-auto">
+				<div class="col mt-2" th:each=" recipe: ${recipes}">
+					<div class="card h-100 text-center" style="width: 15rem;">
 						<img th:src="@{${recipe.pictureRecipe[0]}}" class="card-img-top imgclass"
 							alt="Immagine Ricetta">
 						<div class="card-body">
