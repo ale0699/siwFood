@@ -64,7 +64,7 @@
             <div class="row mb-3 p-3 border-bottom text-center">
                 <h2 class="text-center" th:text="'Ricetta: '+${recipe.name}"></h2>
                 <a th:href="@{'/cook/recipes/remove/'+${recipe.idRecipe}}">
-                    <button type="button" class="btn btn-primary">Elimina Ricetta</button>
+                    <button type="button" class="btn btn-secondary">Elimina Ricetta</button>
                 </a>
             </div>
             <div class="row mb-3 p-3 border-bottom">
@@ -87,7 +87,7 @@
                                         th:field="${recipe.description}"></textarea>
                                     <label for="floatingTextarea">Descrizione della Ricetta</label>
                                 </div>
-                                <button type="submit" class="btn btn-primary mt-4">Modifica</button>
+                                <button type="submit" class="btn btn-secondary mt-4">Modifica</button>
                             </form>
                         </div>
                     </div>
@@ -105,7 +105,7 @@
                                     th:each="image, listIndex : ${recipe.pictureRecipe}">
                                     <img th:src="@{${image}}" class="card-img-top" alt="image">
                                     <div class="card-body">
-                                        <a th:href="@{'/cook/recipes/removeImage/'+${recipe.idRecipe}+'/'+${listIndex.index}}" class="btn btn-primary">Elimina</a>
+                                        <a th:href="@{'/cook/recipes/removeImage/'+${recipe.idRecipe}+'/'+${listIndex.index}}" class="btn btn-secondary">Elimina</a>
                                     </div>
                                 </div>
                             </div>
@@ -124,9 +124,9 @@
                             <form th:action="@{'/cook/recipes/addImage/'+${recipe.idRecipe}}" method="post" enctype="multipart/form-data">
                                 <div class="mb-3">
                                     <label for="formFile" class="form-label">Inserisci un immagine</label>
-                                    <input class="form-control" type="file" name="image-recipe" id="formFile">
+                                    <input class="form-control" type="file" name="image-recipe" id="formFile" required>
                                 </div>
-                                <button type="submit" class="btn btn-primary mt-4">Aggiungi</button>
+                                <button type="submit" class="btn btn-secondary mt-4">Aggiungi</button>
                             </form>
                         </div>
                     </div>
@@ -145,7 +145,7 @@
                                         <li>
                                             <span th:text="${ingredient.name} + ' ' + ${ingredient.quantity}"></span>
                                             <a th:href="@{'/cook/ingredients/remove/' + ${ingredient.idIngredient} + '/recipes/' + ${recipe.idRecipe}}">
-                                                <button type="button" class="btn btn-primary">Rimuovi</button>
+                                                <button type="button" class="btn btn-secondary">Rimuovi</button>
                                             </a>
                                         </li>
                                     </div>
@@ -174,7 +174,7 @@
                                         placeholder="Quantità Ingrediente" th:field="${ingredient.quantity}">
                                     <label for="floatingInput">Quantità Ingrediente</label>
                                 </div>
-                                <button type="submit" class="btn btn-primary mt-4">Aggiungi</button>
+                                <button type="submit" class="btn btn-secondary mt-4">Aggiungi</button>
                             </form>
                         </div>
                     </div>
@@ -182,7 +182,7 @@
             </div>
             <div class="row mb-3 p-3 text-center">
                 <a th:href="@{'/'+${userRole}+'/dashboard'}">
-                    <button type="button" class="btn btn-primary">Termina Modifiche</button>
+                    <button type="button" class="btn btn-secondary">Termina Modifiche</button>
                 </a>
             </div>
         </div>

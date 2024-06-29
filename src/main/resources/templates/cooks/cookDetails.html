@@ -70,7 +70,7 @@
                 </div>
                 <div class="cook-details">
                     <h1 th:text="${cook.name} + ' ' + ${cook.surname}"></h1>
-                    <h5 th:text="'Data di Nascita: ' + ${cook.dateBirth}">Data di Nascita: 12/01/1962</h5>
+                    <h5 th:text="'Data di Nascita: ' + ${#temporals.format(cook.dateBirth, 'dd-MM-yyyy')}"></h5>
                 </div>
             </div>
             <div class="recipes">

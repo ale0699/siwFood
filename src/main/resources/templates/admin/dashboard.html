@@ -92,7 +92,7 @@
 									<div class="card-body">
 										<h5 class="card-title" th:text="'Id: ' +${cook.idCook}"></h5>
 										<h5 class="card-title" th:text="${cook.name} + ' ' + ${cook.surname}"></h5>
-										<a th:href="@{'/admin/cooks/edit/'+${cook.idCook}}" class="btn btn-primary">Gestisci Cuoco</a>
+										<a th:href="@{'/admin/cooks/edit/'+${cook.idCook}}" class="btn btn-secondary">Gestisci Cuoco</a>
 									</div>
 								</div>
 							</div>
@@ -107,7 +107,7 @@
 											<div class="card-body">
 												<h5 class="card-title" th:text="${recipe.name}"></h5>
 												<a th:href="@{'/cook/recipes/edit/'+${recipe.idRecipe}}"
-													class="btn btn-primary">Gestisci Ricetta</a>
+													class="btn btn-secondary">Gestisci Ricetta</a>
 											</div>
 										</div>
 									</div>

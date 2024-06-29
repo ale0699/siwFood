@@ -62,30 +62,32 @@
 	<section>
 		<div class="container">
 			<div class="row mb-5">
-				<h1 class="text-center" th:if="${ingredient == null && nameRecipe == null}">Tutte le ricette del sistema</h1>
+				<h1 class="text-center" th:if="${ingredient == null && nameRecipe == null}">Tutte le ricette del sistema
+				</h1>
 				<h1 class="text-center" th:if="${ingredient != null && nameRecipe == null}"
 					th:text="'Tutte le ricette del sistema con ingrediente ' + ${ingredient}"></h1>
 				<h1 class="text-center" th:if="${ingredient == null && nameRecipe != null}"
 					th:text="'Tutte le ricette del sistema con nome ' + ${nameRecipe}"></h1>
 				<h1 class="text-center" th:if="${ingredient != null && nameRecipe != null}"
-					th:text="'Tutte le ricette del sistema con ingrediente ' + ${ingredient} + ' e nome ' + ${nameRecipe}"></h1>
+					th:text="'Tutte le ricette del sistema con ingrediente ' + ${ingredient} + ' e nome ' + ${nameRecipe}">
+				</h1>
 			</div>
 			<div class="row">
-				<div class="col text-center" th:each=" recipe: ${recipes}">
-					<div class="card h-100" style="width: 18rem;">
+				<div class="col container d-flex justify-content-around">
+					<div class="card h-100 text-center" style="width: 15rem;" th:each=" recipe: ${recipes}">
 						<img th:src="@{${recipe.pictureRecipe[0]}}" class="card-img-top imgclass"
 							alt="Immagine Ricetta">
 						<div class="card-body">
 							<h5 class="card-title" th:text="${recipe.name}"></h5>
 							<p class="card-text" th:text="${recipe.description}"></p>
-							<a th:href="@{'/recipes/'+${recipe.idRecipe}}"><button class="btn btn-primary">Vai a
+							<a th:href="@{'/recipes/'+${recipe.idRecipe}}"><button class="btn btn-secondary">Vai a
 									ricetta</button></a>
 						</div>
 					</div>
 				</div>
-				<div th:if="${recipes == null || recipes.isEmpty()}">
-					<span class="text-center">Non ci sono ricette nel sistema</span>
-				</div>
+			</div>
+			<div th:if="${recipes == null || recipes.isEmpty()}">
+				<span class="text-center">Non ci sono ricette nel sistema</span>
 			</div>
 		</div>
 	</section>
@@ -118,4 +120,5 @@
 		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
 		crossorigin="anonymous"></script>
 </body>
+
 </html>

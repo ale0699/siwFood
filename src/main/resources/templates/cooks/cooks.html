@@ -65,12 +65,12 @@
 				<h1 class="text-center">Tutti i cuochi del sistema</h1>
 			</div>
 			<div class="row">
-				<div class="col text-center" th:each=" cook: ${cooks}">
-					<div class="card h-100" style="width: 18rem;">
+				<div class="col container d-flex justify-content-around" >
+					<div class="card h-100 text-center" style="width: 15rem;" th:each=" cook: ${cooks}">
 						<img th:src="@{${cook.picture}}" class="card-img-top imgclass" alt="Immagine Cuoco">
 						<div class="card-body">
 							<h5 class="card-title" th:text="${cook.name} + ' ' + ${cook.surname}"></h5>
-							<a th:href="@{'/cooks/' + ${cook.idCook} }"><button class="btn btn-primary">Vai a cuoco</button></a>
+							<a th:href="@{'/cooks/' + ${cook.idCook} }"><button class="btn btn-secondary">Vai a cuoco</button></a>
 						</div>
 					</div>
 				</div>
