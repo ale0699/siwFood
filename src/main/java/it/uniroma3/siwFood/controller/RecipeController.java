@@ -199,10 +199,10 @@ public class RecipeController {
 		return "recipes/recipes.html";
 	}
 	
-	@GetMapping(value = "/searchRecipesByIngredient")
+	@GetMapping(value = "/recipes/ingredient")
 	public String getSearchRecipesByIngredient(@RequestParam("nameIngredient")String ingredientName, Model model) {
 		model.addAttribute("ingredient", ingredientName);
 		model.addAttribute("recipes", this.recipeService.findRecipesByIngredientName(ingredientName));
-		return "recipes/recipesWithIngredient.html";
+		return "recipes/recipes.html";
 	}
 }
