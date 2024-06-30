@@ -30,6 +30,16 @@ public class IndexController {
 		return "index.html";
 	}
 	
+	@GetMapping(value = "/about")
+	public String getAboutPage() {
+		return "about.html";
+	}
+	
+	@GetMapping(value = "/contacts")
+	public String getContactsPage() {
+		return "contacts.html";
+	}
+	
     @GetMapping(value = "/admin/dashboard")
     public String getAdminDashboard(Model model) {
         model.addAttribute("cooks", this.cookService.findAllCooks());
