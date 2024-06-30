@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,10 +13,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import it.uniroma3.siwFood.controller.validator.CookValidator;
 import it.uniroma3.siwFood.model.Cook;
 import it.uniroma3.siwFood.service.CookService;
 import it.uniroma3.siwFood.service.ImageService;
 import it.uniroma3.siwFood.service.RecipeService;
+import jakarta.validation.Valid;
 
 @Controller
 public class CookController {
@@ -28,6 +31,9 @@ public class CookController {
 	
 	@Autowired
 	private ImageService imageService;
+	
+	@Autowired
+	private CookValidator cookValidator;
 	
 	@GetMapping(value = "/cooks")
 	public String getCooks(Model model) {
@@ -49,8 +55,16 @@ public class CookController {
 	}
 	
 	@PostMapping(value = "/admin/cooks/add")
-	public String getAddCook(@RequestParam("image-cook")MultipartFile image, @ModelAttribute Cook cook, Model model) throws IOException {
+	public String getAddCook(@RequestParam("image-cook")MultipartFile image,@Valid @ModelAttribute Cook cook, Model model, BindingResult bindingResult) throws IOException {
 	    
+		this.cookValidator.validate(cook, bindingResult);
+		
+		if(bindingResult.hasErrors()) {
+			
+			model.addAttribute("cook", cook);
+			return "cooks/formAddCook.html";
+		}
+		
 		String nameImage = this.imageService.saveImage(image, "src/main/resources/static/images/cooks");
 		cook.setPicture(("/images/cooks/"+nameImage));
 	    // Salva il cook nel database
@@ -78,8 +92,9 @@ public class CookController {
 		cook.setSurname(cookEdited.getSurname());
 		cook.setPicture(cookEdited.getPicture());
 		cook.setDateBirth(cookEdited.getDateBirth());
+		
 	    this.cookService.saveCook(cook);
-	    return "redirect:/admin/cooks/edit/"+cook.getIdCook();
+	    return "redirect:/cook/cooks/edit/"+cook.getIdCook();
 	}
 
 	@GetMapping(value = "/admin/cooks/remove/{idCook}")

@@ -8,6 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import it.uniroma3.siwFood.controller.validator.RecipeValidator;
 import it.uniroma3.siwFood.model.Cook;
 import it.uniroma3.siwFood.model.Credentials;
 import it.uniroma3.siwFood.model.Ingredient;
@@ -25,6 +27,7 @@ import it.uniroma3.siwFood.service.ImageService;
 import it.uniroma3.siwFood.service.IngredientService;
 import it.uniroma3.siwFood.service.RecipeService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 
 @Controller
 public class RecipeController {
@@ -43,6 +46,9 @@ public class RecipeController {
 	
 	@Autowired
 	private ImageService imageService;
+	
+	@Autowired
+	private RecipeValidator recipeValidator;
 	
 	/*TUTTE LE RICETTE PRESENTI NEL SISTEMA*/
 	@GetMapping(value = "/recipes")
@@ -70,7 +76,7 @@ public class RecipeController {
 	
 	/*METODO PER POTER SALVARE ALL'INTERNO DEL DATABASE UNA NUOVA RICETTA, GRAZIE AD UNA RICHIESTA HTTP.POST*/
 	@PostMapping(value = "/cook/recipes/add")
-	public String postAddRecipe(@ModelAttribute Recipe recipe, @RequestParam(value = "idCook", required = false)Long idCook) throws IOException {
+	public String postAddRecipe(@Valid @ModelAttribute Recipe recipe, @RequestParam(value = "idCook", required = false)Long idCook, BindingResult bindingResult, Model model) throws IOException {
 		
 		Cook cook;
 		
@@ -87,6 +93,15 @@ public class RecipeController {
 		}
 
 		recipe.setCook(cook);
+		
+		this.recipeValidator.validate(recipe, bindingResult);
+		
+		if(bindingResult.hasErrors()) {
+			model.addAttribute("cooks", this.cookService.findAllCooks());
+			model.addAttribute("recipe", recipe);
+			return "recipes/formAddRecipe.html";
+		}
+		
 		this.recipeService.saveRecipe(recipe); //può sollevare eccezioni
 		return "redirect:/cook/recipes/edit/"+recipe.getIdRecipe();
 	}

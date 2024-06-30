@@ -1,5 +1,6 @@
 package it.uniroma3.siwFood.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,11 @@ public class CookService {
 	public List<Cook> findAllCooks(){
 		
 		return (List<Cook>) this.cookRepository.findAll();
+	}
+	
+	public boolean existsByNameAndSurnameAndDateBirth(String nome, String cognome, LocalDate dataNascita) {
+		
+		return this.cookRepository.existsByNameIgnoreCaseAndSurnameIgnoreCaseAndDateBirth(nome, cognome, dataNascita);
 	}
 	
 	public Cook findCookByIdCook(Long idCook) {

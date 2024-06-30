@@ -29,6 +29,11 @@ public class RecipeService {
 		return this.recipeRepository.existsById(idRicetta);
 	}
 	
+	public boolean existsByNameAndByCook(String name, Long idCook) {
+		
+		return this.recipeRepository.existsByNameAllIgnoreCaseAndCookIdCook(name,idCook);
+	}
+	
 	public List<Recipe> findAllRecipes(){
 		return (List<Recipe>) this.recipeRepository.findAll();
 	}

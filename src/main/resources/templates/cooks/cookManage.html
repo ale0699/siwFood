@@ -66,10 +66,10 @@
                     <div class="row">
                         <img th:src="@{${cook.picture}}" class="imagePicture">
                         <h2 th:text="${cook.name} + ' ' +${cook.surname}"></h2>
-                        <h5 th:text="${cook.dateBirth}"></h5>
+                        <h5 th:text="'Data di Nascita: ' + ${#temporals.format(cook.dateBirth, 'dd-MM-yyyy')}"></h5>
                     </div>
                     <div class="row">
-                        <a th:href="@{'/admin/cooks/remove/'+${cook.idCook}}">
+                        <a th:href="@{'/admin/cooks/remove/'+${cook.idCook}}" th:if="${userRole == 'admin'}">
                             <button type="button" class="btn btn-secondary text-center">Elimina Cuoco</button>
                         </a>
                     </div>
@@ -80,7 +80,7 @@
                             <h2 class="text-center">Modifica Cuoco</h2>
                         </div>
                         <div class="row text-center">
-                            <form th:action="@{/admin/cooks/update}" th:object="${cook}" method="post">
+                            <form th:action="@{/cook/cooks/update}" th:object="${cook}" method="post">
                                 <input type="hidden" th:field="${cook.idCook}" th:value="${cook.idCook}">
                                 <input type="hidden" th:field="${cook.picture}" th:value="${cook.picture}">
                                 <div class="form-floating mb-3">
@@ -95,14 +95,6 @@
                                 <div class="form-floating mb-3">
 									<input type="date" class="form-control" id="floatingInput" placeholder="Data di nascita" th:value="${cook.dateBirth}" th:field="${cook.dateBirth}" required>
 									<label for="floatingInput">Data di nascita</label>
-								</div>
-                                <div class="form-floating mb-3" th:if="${cook.credentials!=null}">
-									<input type="text" class="form-control" id="floatingInput" placeholder="Username" th:value="${cook.credentials.username}" th:field="${cook.credentials.username}" required>
-									<label for="floatingInput">Username</label>
-								</div>
-                                <div class="form-floating mb-3" th:if="${cook.credentials!=null}">
-									<input type="password" class="form-control" id="floatingInput" placeholder="Password" th:value="${cook.credentials.password}" th:field="${cook.credentials.password}" required>
-									<label for="floatingInput">Password</label>
 								</div>
                                 <button type="submit" class="btn btn-secondary mt-4">Modifica</button>
                             </form>

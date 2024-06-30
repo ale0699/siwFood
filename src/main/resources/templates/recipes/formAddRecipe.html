@@ -88,6 +88,9 @@
 									</select>
 									<label for="floatingSelect">Cuoco</label>
 								</div>
+								<div class="error" th:if="${#fields.hasGlobalErrors()}">
+									<p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p>
+								</div>
 								<button type="submit" class="btn btn-secondary mt-4">Aggiungi Ricetta</button>
 							</form>
 						</div>

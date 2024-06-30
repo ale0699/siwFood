@@ -13,4 +13,6 @@ public interface RecipeRepository extends CrudRepository<Recipe, Long> {
 	public List<Recipe> findAllByNameContainsAllIgnoreCase(String recipeName);
 	
 	public List<Recipe> findAllByCookIdCook(Long idCook);
+	
+	public boolean existsByNameAllIgnoreCaseAndCookIdCook(String name, Long idCook);
 }

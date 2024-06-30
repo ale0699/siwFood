@@ -83,6 +83,9 @@
                                     <label for="formFile" class="form-label">Inserisci una fotografia</label>
                                     <input class="form-control" type="file" name="image-cook" id="formFile">
                                 </div>
+								<div class="error" th:if="${#fields.hasGlobalErrors()}">
+									<p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p>
+								</div>
 								<button type="submit" class="btn btn-secondary mt-4">Aggiungi Cuoco</button>
 							</form>
 						</div>

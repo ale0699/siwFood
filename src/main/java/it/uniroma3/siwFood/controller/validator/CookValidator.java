@@ -6,6 +6,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import it.uniroma3.siwFood.model.Cook;
+import it.uniroma3.siwFood.service.CookService;
 import it.uniroma3.siwFood.service.CredentialsService;
 
 @Component
@@ -13,6 +14,9 @@ public class CookValidator implements Validator{
 	
 	@Autowired
 	private CredentialsService credentialService;
+	
+	@Autowired
+	private CookService cookService;
 
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -27,6 +31,11 @@ public class CookValidator implements Validator{
 		if(cook.getCredentials() != null && this.credentialService.existsByUsername(cook.getCredentials().getUsername())) {
 			
 			errors.reject("message.usernameDuplicate");
+		}
+		
+		if(this.cookService.existsByNameAndSurnameAndDateBirth(cook.getName(), cook.getSurname(), cook.getDateBirth())) {
+			
+			errors.reject("message.cookDuplicate");
 		}
 	}
 	
