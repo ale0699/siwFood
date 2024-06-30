@@ -99,31 +99,46 @@
 			</div>
 		</div>
 	</section>
-	<footer class="footer-container">
-		<div class="upper-footer">
-			<div class="upper-left">
-				<img src="/images/logo.png" width="100" alt="Logo">
-				<span class="site_name">Siw Food</span>
-			</div>
-			<div class="upper-right">
-				<ul class="footer-links">
-					<li><a th:href="@{/}">Homepage</a></li>
-					<li><a th:href="@{/recipes}">Ricette</a></li>
-					<li><a th:href="@{/cooks}">Cuochi</a></li>
-					<li><a th:href="@{/about}">About</a></li>
-					<li><a th:href="@{/contacts}">Contatti</a></li>
-				</ul>
-			</div>
-		</div>
-		<div class="lower-footer">
-			<div class="copyright">© 2024 Siw Food. All rights reserved.</div>
-			<div class="social-links">
-				<a href="https://it-it.facebook.com/"><img src="/images/facebook.png" alt="Facebook"></a>
-				<a href="https://www.youtube.com/"><img src="/images/youtube.png" alt="Youtube"></a>
-				<a href="https://www.instagram.com/"><img src="/images/instagram.png" alt="Instagram"></a>
-			</div>
-		</div>
-	</footer>
+	<footer>
+        <div class="container-fluid">
+            <div class="container text-center">
+                <div class="row upper-row align-items-center">
+                    <div class="col">
+                        <img src="/images/logo.png" width="170" height="170">
+                    </div>
+                    <div class="col">
+                        <ul class="footer-nav">
+                            <li class="item-footer-nav">
+                                <a href="/">Homepage</a>
+                            </li>
+                            <li class="item-footer-nav">
+                                <a th:href="@{/recipes}">Ricette</a>
+                            </li>
+							<li class="item-footer-nav">
+                                <a th:href="@{/cooks}">Cuochi</a>
+                            </li>
+                            <li class="item-footer-nav">
+                                <a th:href="@{/about}">About</a>
+                            </li>
+                            <li class="item-footer-nav">
+                                <a th:href="@{/contacts}">Contatti</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row lower-row align-items-center">
+                    <div class="col">
+                        <span>&copy; 2024 Siw Food</span>
+                    </div>
+                    <div class="col">
+                        <img class="img-footer" src="/images/facebook.png">
+                        <img class="img-footer" src="/images/instagram.png">
+                        <img class="img-footer" src="/images/youtube.png">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
 		crossorigin="anonymous"></script>
