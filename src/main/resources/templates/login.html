@@ -59,30 +59,36 @@
             </div>
         </div>
     </nav>
-    <section>
-        <div class="main-container container-fluid">
-            <div class="login-container d-flex flex-column">
-                <form th:action="@{/login}" method="post">
-                    <div class="login-title">
-                        <h2>Effettua Login</h2>
-                    </div>
-                    <div class="login-username">
-                        <input type="text" name="username" placeholder="Username" required>
-                    </div>
-                    <div class="login-password">
-                        <input type="password" name="password" placeholder="Password" required>
-                    </div>
-                    <div class="button">
-                        <button type="submit" class="btn btn-custom">Accedi</button>
-                    </div>
-                    <div class="error" th:if="${loginError}">Username o password sbagliate. Riprova.</div>
-                    <div class="register-link">
-                        <span>Non hai ancora un account? <a href="/register">Registrati</a></span>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </section>
+    <section class="d-flex align-items-center justify-content-center">
+		<div class="container">
+			<div class="row mb-3 p-3">
+				<div class="col">
+					<div class="container form-container p-4">
+						<div class="row">
+							<h2 class="text-center">Effettua Login</h2>
+						</div>
+						<div class="row text-center">
+                            <form th:action="@{/login}" method="post">
+								<div class="form-floating mb-3">
+                                    <input type="text" class="form-control" name="username" id="floatingInput" placeholder="Username" required>
+									<label for="floatingInput">Username</label>
+								</div>
+								<div class="form-floating mb-3">
+                                    <input type="password" class="form-control" id="floatingInput" name="password" placeholder="Password" required>
+									<label for="floatingInput">Password</label>
+								</div>
+                                <button type="submit" class="btn btn-secondary mt-4 text-center">Accedi</button>
+                                <div class="error" th:if="${loginError}">Username o password sbagliate. Riprova.</div>
+							</form>
+                            <div class="register-link">
+                                <span>Non hai ancora un account? <a href="/register">Registrati</a></span>
+                            </div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
 	<footer>
         <div class="container-fluid">
             <div class="container text-center">

@@ -59,44 +59,51 @@
 			</div>
 		</div>
 	</nav>
-
-	<section>
-		<div class="main-container container-fluid">
-			<div class="registration-container d-flex flex-column">
-				<form th:action="@{/register}" th:object="${cook}" method="post" enctype="multipart/form-data">
-					<div class="registration-title">
-						<h2>Registrati</h2>
+	<section class="d-flex align-items-center justify-content-center">
+		<div class="container">
+			<div class="row mb-3 p-3">
+				<div class="col">
+					<div class="container form-container p-4">
+						<div class="row">
+							<h2 class="text-center">Registrati</h2>
+						</div>
+						<div class="row text-center">
+							<form th:action="@{/register}" th:object="${cook}" method="post" enctype="multipart/form-data">
+								<div class="error" th:if="${#fields.hasGlobalErrors()}">
+									<p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p>
+								</div>
+								<div class="form-floating mb-3">
+									<input type="text" class="form-control" id="floatingInput" placeholder="Username" th:field="${cook.credentials.username}" required>
+									<label for="floatingInput">Username</label>
+								</div>
+								<div class="form-floating mb-3">
+									<input type="password" class="form-control" id="floatingInput" placeholder="Password" th:field="${cook.credentials.password}" required>
+									<label for="floatingInput">Password</label>
+								</div>
+								<div class="form-floating mb-3">
+									<input type="text" class="form-control" id="floatingInput" placeholder="Nome" th:field="${cook.name}">
+									<label for="floatingInput">Nome</label>
+								</div>
+								<div class="form-floating mb-3">
+									<input type="text" class="form-control" id="floatingInput" placeholder="Cognome" th:field="${cook.surname}">
+									<label for="floatingInput">Cognome</label>
+								</div>
+                                <div class="form-floating mb-3">
+									<input type="date" class="form-control" id="floatingInput" placeholder="Data di nascita" th:field="${cook.dateBirth}">
+									<label for="floatingInput">Data di nascita</label>
+								</div>
+                                <div class="mb-3">
+                                    <label for="formFile" class="form-label">Inserisci una fotografia</label>
+                                    <input class="form-control" type="file" name="image-cook" id="formFile">
+                                </div>
+								<button type="submit" class="btn btn-secondary mt-4">Registrati</button>
+							</form>
+							<div class="login-link">
+								<span>Hai già un account? <a href="/login">Accedi</a></span>
+							</div>
+						</div>
 					</div>
-					<div class="error" th:if="${#fields.hasGlobalErrors()}">
-						<p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p>
-					</div>
-					<div class="registration-username">
-						<input type="text" placeholder="Username" th:field="${cook.credentials.username}" required>
-					</div>
-					<div class="registration-password">
-						<input type="password" placeholder="Password" th:field="${cook.credentials.password}" required>
-					</div>
-					<div class="registration-name">
-						<input type="text" placeholder="Nome" th:field="*{name}" required>
-					</div>
-					<div class="registration-surname">
-						<input type="text" placeholder="Cognome" th:field="*{surname}" required>
-					</div>
-					<div class="registration-dob">
-						<label>Data Di Nascita</label>
-						<input type="date" th:field="*{dateBirth}" required>
-					</div>
-					<div class="registration-photo">
-						<label>Fotografia</label>
-						<input type="file" name="image-cook" accept="image/*">
-					</div>
-					<div class="button">
-						<button type="submit" class="btn btn-custom">Registrati</button>
-					</div>
-					<div class="login-link">
-						<span>Hai già un account? <a href="/login">Accedi</a></span>
-					</div>
-				</form>
+				</div>
 			</div>
 		</div>
 	</section>

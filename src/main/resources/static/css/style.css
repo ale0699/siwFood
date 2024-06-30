@@ -18,6 +18,11 @@ html {
     text-align: center;
 }
 
+section{
+
+    padding-bottom: 10px;
+}
+
 /* Navbar */
 .image-logo {
     border-radius: 50%;
