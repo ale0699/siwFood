@@ -78,13 +78,13 @@
                                 <input type="hidden" th:field="${recipe.idRecipe}" th:value="${recipe.idRecipe}">
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="floatingInput"
-                                        placeholder="Nome Ricetta" th:value="${recipe.name}" th:field="${recipe.name}">
+                                        placeholder="Nome Ricetta" th:value="${recipe.name}" th:field="${recipe.name}" required>
                                     <label for="floatingInput">Nome Ricetta</label>
                                 </div>
                                 <div class="form-floating">
                                     <textarea class="form-control" placeholder="Descrizione della Ricetta"
                                         style="height: 100px" id="floatingTextarea" th:value="${recipe.description}"
-                                        th:field="${recipe.description}"></textarea>
+                                        th:field="${recipe.description}" required></textarea>
                                     <label for="floatingTextarea">Descrizione della Ricetta</label>
                                 </div>
                                 <button type="submit" class="btn btn-secondary mt-4">Modifica</button>
@@ -166,12 +166,12 @@
                             <form th:action="@{'/cook/ingredients/add/recipes/'+${recipe.idRecipe}}" method="post" th:object="${ingredient}">
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="floatingInput"
-                                        placeholder="Nome Ingrediente" th:field="${ingredient.name}">
+                                        placeholder="Nome Ingrediente" th:field="${ingredient.name}" required>
                                     <label for="floatingInput">Nome Ingrediente</label>
                                 </div>
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="floatingInput"
-                                        placeholder="Quantità Ingrediente" th:field="${ingredient.quantity}">
+                                        placeholder="Quantità Ingrediente" th:field="${ingredient.quantity}" required>
                                     <label for="floatingInput">Quantità Ingrediente</label>
                                 </div>
                                 <div class="error" th:if="${#fields.hasGlobalErrors()}">

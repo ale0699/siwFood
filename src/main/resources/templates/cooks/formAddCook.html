@@ -68,20 +68,20 @@
 						<div class="row text-center">
 							<form th:action="@{/admin/cooks/add}" th:object="${cook}" method="post" enctype="multipart/form-data">
 								<div class="form-floating mb-3">
-									<input type="text" class="form-control" id="floatingInput" placeholder="Nome" th:field="${cook.name}">
+									<input type="text" class="form-control" id="floatingInput" placeholder="Nome" th:field="${cook.name}" required>
 									<label for="floatingInput">Nome</label>
 								</div>
 								<div class="form-floating mb-3">
-									<input type="text" class="form-control" id="floatingInput" placeholder="Cognome" th:field="${cook.surname}">
+									<input type="text" class="form-control" id="floatingInput" placeholder="Cognome" th:field="${cook.surname}" required>
 									<label for="floatingInput">Cognome</label>
 								</div>
                                 <div class="form-floating mb-3">
-									<input type="date" class="form-control" id="floatingInput" placeholder="Data di nascita" th:field="${cook.dateBirth}">
+									<input type="date" class="form-control" id="floatingInput" placeholder="Data di nascita" th:field="${cook.dateBirth}" required>
 									<label for="floatingInput">Data di nascita</label>
 								</div>
                                 <div class="mb-3">
                                     <label for="formFile" class="form-label">Inserisci una fotografia</label>
-                                    <input class="form-control" type="file" name="image-cook" id="formFile">
+                                    <input class="form-control" type="file" name="image-cook" id="formFile" required>
                                 </div>
 								<div class="error" th:if="${#fields.hasGlobalErrors()}">
 									<p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p>

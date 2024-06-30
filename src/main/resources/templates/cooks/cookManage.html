@@ -85,11 +85,11 @@
                                 <input type="hidden" th:field="${cook.picture}" th:value="${cook.picture}">
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="floatingInput"
-                                        placeholder="Nome" th:value="${cook.name}" th:field="${cook.name}">
+                                        placeholder="Nome" th:value="${cook.name}" th:field="${cook.name}" required>
                                     <label for="floatingInput">Nome Cuoco</label>
                                 </div>
 								<div class="form-floating mb-3">
-									<input type="text" class="form-control" id="floatingInput" placeholder="Cognome" th:value="${cook.surname}" th:field="${cook.surname}">
+									<input type="text" class="form-control" id="floatingInput" placeholder="Cognome" th:value="${cook.surname}" th:field="${cook.surname}" required>
 									<label for="floatingInput">Cognome</label>
 								</div>
                                 <div class="form-floating mb-3">

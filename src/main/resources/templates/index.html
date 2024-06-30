@@ -73,7 +73,7 @@
 				<form th:action="@{/recipes/name}" method="get">
 					<div class="mb-3">
 						<label for="nameRecipe" class="form-label">Ricetta</label>
-						<input type="text" class="form-control" id="nameRecipe" name="nameRecipe">
+						<input type="text" class="form-control" id="nameRecipe" name="nameRecipe" required>
 					</div>
 					<button type="submit" class="btn btn-primary">Cerca</button>
 				</form>
@@ -83,7 +83,7 @@
 				<form th:action="@{/searchRecipesByIngredient}" method="get">
 					<div class="mb-3">
 						<label for="nameIngredient" class="form-label">Ingrediente</label>
-						<input type="text" class="form-control" id="nameIngredient" name="nameIngredient">
+						<input type="text" class="form-control" id="nameIngredient" name="nameIngredient" required>
 					</div>
 					<button type="submit" class="btn btn-primary">Cerca</button>
 				</form>
