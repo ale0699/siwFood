@@ -58,16 +58,22 @@ public class CookController {
 	    return "redirect:/admin/dashboard";
 	}
 	
-	@GetMapping(value = "/admin/cooks/edit/{idCook}")
+	@GetMapping(value = "/cook/cooks/edit/{idCook}")
 	public String getFormEditCook(@PathVariable("idCook")Long idCook, Model model) {
 		Cook cook = this.cookService.findCookByIdCook(idCook);
 		model.addAttribute("cook", cook);
 		return "cooks/cookManage.html";
 	}
 	
-	@PostMapping(value = "/admin/cooks/update")
+	@PostMapping(value = "/cook/cooks/update")
 	public String postEditCook(@ModelAttribute Cook cookEdited, Model model) throws IOException {
 	    Cook cook = this.cookService.findCookByIdCook(cookEdited.getIdCook());
+	    
+	    if(cook.getCredentials()!=null) {
+	    	
+	    	cook.getCredentials().setUsername(cookEdited.getCredentials().getUsername());
+	    }
+	    
 		cook.setName(cookEdited.getName());
 		cook.setSurname(cookEdited.getSurname());
 		cook.setPicture(cookEdited.getPicture());

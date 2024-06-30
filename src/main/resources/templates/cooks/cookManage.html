@@ -96,6 +96,14 @@
 									<input type="date" class="form-control" id="floatingInput" placeholder="Data di nascita" th:value="${cook.dateBirth}" th:field="${cook.dateBirth}" required>
 									<label for="floatingInput">Data di nascita</label>
 								</div>
+                                <div class="form-floating mb-3" th:if="${cook.credentials!=null}">
+									<input type="text" class="form-control" id="floatingInput" placeholder="Username" th:value="${cook.credentials.username}" th:field="${cook.credentials.username}" required>
+									<label for="floatingInput">Username</label>
+								</div>
+                                <div class="form-floating mb-3" th:if="${cook.credentials!=null}">
+									<input type="password" class="form-control" id="floatingInput" placeholder="Password" th:value="${cook.credentials.password}" th:field="${cook.credentials.password}" required>
+									<label for="floatingInput">Password</label>
+								</div>
                                 <button type="submit" class="btn btn-secondary mt-4">Modifica</button>
                             </form>
                         </div>

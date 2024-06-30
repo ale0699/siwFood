@@ -67,7 +67,7 @@
 							<a href="/">Dashboard</a>
 						</div>
 						<div class="row">
-							<a th:href=@{recipes}>Modifica Profilo</a>
+							<a th:href="'/cook/cooks/edit/'+ ${cook.idCook}">Modifica Profilo</a>
 						</div>
 						<div class="row">
 							<a th:href=@{/cook/recipes/formAdd}>Aggiungi Ricetta</a>
