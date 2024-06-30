@@ -36,6 +36,11 @@ public class IngredientService {
 		return this.ingredientRepository.findById(idIngredient).get();
 	}
 	
+	public boolean existsByNameAndRecipe(String name, Long idRecipe) {
+		
+		return this.ingredientRepository.existsByNameIgnoreCaseAndRecipeIdRecipe(name, idRecipe);
+	}
+	
 	/*VIENE SALVATO UN NUOVO INGREDIENTE SOLO SE È RICHIESTO DAL CUOCO PROPRIETARIO DELLA RICETTA
 	 * OPPURE DA UN ADMIN*/
 	public void saveIngredient(Ingredient ingredient) throws AccessDeniedException {
