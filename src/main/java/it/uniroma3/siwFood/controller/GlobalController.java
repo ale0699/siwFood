@@ -27,6 +27,7 @@ public class GlobalController {
 		return user;
 	}
 	
+	
 	/*MI PERMETTE DI AVERE DEGLI URL "DINAMICI"*/
 	@ModelAttribute("userRole")
 	public String getRole() {
