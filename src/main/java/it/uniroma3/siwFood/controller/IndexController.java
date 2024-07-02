@@ -26,7 +26,8 @@ public class IndexController {
     private CookService cookService;
 	
 	@GetMapping(value = "/")
-	public String getIndexPage() {
+	public String getIndexPage(Model model) {
+		model.addAttribute("recipes", this.recipeService.findAllRecipes());
 		return "index.html";
 	}
 	

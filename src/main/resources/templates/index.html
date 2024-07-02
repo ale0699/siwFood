@@ -63,34 +63,52 @@
 		<div class="container">
 			<h1 class="display-4">Benvenuti su Siw Food</h1>
 			<p class="lead">Le migliori ricette dai migliori cuochi</p>
+			<a href="/login" class="btn btn-primary btn-lg">Condividi la tua Ricetta</a>
 		</div>
 	</header>
 
+	<section class="container my-5">
+		<h2 class="text-center">Ricette in Evidenza</h2>
+		<div class="row">
+			<div class="col-md-4" th:each="recipe, iterStat : ${recipes}">
+				<div th:if="${iterStat.index < 6}" class="card">
+					<img th:src="@{${recipe.pictureRecipe[0]}}" class="card-img-top" alt="Immagine Ricetta">
+					<div class="card-body">
+						<h5 class="card-title" th:text="${recipe.name}">Nome Ricetta</h5>
+						<p class="card-text" th:text="${recipe.description}">Descrizione Ricetta</p>
+						<a th:href="@{'/recipes/'+${recipe.idRecipe}}" class="btn btn-secondary">Vedi Ricetta</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="text-center">
+			<a th:href="@{/recipes/}" class="btn btn-secondary">Vedi tutte le Ricette</a>
+		</div>
+	</section>	
 	<section class="container my-5">
 		<div class="search_recipes row">
 			<div class="col-md-6">
 				<h2>Ricerca Ricette</h2>
 				<form th:action="@{/recipes/name}" method="get">
-					<div class="mb-3">
-						<label for="nameRecipe" class="form-label">Ricetta</label>
-						<input type="text" class="form-control" id="nameRecipe" name="nameRecipe" required>
+					<div class="form-floating mb-3">
+						<input type="text" class="form-control" name="nameRecipe" id="floatingInput" placeholder="Nome Ricetta" required>
+						<label for="floatingInput">Nome Ricetta</label>
 					</div>
-					<button type="submit" class="btn btn-primary">Cerca</button>
+					<button type="submit" class="btn btn-secondary">Cerca</button>
 				</form>
 			</div>
 			<div class="col-md-6">
 				<h2>Ricerca Ricetta per Ingrediente</h2>
 				<form th:action="@{/recipes/ingredient}" method="get">
-					<div class="mb-3">
-						<label for="nameIngredient" class="form-label">Ingrediente</label>
-						<input type="text" class="form-control" id="nameIngredient" name="nameIngredient" required>
+					<div class="form-floating mb-3">
+						<input type="text" class="form-control" name="nameIngredient" id="floatingInput" placeholder="Nome Ingrediente" required>
+						<label for="floatingInput">Nome Ingrediente</label>
 					</div>
-					<button type="submit" class="btn btn-primary">Cerca</button>
+					<button type="submit" class="btn btn-secondary">Cerca</button>
 				</form>
 			</div>
 		</div>
 	</section>
-
 	<footer>
         <div class="container-fluid">
             <div class="container text-center">
