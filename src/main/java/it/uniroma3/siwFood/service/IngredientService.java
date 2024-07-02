@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import it.uniroma3.siwFood.model.Cook;
 import it.uniroma3.siwFood.model.Credentials;
 import it.uniroma3.siwFood.model.Ingredient;
-import it.uniroma3.siwFood.model.Recipe;
 import it.uniroma3.siwFood.repository.IngredientRepository;
 
 @Service
@@ -41,39 +40,40 @@ public class IngredientService {
 		return this.ingredientRepository.existsByNameIgnoreCaseAndRecipeIdRecipe(name, idRecipe);
 	}
 	
-	/*VIENE SALVATO UN NUOVO INGREDIENTE SOLO SE È RICHIESTO DAL CUOCO PROPRIETARIO DELLA RICETTA
-	 * OPPURE DA UN ADMIN*/
 	public void saveIngredient(Ingredient ingredient) throws AccessDeniedException {
 		
-		Recipe recipe = ingredient.getRecipe();
-	    UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		Credentials credentials = this.credentialsService.findCredenzialiByUsername(userDetails.getUsername());
-		Cook cook = this.cookService.findCookByCredentials(credentials.getIdCredentials());
+		UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Credentials credenziali = this.credentialsService.findCredenzialiByUsername(user.getUsername());
+		Cook cook = this.cookService.findCookByCredentials(credenziali.getIdCredentials());
 		
-		if(recipe.getCook().equals(cook) || credentials.getRole().equals("ADMIN")) {
+		//se l'utente attuale è l'admin oppure il proprietario della ricetta, salvo l'ingrediente
+		if( (cook==null && credenziali.getRole().equals("ADMIN")) ||  ingredient.getRecipe().getCook().equals(cook)) {
 			
 			this.ingredientRepository.save(ingredient);
-		}				
-		else {
-			throw new AccessDeniedException("You do not have permission to add ingredients");
 		}
+		else {
+			
+			throw new AccessDeniedException("Access Denied");
+		}
+		
+
 	}
 	
-	/*VIENE ELIMINATO UN INGREDIENTE, DA UNA RICETTA, SOLO SE LO RICHIEDE IL CUOCO PROPRIETARIO DELLA
-	 * RICETTA OPPURE UN ADMIN*/
 	public void deleteIngredient(Ingredient ingredient) throws AccessDeniedException {
 		
-		Recipe recipe = ingredient.getRecipe();
-	    UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		Credentials credentials = this.credentialsService.findCredenzialiByUsername(userDetails.getUsername());
-		Cook cook = this.cookService.findCookByCredentials(credentials.getIdCredentials());
+		UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Credentials credenziali = this.credentialsService.findCredenzialiByUsername(user.getUsername());
+		Cook cook = this.cookService.findCookByCredentials(credenziali.getIdCredentials());
 		
-		if(recipe.getCook().equals(cook) || credentials.getRole().equals("ADMIN")) {
+		//se l'utente attuale è l'admin oppure il proprietario della ricetta, elimino l'ingrediente
+		if( (cook==null && credenziali.getRole().equals("ADMIN")) ||  ingredient.getRecipe().getCook().equals(cook)) {
 			
 			this.ingredientRepository.delete(ingredient);
-		}				
+		}
 		else {
-			throw new AccessDeniedException("You do not have permission to delete ingredients");
+			
+			throw new AccessDeniedException("Access Denied");
 		}
 	}
+
 }

@@ -1,7 +1,6 @@
 package it.uniroma3.siwFood.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,9 +29,6 @@ public class IngredientController {
 	@Autowired
 	private IngredientValidator ingredientValidator;
 	
-	/*VIENE AGGIUNTO AL DATABASE UN NUOVO INGREDIENTE ASSOCIATO AD UNA RICETTA. SE CHI AGGIUNGE IL NUOVO
-	 * INGREDIENTE, NON È AUTORIZZATO(OSSIA NON È IL PROPRIETARIO DELLA RICETTA OPPURE NON È UN ADMIN), 
-	 * VIENE SOLLEVATA UN ECCEZIONE DI ERROR 403 FORBIDDEN */
 	@PostMapping(value = "/cook/ingredients/add/recipes/{idRecipe}")
 	public String postAddIngredientRecipe(@Valid @ModelAttribute Ingredient ingrediente, @PathVariable("idRecipe")Long idRecipe, BindingResult bindingResult, Model model) {
 		
@@ -48,29 +44,15 @@ public class IngredientController {
 			model.addAttribute("ingredients", this.ingredientService.findIngredientsByRecipeId(idRecipe));
 			return "recipes/recipeManage.html";
 		}
-		
-		try {
-			this.ingredientService.saveIngredient(ingrediente);
-			return "redirect:/cook/recipes/edit/"+recipe.getIdRecipe();
 
-		} catch (AccessDeniedException e) {
-			throw new AccessDeniedException("You do not have permission to add ingredients");
-		}
+		this.ingredientService.saveIngredient(ingrediente);
+		return "redirect:/cook/recipes/edit/"+recipe.getIdRecipe();
 	}
 	
-	/*VIENE RIMOSSO DAL DATABASE UN INGREDIENTE ASSOCIATO AD UNA RICETTA. SE CHI RIMUOVE IL NUOVO
-	 * INGREDIENTE, NON È AUTORIZZATO(OSSIA NON È IL PROPRIETARIO DELLA RICETTA OPPURE NON È UN ADMIN), 
-	 * VIENE SOLLEVATA UN ECCEZIONE DI ERROR 403 FORBIDDEN */
 	@GetMapping(value = "/cook/ingredients/remove/{idIngredient}/recipes/{idRecipe}")
 	public String getRemoveIngredient(@PathVariable("idIngredient")Long idIngredient, @PathVariable("idRecipe")Long idRecipe, Model model, HttpServletRequest request) {
 		Ingredient ingredient = this.ingredientService.findIngredientById(idIngredient);
-		
-		try {
-			this.ingredientService.deleteIngredient(ingredient);
-			return "redirect:/cook/recipes/edit/"+ingredient.getRecipe().getIdRecipe();
-			
-		} catch (AccessDeniedException e) {
-			throw new AccessDeniedException("You do not have permission to remove ingredients");
-		}
+		this.ingredientService.deleteIngredient(ingredient);
+		return "redirect:/cook/recipes/edit/"+ingredient.getRecipe().getIdRecipe();	
 	}
 }

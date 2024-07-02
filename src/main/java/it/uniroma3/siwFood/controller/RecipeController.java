@@ -76,7 +76,7 @@ public class RecipeController {
 	
 	/*METODO PER POTER SALVARE ALL'INTERNO DEL DATABASE UNA NUOVA RICETTA, GRAZIE AD UNA RICHIESTA HTTP.POST*/
 	@PostMapping(value = "/cook/recipes/add")
-	public String postAddRecipe(@Valid @ModelAttribute Recipe recipe, @RequestParam(value = "idCook", required = false)Long idCook, BindingResult bindingResult, Model model) throws IOException {
+	public String postAddRecipe(@Valid @ModelAttribute Recipe recipe, @RequestParam(value = "idCook", required = false)Long idCook, BindingResult bindingResult, Model model) {
 		
 		Cook cook;
 		
@@ -102,7 +102,7 @@ public class RecipeController {
 			return "recipes/formAddRecipe.html";
 		}
 		
-		this.recipeService.saveRecipe(recipe); //può sollevare eccezioni
+		this.recipeService.saveRecipe(recipe);
 		return "redirect:/cook/recipes/edit/"+recipe.getIdRecipe();
 	}
 	
@@ -143,43 +143,41 @@ public class RecipeController {
 	
 	@GetMapping(value = "/cook/recipes/edit/{idRecipe}")
 	public String getRecipeManage(@PathVariable("idRecipe")Long idRecipe, Model model) {
-		model.addAttribute("recipe", this.recipeService.findRecipeById(idRecipe));
-		model.addAttribute(new Ingredient());
-		model.addAttribute("ingredients", this.ingredientService.findIngredientsByRecipeId(idRecipe));
-		return "recipes/recipeManage.html";
-	}
-
-	/*METODO PER POTER RIMUOVERE DAL DATABASE UNA RICETTA CHE HA COME ID idRecipe,
-	 * SARÀ POSSIBILE RIMUOVERE SOLTANTO LE RICETTE CHE APPARTENGONO AD UN CUOCO.
-	 * GLI ADMIN POSSONO ELIMINARE TUTTE LE RICETTE*/
-	@GetMapping(value = "/cook/recipes/remove/{idRecipe}")
-	public String getRemoveIngredient(@PathVariable("idRecipe")Long idRecipe, Model model, HttpServletRequest request) throws Exception {
 		
 		Recipe recipe = this.recipeService.findRecipeById(idRecipe);
+		UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Credentials credenziali = this.credentialsService.findCredenzialiByUsername(user.getUsername());
+		Cook cook = this.cookService.findCookByCredentials(credenziali.getIdCredentials());
 		
-	    try {
-	        this.recipeService.deleteRecipe(recipe);
+		//se l'utente attuale è l'admin oppure il proprietario della ricetta, salvo la ricetta
+		if( (cook==null && credenziali.getRole().equals("ADMIN")) ||  recipe.getCook().equals(cook)) {
 			
-	        return "redirect:/cook/dashboard";
-		    
-	    } catch (AccessDeniedException e) {
-			throw new  AccessDeniedException("You do not have permission to remove this recipe");
-	    }
+			model.addAttribute("recipe", recipe);
+			model.addAttribute(new Ingredient());
+			model.addAttribute("ingredients", this.ingredientService.findIngredientsByRecipeId(idRecipe));
+			return "recipes/recipeManage.html";
+		}
+		else {
+			
+			throw new AccessDeniedException("Access Denied");
+		}
 	}
 
-	/*METODO PER POTER MODIFICARE ALL'INTERNO DEL DATABASE UNA RICETTA, GRAZIE AD UNA RICHIESTA HTTP.POST*/
+	@GetMapping(value = "/cook/recipes/remove/{idRecipe}")
+	public String getRemoveIngredient(@PathVariable("idRecipe")Long idRecipe, Model model, HttpServletRequest request) {
+		
+		Recipe recipe = this.recipeService.findRecipeById(idRecipe);
+	    this.recipeService.deleteRecipe(recipe);
+	    return "redirect:/cook/dashboard";    
+	}
+
     @PostMapping(value = "/cook/recipes/update")
     public String postUpdateRecipe(@ModelAttribute Recipe recipe) {
-
-    	try {
-            Recipe editedRecipe = this.recipeService.findRecipeById(recipe.getIdRecipe());
-            editedRecipe.setName(recipe.getName());
-            editedRecipe.setDescription(recipe.getDescription());
-            this.recipeService.saveRecipe(editedRecipe);
-	        return "redirect:/cook/recipes/edit/"+recipe.getIdRecipe();
-		} catch (AccessDeniedException e) {
-			throw new AccessDeniedException("You do not have permission to edit this recipe");
-		}
+        Recipe editedRecipe = this.recipeService.findRecipeById(recipe.getIdRecipe());
+        editedRecipe.setName(recipe.getName());
+        editedRecipe.setDescription(recipe.getDescription());
+        this.recipeService.saveRecipe(editedRecipe);
+        return "redirect:/cook/recipes/edit/"+recipe.getIdRecipe();
     }
 	
 	/*VENGONO VISUALIZZATE TUTTE LE RICETTE CHE HANNO UN INGREDIENTE CHE INIZIA CON UN CERTO NOME*/	

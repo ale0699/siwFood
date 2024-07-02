@@ -19,7 +19,7 @@ public class RecipeService {
 	@Autowired
 	private RecipeRepository recipeRepository;
 	
-	@Autowired 
+	@Autowired
 	private CredentialsService credentialsService;
 	
 	@Autowired
@@ -54,43 +54,38 @@ public class RecipeService {
 		return this.recipeRepository.findAllByCookIdCook(idCook);
 	}
 	
-	/*SE LA RICETTA GIÀ ESISTE VERIFICO CHE POSSA ESSER MODIFICATA (CUOCO O ADMIN)
-	 * SE È UNA NUOVA RICETTA (idRecipe = NULL) LA AGGIUNGO*/
-	public void saveRecipe(Recipe recipe) throws AccessDeniedException {
+	public void saveRecipe(Recipe recipe) {
 		
-		if(recipe.getIdRecipe() != null) {
-			
-			if(this.existsRecipeById(recipe.getIdRecipe())) {
-				
-			    UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-				Credentials credentials = this.credentialsService.findCredenzialiByUsername(userDetails.getUsername());
-				Cook cook = this.cookService.findCookByCredentials(credentials.getIdCredentials());
-				
-				if(recipe.getCook().equals(cook) || credentials.getRole().equals("ADMIN")) {
-					this.recipeRepository.save(recipe);
-				}
-				else {
-					throw new AccessDeniedException("You do not have permission to save this recipe");
-				}
-			}
-		}
-		else {
+		UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Credentials credenziali = this.credentialsService.findCredenzialiByUsername(user.getUsername());
+		Cook cook = this.cookService.findCookByCredentials(credenziali.getIdCredentials());
+		
+		//se l'utente attuale è l'admin oppure il proprietario della ricetta, salvo la ricetta
+		if( (cook==null && credenziali.getRole().equals("ADMIN")) ||  recipe.getCook().equals(cook)) {
 			
 			this.recipeRepository.save(recipe);
 		}
+		else {
+			
+			throw new AccessDeniedException("Access Denied");
+		}
+
 	}
 	
-	public void deleteRecipe(Recipe recipe) throws AccessDeniedException{
+	public void deleteRecipe(Recipe recipe) {
 		
-	    UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		Credentials credentials = this.credentialsService.findCredenzialiByUsername(userDetails.getUsername());
-		Cook cook = this.cookService.findCookByCredentials(credentials.getIdCredentials());
+		UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Credentials credenziali = this.credentialsService.findCredenzialiByUsername(user.getUsername());
+		Cook cook = this.cookService.findCookByCredentials(credenziali.getIdCredentials());
 		
-		if(recipe.getCook().equals(cook) || credentials.getRole().equals("ADMIN")) {
+		//se l'utente attuale è l'admin oppure il proprietario della ricetta, elimino la ricetta
+		if( (cook==null && credenziali.getRole().equals("ADMIN")) ||  recipe.getCook().equals(cook)) {
+			
 			this.recipeRepository.delete(recipe);
 		}
 		else {
-			throw new AccessDeniedException("You do not have permission to remove this recipe");
+			
+			throw new AccessDeniedException("Access Denied");
 		}
 	}
 }
