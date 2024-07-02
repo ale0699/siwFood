@@ -83,8 +83,8 @@
 						<div class="row">
 							<h3 class="text-center" th:text="'Gestione del cuoco: '+ ${cook.name} + ' ' + ${cook.surname}"></h3>
 						</div>
-						<div class="row">
-							<div class="col d-flex justify-content-center">
+						<div class="row row-cols-auto d-flex justify-content-center">
+							<div class="col d-flex justify-content-center align-items-center">
 								<div class="card" style="width: 13rem;">
 									<div th:if="${cook.picture != null and !#lists.isEmpty(cook.picture)}">
 										<img th:src="@{${cook.picture}}" class="card-img-top imgCard" alt="imageCook">
@@ -96,8 +96,8 @@
 									</div>
 								</div>
 							</div>
-							<div class="col container-object">
-								<div class="row">
+							<div class="col mt-2 container-object">
+								<div class="row row-cols-auto d-flex justify-content-center">
 									<div class="col" th:each="recipe : ${cook.recipes}">
 										<div class="card" style="width: 9rem;" >
 											<div th:if="${recipe.pictureRecipe != null and !#lists.isEmpty(recipe.pictureRecipe)}">
