@@ -83,11 +83,6 @@ public class CookController {
 	public String postEditCook(@ModelAttribute Cook cookEdited, Model model) throws IOException {
 	    Cook cook = this.cookService.findCookByIdCook(cookEdited.getIdCook());
 	    
-	    if(cook.getCredentials()!=null) {
-	    	
-	    	cook.getCredentials().setUsername(cookEdited.getCredentials().getUsername());
-	    }
-	    
 		cook.setName(cookEdited.getName());
 		cook.setSurname(cookEdited.getSurname());
 		cook.setPicture(cookEdited.getPicture());
