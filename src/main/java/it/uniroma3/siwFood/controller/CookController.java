@@ -3,6 +3,9 @@ package it.uniroma3.siwFood.controller;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,7 +18,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import it.uniroma3.siwFood.controller.validator.CookValidator;
 import it.uniroma3.siwFood.model.Cook;
+import it.uniroma3.siwFood.model.Credentials;
 import it.uniroma3.siwFood.service.CookService;
+import it.uniroma3.siwFood.service.CredentialsService;
 import it.uniroma3.siwFood.service.ImageService;
 import it.uniroma3.siwFood.service.RecipeService;
 import jakarta.validation.Valid;
@@ -34,6 +39,9 @@ public class CookController {
 	
 	@Autowired
 	private CookValidator cookValidator;
+	
+	@Autowired
+	private CredentialsService credentialsService;
 	
 	@GetMapping(value = "/cooks")
 	public String getCooks(Model model) {
@@ -74,9 +82,22 @@ public class CookController {
 	
 	@GetMapping(value = "/cook/cooks/edit/{idCook}")
 	public String getFormEditCook(@PathVariable("idCook")Long idCook, Model model) {
+		
 		Cook cook = this.cookService.findCookByIdCook(idCook);
-		model.addAttribute("cook", cook);
-		return "cooks/cookManage.html";
+		UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Credentials credenziali = this.credentialsService.findCredenzialiByUsername(user.getUsername());
+		Cook cookLoggato = this.cookService.findCookByCredentials(credenziali.getIdCredentials());
+		
+		//se l'utente attuale è l'admin oppure il proprietario della ricetta, salvo la ricetta
+		if( (cook==null && credenziali.getRole().equals("ADMIN")) ||  cookLoggato.equals(cook)) {
+			
+			model.addAttribute("cook", cook);
+			return "cooks/cookManage.html";
+		}
+		else {
+			
+			throw new AccessDeniedException("Access Denied");
+		}
 	}
 	
 	@PostMapping(value = "/cook/cooks/update")
