@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -32,8 +33,7 @@ public class Recipe {
 	@Column(nullable = false, length = 100000)
 	private String description;
 	
-	@OneToMany(mappedBy = "recipe", cascade = CascadeType.REMOVE) //cascade remove, quando elimino una ricetta elimino i suoi ingredienti
-	//definisci fetch
+	@OneToMany(mappedBy = "recipe", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER) //cascade remove, quando elimino una ricetta elimino i suoi ingredienti
 	private List<Ingredient> ingredients;
 	
 	@ManyToOne
