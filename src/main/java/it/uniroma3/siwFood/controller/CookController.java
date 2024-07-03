@@ -89,7 +89,7 @@ public class CookController {
 		Cook cookLoggato = this.cookService.findCookByCredentials(credenziali.getIdCredentials());
 		
 		//se l'utente attuale è l'admin oppure il proprietario della ricetta, salvo la ricetta
-		if( (cook==null && credenziali.getRole().equals("ADMIN")) ||  cookLoggato.equals(cook)) {
+		if( (cookLoggato==null && credenziali.getRole().equals("ADMIN")) ||  cookLoggato.equals(cook)) {
 			
 			model.addAttribute("cook", cook);
 			return "cooks/cookManage.html";

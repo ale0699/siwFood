@@ -3,6 +3,8 @@ package it.uniroma3.siwFood.controller;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +19,7 @@ import it.uniroma3.siwFood.controller.validator.CookValidator;
 import it.uniroma3.siwFood.model.Cook;
 import it.uniroma3.siwFood.model.Credentials;
 import it.uniroma3.siwFood.service.CookService;
+import it.uniroma3.siwFood.service.CredentialsService;
 import it.uniroma3.siwFood.service.ImageService;
 import jakarta.validation.Valid;
 
@@ -34,6 +37,9 @@ public class AuthController {
 	
 	@Autowired 
 	private ImageService imageService;
+	
+	@Autowired
+	private CredentialsService credentialsService;
 	
 	@GetMapping(value = "/login")
 	public String getLoginPage() {
@@ -83,6 +89,22 @@ public class AuthController {
 	public String getLoginErrorPage(Model model) {
 		model.addAttribute("loginError", true);
 		return "login.html";
+	}
+	
+	@GetMapping(value = "/success")
+	public String getLoginSuccess() {
+		
+    	UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Credentials credentials = this.credentialsService.findCredenzialiByUsername(userDetails.getUsername());
+		
+		if(credentials.getRole().equals("ADMIN")) {
+			
+	        return "redirect:/admin/dashboard";
+		}
+		else {
+			
+			return "redirect:/cook/dashboard";
+		}
 	}
 
 }

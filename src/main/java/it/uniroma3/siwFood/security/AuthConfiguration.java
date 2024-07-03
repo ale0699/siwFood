@@ -41,7 +41,7 @@ public class AuthConfiguration {
         .requestMatchers(HttpMethod.POST, "/cook/**").hasAnyAuthority("COOK", "ADMIN")
 		.anyRequest().permitAll()
 		.and().formLogin()
-		.loginPage("/login").failureUrl("/login/error").defaultSuccessUrl("/")
+		.loginPage("/login").failureUrl("/login/error").defaultSuccessUrl("/success")
 		.and().logout()
 		.logoutSuccessUrl("/").invalidateHttpSession(true).deleteCookies("JSESSIONID")
 		.logoutRequestMatcher(new AntPathRequestMatcher("/logout")).clearAuthentication(true).permitAll();
