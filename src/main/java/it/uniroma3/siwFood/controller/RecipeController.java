@@ -168,7 +168,7 @@ public class RecipeController {
 		
 		Recipe recipe = this.recipeService.findRecipeById(idRecipe);
 	    this.recipeService.deleteRecipe(recipe);
-	    return "redirect:/cook/dashboard";    
+	    return "redirect:/success";    
 	}
 
     @PostMapping(value = "/cook/recipes/update")
